@@ -7,11 +7,12 @@ public class VentanaPrincipal extends JFrame {
 	
 	public VentanaPrincipal() {
 		
-		
+		setTitle("Título");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(600, 400);
 		setResizable(false);
 		setVisible(true);
+		
 	}
 	
 	public static void main(String[] args) {
