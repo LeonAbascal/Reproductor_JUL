@@ -6,6 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/Users/Leon/Desktop/Leon/Development/JAVA/eclipse-2020-09/git/prog3/Reproductor_JUL/jl1.0.jar"/>
+	<classpathentry kind="lib" path="/jl1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
