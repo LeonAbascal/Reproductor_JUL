@@ -1,10 +1,10 @@
 package reproductor;
 
-import org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 class PlayListTest {
+	
 	private PlayList p;
-
 	@Before
 	public void setUp() {
 		p = new PlayList(null, "Lista");

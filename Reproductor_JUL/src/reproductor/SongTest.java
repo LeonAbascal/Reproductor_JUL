@@ -6,15 +6,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class SongTest {
-		
+
 	private Song s;
 	@Before
 	public void setUp() {
-			
-			
-	// creamos un objeto nuevo antes de cada @Test
-	s = new Song("Fire", "Pedro","New", 2, "2:00");
-			
+
+
+		// creamos un objeto nuevo antes de cada @Test
+		s = new Song("Fire", "Pedro","New", 2, "2:00");
+
 	}
 	@Test
 	public void testGetName() {
