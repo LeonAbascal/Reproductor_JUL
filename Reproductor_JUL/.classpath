@@ -8,9 +8,17 @@
 	</classpathentry>
 <<<<<<< HEAD
 	<classpathentry kind="src" path="src"/>
+<<<<<<< HEAD
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 =======
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+>>>>>>> branch 'master' of https://github.com/LeonAbascal/Reproductor_JUL.git
+=======
 	<classpathentry kind="lib" path="jl1.0.jar"/>
+<<<<<<< HEAD
+>>>>>>> branch 'master' of https://github.com/LeonAbascal/Reproductor_JUL.git
+=======
+>>>>>>> branch 'master' of https://github.com/LeonAbascal/Reproductor_JUL
 >>>>>>> branch 'master' of https://github.com/LeonAbascal/Reproductor_JUL.git
 	<classpathentry kind="output" path="bin"/>
 </classpath>

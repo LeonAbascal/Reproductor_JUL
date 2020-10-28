@@ -16,12 +16,12 @@ public class LogInWindow extends JFrame {
 	JTextField userPassword;
 	JButton registerUser;
 	JButton logIn;
-	
-	public LogInWindow () {
-		
+
+	public LogInWindow() {
+
 		userName = new JTextField("Nombre de usuario");
 		userPassword = new JTextField("Contraseña");
-		
+
 		registerUser = new JButton("Registrar");
 		registerUser.addActionListener(new ActionListener() {
 			@Override
@@ -29,47 +29,48 @@ public class LogInWindow extends JFrame {
 				System.out.println("USUARIO CREADO");
 			}
 		});
-		
+
 		logIn = new JButton("Iniciar sesión");
 		logIn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Sesión iniciada para el usuario: " + userName.getText() + " con contraseña: " + userPassword.getText());
+				System.out.println("Sesión iniciada para el usuario: " + userName.getText() + " con contraseña: "
+						+ userPassword.getText());
 			}
 		});
-		
+
 		JPanel center = new JPanel();
 		// Define the panel to hold the components
-        GridBagLayout layout = new GridBagLayout();
-        center.setLayout(layout);
-        GridBagConstraints gbc = new GridBagConstraints();
- 
-        // Put constraints on different buttons
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        center.add(userName, gbc);
- 
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        
-        center.add(userPassword, gbc);
-        
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        
-        center.add(registerUser, gbc);
-        
-        gbc.gridx = 2;
-        gbc.gridy = 4;
-        
-        center.add(logIn, gbc);
-		
-        add(center);
+		GridBagLayout layout = new GridBagLayout();
+		center.setLayout(layout);
+		GridBagConstraints gbc = new GridBagConstraints();
+
+		// Put constraints on different buttons
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		center.add(userName, gbc);
+
+		gbc.gridx = 1;
+		gbc.gridy = 2;
+
+		center.add(userPassword, gbc);
+
+		gbc.gridx = 0;
+		gbc.gridy = 4;
+
+		center.add(registerUser, gbc);
+
+		gbc.gridx = 2;
+		gbc.gridy = 4;
+
+		center.add(logIn, gbc);
+
+		add(center);
 		setTitle("Iniciar Sesión");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(400, 400);
 		setResizable(false);
 		setVisible(true);
-	}	
+	}
 }
