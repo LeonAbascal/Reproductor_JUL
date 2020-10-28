@@ -1,10 +1,6 @@
 package reproductor;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.Before;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert.assertEquals;
 
 class PlayListTest {
 	private PlayList p;

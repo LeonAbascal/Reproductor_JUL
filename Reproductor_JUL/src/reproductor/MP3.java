@@ -45,7 +45,7 @@ public class MP3 {
 
     // test client
     public static void main(String[] args) {
-        String filename = "\\MusicFilesBeave - Too Much Ft. Bethany Lamb (Torin Dundas Remix).mp3";
+        String filename = "MusicFiles\\Beave - Too Much Ft. Bethany Lamb (Torin Dundas Remix).mp3";
         MP3 mp3 = new MP3(filename);
         mp3.play();
 
