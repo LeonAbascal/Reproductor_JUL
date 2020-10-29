@@ -14,6 +14,7 @@ public class MemoryTest {
 private Song s;
 private PlayList p;
 private User u;
+private User u2;
 private Memory m;
 private ArrayList<Song> songs;
 private ArrayList<User> users;
@@ -24,7 +25,8 @@ private ArrayList<User> users;
 		songs= new ArrayList<Song>();
 		songs.add(s);
 		p = new PlayList(songs,"First");
-		u = new User("Julen" ,"12345", 18, p);
+		u = new User("Julen" ,"12345", 20, p);
+		u2 = new User("Unai" ,"12345", 20, p);
 		users= new ArrayList<User>();
 		users.add(u);
 		m = new Memory(users);
