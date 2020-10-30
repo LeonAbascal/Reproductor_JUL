@@ -18,6 +18,7 @@ private User u2;
 private Memory m;
 private ArrayList<Song> songs;
 private ArrayList<User> users;
+private ArrayList<PlayList> playlists;
 
 	@Before
 	public void setUp() {
@@ -25,8 +26,9 @@ private ArrayList<User> users;
 		songs= new ArrayList<Song>();
 		songs.add(s);
 		p = new PlayList(songs,"First");
-		u = new User("Julen" ,"12345", 20, p);
-		u2 = new User("Unai" ,"12345", 20, p);
+		playlists= new ArrayList<PlayList>();
+		u = new User("Julen" ,"12345", 20,playlists );
+		u2 = new User("Unai" ,"12345", 20,playlists );
 		users= new ArrayList<User>();
 		users.add(u);
 		m = new Memory(users);

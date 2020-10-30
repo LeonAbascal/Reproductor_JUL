@@ -50,6 +50,7 @@ public class MP3 {
         mp3.play();
 
         // do whatever computation you like, while music plays
+        /*
         int N = 4000;
         double sum = 0.0;
         for (int i = 0; i < N; i++) {
@@ -58,7 +59,7 @@ public class MP3 {
             }
         }
         System.out.println(sum);
-
+		*/
         // when the computation is done, stop playing it
         mp3.close();
 
