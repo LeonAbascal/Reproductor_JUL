@@ -1,12 +1,14 @@
 package reproductor;
 
+import java.util.ArrayList;
+
 public class User {
 	private String name;
 	private String password;
 	private int edad;
-	private PlayList playlist;
+	private ArrayList<PlayList> playlist;
 
-	public User(String name, String password, int edad, PlayList playlist) {
+	public User(String name, String password, int edad, ArrayList<PlayList> playlist) {
 		this.name = name;
 		this.password = password;
 		this.edad = edad;
@@ -44,11 +46,11 @@ public class User {
 		this.edad = edad;
 	}
 
-	public PlayList getPlaylist() {
+	public ArrayList<PlayList> getPlaylist() {
 		return playlist;
 	}
 
-	public void setPlaylist(PlayList playlist) {
+	public void setPlaylist(ArrayList<PlayList> playlist) {
 		this.playlist = playlist;
 	}
 
