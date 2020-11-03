@@ -1,4 +1,4 @@
-package reproductor;
+package reproductor.mainClasses.tests;
 
 
 
@@ -6,6 +6,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import reproductor.mainClasses.User;
 
 public class UserTest {
 	private User u;

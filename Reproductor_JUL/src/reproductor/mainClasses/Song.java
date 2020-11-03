@@ -1,4 +1,4 @@
-package reproductor;
+package reproductor.mainClasses;
 
 public class Song {
 	private String name;

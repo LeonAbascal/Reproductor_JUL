@@ -1,9 +1,11 @@
-package reproductor;
+package reproductor.mainClasses.tests;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import reproductor.mainClasses.Song;
 
 public class SongTest {
 

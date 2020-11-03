@@ -1,4 +1,4 @@
-package reproductor;
+package reproductor.mainClasses.tests;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,11 @@ import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import reproductor.mainClasses.Memory;
+import reproductor.mainClasses.PlayList;
+import reproductor.mainClasses.Song;
+import reproductor.mainClasses.User;
 
 public class MemoryTest {
 
