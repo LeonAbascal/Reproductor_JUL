@@ -55,7 +55,7 @@ public class LogInWindow extends JFrame {
 					System.out.println("No se pudo crear el usuario: TextField vacío");
 					messages.setText("Nombre y Contraseña son campos obligatorios");
 				} else {
-					User u = new User(userName.getText(), userPassword.getText(), 0, null);
+					User u = new User(userName.getText(), userPassword.getText(), null);
 					// ---------------------------------------------------------
 					// AÑADIR NUEVO USUARIO A LA LISTA DE USUARIOS
 					// ---------------------------------------------------------

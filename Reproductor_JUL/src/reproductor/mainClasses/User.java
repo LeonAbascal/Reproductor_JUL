@@ -5,20 +5,17 @@ import java.util.ArrayList;
 public class User {
 	private String name;
 	private String password;
-	private int edad;
 	private ArrayList<PlayList> playlist;
 
-	public User(String name, String password, int edad, ArrayList<PlayList> playlist) {
+	public User(String name, String password, ArrayList<PlayList> playlist) {
 		this.name = name;
 		this.password = password;
-		this.edad = edad;
 		this.playlist = playlist;
 	}
 
 	public User() {
 		this.name = "";
 		this.password = "";
-		this.edad = 0;
 		this.playlist = null;
 	}
 
@@ -38,14 +35,6 @@ public class User {
 		this.password = password;
 	}
 
-	public int getEdad() {
-		return edad;
-	}
-
-	public void setEdad(int edad) {
-		this.edad = edad;
-	}
-
 	public ArrayList<PlayList> getPlaylist() {
 		return playlist;
 	}
@@ -56,7 +45,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [name=" + name + ", password=" + password + ", edad=" + edad + "]";
+		return "User [name=" + name + ", password=" + password + "]";
 	}
 
 }

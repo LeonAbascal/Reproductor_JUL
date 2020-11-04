@@ -14,7 +14,7 @@ public class UserTest {
 
 	@Before
 	public void setUp() {
-		u = new User("Yulen", "12345", 3, null);
+		u = new User("Yulen", "12345",  null);
 	}
 
 	@Test
@@ -25,11 +25,6 @@ public class UserTest {
 	@Test
 	public void testGetPassword() {
 		assertEquals("12345", u.getPassword());
-	}
-
-	@Test
-	public void testGetEdad() {
-		assertEquals(3, u.getEdad());
 	}
 
 	@Test
