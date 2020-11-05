@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Access {
-	// USAREMOS EL JDBC PARA GESTIONAR LA BASE DE DATOS. SIN EMBARGO, NECESITAMOS EL DRIVER
 	// https://github.com/xerial/sqlite-jdbc/releases
 	private static String databasePath = "database/JUL_database.db";
 	
@@ -17,14 +16,9 @@ public class Access {
 		if (loadDriver()) {
 			
 			try { 
-				// AHORA NOS CONECTAMOS A LA BASE DE DATOS
-				// FORMATO: jdbc:nuestroTipoDeBdDD:IP/path
-				// PARA BASES DE DATOS HAY QUE ASEGURARNOS QUE IMPORTA LAS COSAS DE JAVA.SQL
 				Connection conn = DriverManager.getConnection("jdbc:sqlite:" + databasePath);
-				// CREAR UN OBJETO QUE SIRVE DE CONSOLA DE COMANDOS PARA LA BASE DE DATOS
 				Statement stmt = conn.createStatement();
 				
-				// rs from JAVA.SQL
 				ResultSet rs =  stmt.executeQuery("select * from user_t;");
 				
 				while (rs.next()) {
@@ -52,7 +46,6 @@ public class Access {
 	}
 	
 	private static boolean loadDriver() {
-		// LO PRIMERO QUE TENEMOS QUE HACER AHORA ES CARGAR EL DRIVER EN MEMORIA
 		boolean opSuccess;
 		try { 
 			Class.forName("org.sqlite.JDBC"); 
