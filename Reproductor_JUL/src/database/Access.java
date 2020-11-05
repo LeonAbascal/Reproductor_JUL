@@ -25,7 +25,7 @@ public class Access {
 					System.out.println(rs.getString("nombre"));
 					System.out.println(rs.getString("apellido"));
 					
-					int rows = stmt.executeUpdate("insert into user_t values ('Albert', 'Einstein', 69)");
+					int rows = stmt.executeUpdate("insert into user_t values ('Albert', 'Einstein')");
 					System.out.println(rows);
 				}
 				
