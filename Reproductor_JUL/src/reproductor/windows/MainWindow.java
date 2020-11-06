@@ -6,6 +6,8 @@ import java.awt.GridLayout;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,6 +22,8 @@ import javax.swing.border.Border;
 
 public class MainWindow extends JFrame {
 
+	private static Logger logger = Logger.getLogger(MainWindow.class.getName());
+	
 	JMenuBar menuBar;
 		JMenu fileMenu;
 			JMenuItem openMp3MU;
@@ -56,6 +60,7 @@ public class MainWindow extends JFrame {
 		setSize(600, 400);
 		setResizable(false);
 		setVisible(true);
+		logger.log(Level.SEVERE, "logger de prueba");
 	}
 	
 	private void guiComponentDeclaration() {
