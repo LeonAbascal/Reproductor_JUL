@@ -7,14 +7,20 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
+import database.DBManager;
 import reproductor.mainClasses.User;
 
 public class LogInWindow extends JFrame {
@@ -31,6 +37,8 @@ public class LogInWindow extends JFrame {
 	JButton registerUser;
 	JButton logIn;
 	JPanel north;
+	
+	DBManager dbmanager = new DBManager();
 
 	public LogInWindow() {
 
@@ -55,17 +63,39 @@ public class LogInWindow extends JFrame {
 					System.out.println("No se pudo crear el usuario: TextField vacío");
 					messages.setText("Nombre y Contraseña son campos obligatorios");
 				} else {
-					User u = new User(userName.getText(), userPassword.getText(), null);
-					// ---------------------------------------------------------
-					// AÑADIR NUEVO USUARIO A LA LISTA DE USUARIOS
-					// ---------------------------------------------------------
-					System.out.println("Nuevo usuario creado: " + u);
-					userName.setText("");
-					userPassword.setText("");
-
+					dbmanager.connect("database\\JUL_database.db");
+					List<User> users = new ArrayList<User>();
+					users= dbmanager.getAllUsers();	
+					boolean contiene=false;
+					for (Iterator iterator = users.iterator(); iterator.hasNext();) {
+						User user = (User) iterator.next();
+						if (user.getName()==userName.getText()) {
+							contiene=true;
+						}
+					}
+					if (contiene) {
+						System.out.println("Nombre de usuario ya existente");
+						JOptionPane.showMessageDialog(null, "Nombre de usuario ya existente");
+						
+					}else {
+						User u = new User(userName.getText(), userPassword.getText(), null);
+						// ---------------------------------------------------------
+						// AÑADIR NUEVO USUARIO A LA LISTA DE USUARIOS
+						// ---------------------------------------------------------
+						dbmanager.store(u);
+						System.out.println("Nuevo usuario creado: " + u);
+						userName.setText("");
+						userPassword.setText("");
+					}
+					
+					}
+					
+					
+					
+					
 				}
 			}
-		});
+		);
 
 		// INCIO DE SESIÓN
 		logIn = new JButton("Iniciar sesión");
@@ -127,5 +157,17 @@ public class LogInWindow extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
+	}
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			
+			
+			@Override
+			public void run() {
+				
+				new LogInWindow();
+			}
+		});
 	}
 }
