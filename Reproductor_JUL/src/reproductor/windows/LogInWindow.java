@@ -37,17 +37,15 @@ public class LogInWindow extends JFrame {
 	JButton registerUser;
 	JButton logIn;
 	JPanel north;
-	
-	DBManager dbmanager = new DBManager();
 
 	public LogInWindow() {
 
 		// PANEL DE ERRORES
 		north = new JPanel();
 		messages = new JLabel();
-		north.add(messages,BorderLayout.CENTER);
+		north.add(messages, BorderLayout.CENTER);
 		// FIN PANEL DE ERRORES
-		
+
 		name = new JLabel("Nombre:");
 		password = new JLabel("Contraseña:");
 		messages.setForeground(Color.RED);
@@ -59,54 +57,87 @@ public class LogInWindow extends JFrame {
 		registerUser.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
 				if ((userName.getText().isBlank()) || (userPassword.getText().isBlank())) {
+
 					System.out.println("No se pudo crear el usuario: TextField vacío");
-					messages.setText("Nombre y Contraseña son campos obligatorios");
+					JOptionPane.showMessageDialog(null,"Nombre y Contraseña son campos obligatorios");
+
 				} else {
+
 					List<User> users = new ArrayList<User>();
 					users = DBManager.getAllUsers();
-					boolean contiene=false;
+					boolean contiene = false;
 					for (Iterator iterator = users.iterator(); iterator.hasNext();) {
 						User user = (User) iterator.next();
-						if (user.getName()==userName.getText()) {
-							contiene=true;
+						if (user.getName() == userName.getText()) {
+							contiene = true;
 						}
 					}
 					if (contiene) {
 						System.out.println("Nombre de usuario ya existente");
 						JOptionPane.showMessageDialog(null, "Nombre de usuario ya existente");
-						
+
 					} else {
 						User u = new User(userName.getText(), userPassword.getText(), null);
 						// ---------------------------------------------------------
 						// AÑADIR NUEVO USUARIO A LA LISTA DE USUARIOS
 						// ---------------------------------------------------------
-						dbmanager.store(u);
+						DBManager.store(u);
 						System.out.println("Nuevo usuario creado: " + u);
 						userName.setText("");
 						userPassword.setText("");
 					}
-					
-					}
-					
-					
-					
-					
+
 				}
+
 			}
-		);
+		});
 
 		// INCIO DE SESIÓN
 		logIn = new JButton("Iniciar sesión");
 		logIn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Sesión iniciada para el usuario: " + userName.getText() + " con contraseña: "
-						+ userPassword.getText());
+				if ((userName.getText().isBlank()) || (userPassword.getText().isBlank())) {
+
+					System.out.println("No se pudo crear el usuario: TextField vacío");
+					JOptionPane.showMessageDialog(null,"Nombre y Contraseña son campos obligatorios");
+					
+				} else {
+					// Sacamos los usuarios de la BD
+					List<User> users = new ArrayList<User>();
+					users = DBManager.getAllUsers();
+					Boolean exists = false;
+					User u_selected = new User();
+					
+					for (Iterator<User> iterator = users.iterator(); iterator.hasNext();) {
+						User user = (User) iterator.next();
+						String u_login = userName.getText();
+						String u_name = user.getName();
+
+						if (u_name == u_login) {
+							exists = true;
+							u_selected = user;
+							System.out.println("Usuario seleccionado");
+						} else {
+							System.out.println(u_login + " != " + u_name);
+						}
+					}
+					if (!exists) {
+						System.out.println("No se pudo iniciar sesión");
+					} else {
+						if(u_selected.getPassword() == userPassword.getText()) {
+							System.out.println("Sesión iniciada para el usuario " + u_selected);
+							new MainWindow();
+						} else {
+							System.out.println("Contraseña incorrecta.");
+						}
+					}
+				}
 			}
 		});
 
-		
 		// AÑADIR LOS COMPONENTES A LA UI
 		JPanel center = new JPanel();
 		// Definir el panel para los componentes
@@ -146,8 +177,8 @@ public class LogInWindow extends JFrame {
 
 		center.add(registerUser, gbc);
 
-		add(north,BorderLayout.NORTH);
-		
+		add(north, BorderLayout.NORTH);
+
 		add(center);
 
 		setTitle("Iniciar Sesión");
@@ -156,17 +187,5 @@ public class LogInWindow extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
-	}
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			
-			
-			@Override
-			public void run() {
-				
-				new LogInWindow();
-			}
-		});
 	}
 }

@@ -149,7 +149,7 @@ public class MainWindow extends JFrame {
 			@Override
 			public void run() {
 				applySkin();
-				new MainWindow();
+				new LogInWindow();
 			}
 		});
 	}
