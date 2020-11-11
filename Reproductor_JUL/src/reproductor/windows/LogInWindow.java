@@ -70,7 +70,7 @@ public class LogInWindow extends JFrame {
 					boolean contiene = false;
 					for (Iterator iterator = users.iterator(); iterator.hasNext();) {
 						User user = (User) iterator.next();
-						if (user.getName() == userName.getText()) {
+						if (user.getName().equals(userName.getText())) {
 							contiene = true;
 						}
 					}
@@ -113,21 +113,20 @@ public class LogInWindow extends JFrame {
 					
 					for (Iterator<User> iterator = users.iterator(); iterator.hasNext();) {
 						User user = (User) iterator.next();
-						String u_login = userName.getText();
-						String u_name = user.getName();
+						String u_name = userName.getText();
 
-						if (u_name == u_login) {
+						if (u_name.equals(user.getName())) {
 							exists = true;
 							u_selected = user;
 							System.out.println("Usuario seleccionado");
 						} else {
-							System.out.println(u_login + " != " + u_name);
+							System.out.println(user.getName() + " != " + u_name);
 						}
 					}
 					if (!exists) {
 						System.out.println("No se pudo iniciar sesión");
 					} else {
-						if(u_selected.getPassword() == userPassword.getText()) {
+						if(u_selected.getPassword().equals(userPassword.getText())) {
 							System.out.println("Sesión iniciada para el usuario " + u_selected);
 							new MainWindow();
 						} else {
