@@ -96,7 +96,8 @@ public class DBManager {
 		disconnect();
 		return users;
 	}
-	public void store(User user) {
+	public static void store(User user) {
+		connect();
 		try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO user_t (username,pass) VALUES (?, ?)")){
 
 			stmt.setString(1, user.getName());
@@ -105,8 +106,10 @@ public class DBManager {
 			stmt.executeUpdate();
 
 		} catch (SQLException e) {
+			e.printStackTrace();
 			System.out.println("No se pudo guardar el usuario en la BD");
 		}
+		disconnect();
 	}
 
 }
