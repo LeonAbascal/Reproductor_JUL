@@ -63,9 +63,8 @@ public class LogInWindow extends JFrame {
 					System.out.println("No se pudo crear el usuario: TextField vacío");
 					messages.setText("Nombre y Contraseña son campos obligatorios");
 				} else {
-					dbmanager.connect("database\\JUL_database.db");
 					List<User> users = new ArrayList<User>();
-					users= dbmanager.getAllUsers();	
+					users = DBManager.getAllUsers();
 					boolean contiene=false;
 					for (Iterator iterator = users.iterator(); iterator.hasNext();) {
 						User user = (User) iterator.next();
@@ -77,7 +76,7 @@ public class LogInWindow extends JFrame {
 						System.out.println("Nombre de usuario ya existente");
 						JOptionPane.showMessageDialog(null, "Nombre de usuario ya existente");
 						
-					}else {
+					} else {
 						User u = new User(userName.getText(), userPassword.getText(), null);
 						// ---------------------------------------------------------
 						// AÑADIR NUEVO USUARIO A LA LISTA DE USUARIOS
