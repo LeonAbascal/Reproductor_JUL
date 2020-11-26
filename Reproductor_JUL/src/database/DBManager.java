@@ -14,6 +14,8 @@ import reproductor.mainClasses.User;
 
 public class DBManager {
 	
+	private static Logger logger = Logger.getLogger(MainWindow.class.getName());
+	
 	private static String databasePath = "database/JUL_database.db";
 	private static Connection conn; 
 
