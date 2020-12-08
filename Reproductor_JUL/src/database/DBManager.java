@@ -8,26 +8,29 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import reproductor.mainClasses.User;
 
 
 public class DBManager {
 	
-	private static Logger logger = Logger.getLogger(MainWindow.class.getName());
-	
 	private static String databasePath = "database/JUL_database.db";
-	private static Connection conn; 
+	private static Connection conn;
+	static Logger logger = Logger.getLogger(DBManager.class.getName());
 
 	private static boolean loadDriver() {
 		boolean opSuccess;
 		try { 
 			Class.forName("org.sqlite.JDBC"); 
-			System.out.println("Drivers were loaded successfully."); 
+			//System.out.println("Drivers were loaded successfully.");
+			logger.info("Drivers were loaded successfully.");
+			
 			opSuccess = true;
 
 		} catch (ClassNotFoundException e) { 
-			System.err.println("Drivers could not be loaded."); 
+			//System.err.println("Drivers could not be loaded."); 
+			logger.severe("Drivers could not be loaded.");
 			opSuccess = false;
 		}
 
@@ -43,12 +46,15 @@ public class DBManager {
 				conn = DriverManager.getConnection("jdbc:sqlite:" + databasePath);
 				opSuccess = true;
 			} catch (SQLException e) {
-				System.err.println("Error connecting to the database.");
+				//System.err.println("Error connecting to the database.");
+				logger.severe("Error connecting to the database due to a SQL exception: ");
+				logger.info(e.toString());
 				opSuccess = false;
 			}
 		} else {
 			opSuccess = false;
-			System.err.println("Driver could not be loaded, thus, the connection can not be opened.");
+			//System.err.println("Driver could not be loaded, thus, the connection can not be opened.");
+			logger.severe("Driver could not be loaded, thus, the connection can not be opened.");
 		}
 		
 		
@@ -59,10 +65,12 @@ public class DBManager {
 		boolean opSuccess;
 		try {
 			conn.close();
-			System.out.println("Connection closed.");
+			//System.out.println("Connection closed.");
+			logger.info("Connection closed.");
 			opSuccess = true;
 		} catch (SQLException e) {
-			System.err.println("Error closing the connection.");
+			//System.err.println("Error closing the connection.");
+			logger.severe("Error closing the connection.");
 			opSuccess = false;
 		}
 		
@@ -90,9 +98,13 @@ public class DBManager {
 				user.setPassword(rs.getString("pass"));
 				users.add(user);
 			}
+			
+			logger.info("All users were obtained succesfully");
 
-		} catch (SQLException e ) {
-			System.out.println("Error obteniendo todos los usuarios'");
+		} catch (SQLException e) {
+			//System.out.println("Error obteniendo todos los usuarios'");
+			logger.severe("Error retrieving all users from database.");
+			logger.info(e.toString());
 		}
 		
 		disconnect();
@@ -108,8 +120,9 @@ public class DBManager {
 			stmt.executeUpdate();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("No se pudo guardar el usuario en la BD");
+			//System.out.println("No se pudo guardar el usuario en la BD");
+			logger.severe("Could not store the user into the database");
+			logger.info(e.toString());
 		}
 		disconnect();
 	}
