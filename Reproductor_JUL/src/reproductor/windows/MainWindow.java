@@ -1,6 +1,7 @@
 package reproductor.windows;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.io.FileInputStream;
@@ -9,6 +10,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,7 +20,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.border.Border;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
 
 public class MainWindow extends JFrame {
 
@@ -37,12 +43,14 @@ public class MainWindow extends JFrame {
 	
 	
 	JPanel centerPanel; // border layout
-		JPanel imagePanel; // to the left
+		JPanel menuPanel; // to the left
+			JLabel imageText;
 		JPanel metadataPanel; // to the right	
 			JLabel metadataLabel;
 			JLabel titleLabel;
 			JLabel artistLabel;
 			JLabel albumLabel;
+		JPanel songsPanel;
 			
 	JPanel southPanel;
 		JButton playB;
@@ -51,13 +59,18 @@ public class MainWindow extends JFrame {
 		JButton previousB;
 		JButton nextB;
 		
+		// Generados por WindowBuilder
+		private JLabel metadataText;
+		private JLabel txtMenuDescendente;
+		private JLabel txtSongName;
+		
 	public MainWindow() {
 		guiComponentDeclaration();
 		addComponentsToWindow();
 		
 		setTitle("Título");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(600, 400);
+		setSize(720, 480);
 		setResizable(false);
 		setVisible(true);
 		logger.log(Level.SEVERE, "logger de prueba");
@@ -67,8 +80,18 @@ public class MainWindow extends JFrame {
 		// PANELS
 		centerPanel = new JPanel(new BorderLayout());
 		southPanel = new JPanel(new FlowLayout());
-		imagePanel = new JPanel();
+		menuPanel = new JPanel();
 		metadataPanel = new JPanel(new GridLayout());
+		songsPanel = new JPanel(null);
+		
+		menuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		
+		txtMenuDescendente = new JLabel("Men\u00FA Descendente");
+		menuPanel.add(txtMenuDescendente);
+		metadataPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		
+		metadataText = new JLabel("Metadata");
+		metadataPanel.add(metadataText);
 		
 		// MENU BAR
 		fileMenu = new JMenu("File");
@@ -87,6 +110,16 @@ public class MainWindow extends JFrame {
 		randomB = new JButton("Random");
 		previousB = new JButton("Previous");
 		nextB = new JButton("Next");
+		
+		// Songs icons + text generator
+		JButton pruebaBoton = new JButton("");
+		pruebaBoton.setIcon(new ImageIcon("MusicFiles/Icons/DoraemonBumpingRemix.png"));
+		pruebaBoton.setBounds(10, 10, 96, 82);
+		songsPanel.add(pruebaBoton);
+				
+		txtSongName = new JLabel("Song name");
+		txtSongName.setHorizontalAlignment(SwingConstants.CENTER);
+		txtSongName.setBounds(10, 102, 96, 18);
 	}
 	
 	private void addComponentsToWindow() {
@@ -96,10 +129,13 @@ public class MainWindow extends JFrame {
 		southPanel.add(randomB);
 		
 		centerPanel.add(metadataPanel, BorderLayout.EAST);
-		centerPanel.add(imagePanel, BorderLayout.WEST);
+		centerPanel.add(menuPanel, BorderLayout.WEST);
+		centerPanel.add(songsPanel, BorderLayout.CENTER);
 		
-		add(centerPanel, BorderLayout.CENTER);
-		add(southPanel, BorderLayout.SOUTH);
+		getContentPane().add(centerPanel, BorderLayout.CENTER);
+		
+		songsPanel.add(txtSongName);
+		getContentPane().add(southPanel, BorderLayout.SOUTH);
 	}
 	
 	private static void applySkin() {
