@@ -104,14 +104,15 @@ public class MainWindow extends JFrame {
 	               FileFilter filter = new FileNameExtensionFilter("Canciones Mp3", "mp3");
 	               fileChooser.setFileFilter(filter);
 
-	               // en este caso se muestra un dialogo de selección de fichero de
-	               // guardado.
+	               // en este caso se muestra un dialogo de selección de fichero de guardado
 	               int result = fileChooser.showSaveDialog(MainWindow.this);
 	               if (result == JFileChooser.APPROVE_OPTION) {
 	                   // el usuario ha pulsado el boton aceptar
 	                   // se obtiene el fichero seleccionado -> File
 	                   File file = fileChooser.getSelectedFile();
-	                   System.out.println("Fichero seleccionado: " + file.toString());
+	                   System.out.println("Fichero seleccionado: " + file.getAbsolutePath());
+	                   MP3 mp3 = new MP3(file.getAbsolutePath());
+	   				   mp3.play();
 	               }
 	               
 			}
@@ -171,6 +172,7 @@ public class MainWindow extends JFrame {
 	}
 
 	private void addComponentsToWindow() {
+		
 		southPanel.add(previousB);
 		southPanel.add(playB);
 		southPanel.add(pauseB);
@@ -184,6 +186,9 @@ public class MainWindow extends JFrame {
 
 		getContentPane().add(centerPanel, BorderLayout.CENTER);
 		getContentPane().add(southPanel, BorderLayout.SOUTH);
+		
+		
+		
 	}
 	
 	// Method that creates the center scroll panel with the songs buttons
