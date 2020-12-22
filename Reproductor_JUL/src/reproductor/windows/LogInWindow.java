@@ -29,116 +29,125 @@ public class LogInWindow extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = -9084596910689539165L;
-	JLabel name;
-	JLabel password;
-	JLabel messages;
-	JTextField userName;
-	JPasswordField userPassword;
-	JButton registerUser;
-	JButton logIn;
-	JPanel north;
+	JPanel center;
+		JLabel name;
+		JTextField userName;
+		
+		JLabel password;
+		JPasswordField userPassword;
+		
+		JButton registerUser;
+		JButton logIn;
+	
+		private void guiComponentDeclaration() {
+			// PANEL
+			center = new JPanel();
 
-	public LogInWindow() {
+			// NAME + PASSWORD
+			name = new JLabel("Nombre:");
+			password = new JLabel("Contraseña:");
+			userName = new JTextField(20);
+			userPassword = new JPasswordField(20);
 
-		// PANEL DE ERRORES
-		north = new JPanel();
-		messages = new JLabel();
-		north.add(messages, BorderLayout.CENTER);
-		// FIN PANEL DE ERRORES
+			// BUTTONS
+			registerUser = new JButton("Registrarse");
+			logIn = new JButton("Iniciar sesión");
 
-		name = new JLabel("Nombre:");
-		password = new JLabel("Contraseña:");
-		messages.setForeground(Color.RED);
-		userName = new JTextField(20);
-		userPassword = new JPasswordField(20);
+			// REGISTRO
+			registerUser.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
 
-		// REGISTRO
-		registerUser = new JButton("Registrarse");
-		registerUser.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+					if ((userName.getText().isBlank()) || (userPassword.getText().isBlank())) {
 
-				if ((userName.getText().isBlank()) || (userPassword.getText().isBlank())) {
-
-					System.out.println("No se pudo crear el usuario: TextField vacío");
-					JOptionPane.showMessageDialog(null,"Nombre y Contraseña son campos obligatorios");
-
-				} else {
-
-					List<User> users = new ArrayList<User>();
-					users = DBManager.getAllUsers();
-					boolean contiene = false;
-					for (Iterator iterator = users.iterator(); iterator.hasNext();) {
-						User user = (User) iterator.next();
-						if (user.getName().equals(userName.getText())) {
-							contiene = true;
-						}
-					}
-					if (contiene) {
-						System.out.println("Nombre de usuario ya existente");
-						JOptionPane.showMessageDialog(null, "Nombre de usuario ya existente");
+						System.out.println("No se pudo crear el usuario: TextField vacío");
+						JOptionPane.showMessageDialog(null, "Nombre y Contraseña son campos obligatorios",
+								"Error de registro", JOptionPane.WARNING_MESSAGE);
 
 					} else {
-						User u = new User(userName.getText(), userPassword.getText(), null);
-						// ---------------------------------------------------------
-						// AÑADIR NUEVO USUARIO A LA LISTA DE USUARIOS
-						// ---------------------------------------------------------
-						DBManager.store(u);
-						System.out.println("Nuevo usuario creado: " + u);
-						userName.setText("");
-						userPassword.setText("");
+
+						List<User> users = new ArrayList<User>();
+						users = DBManager.getAllUsers();
+						boolean contiene = false;
+						for (Iterator iterator = users.iterator(); iterator.hasNext();) {
+							User user = (User) iterator.next();
+							if (user.getName().equals(userName.getText())) {
+								contiene = true;
+							}
+						}
+						if (contiene) {
+							System.out.println("Nombre de usuario ya existente");
+							JOptionPane.showMessageDialog(null, "Nombre de usuario ya existente", "Error de registro",
+									JOptionPane.WARNING_MESSAGE);
+
+						} else {
+							User u = new User(userName.getText(), userPassword.getText(), null);
+							// ---------------------------------------------------------
+							// AÑADIR NUEVO USUARIO A LA LISTA DE USUARIOS
+							// ---------------------------------------------------------
+							DBManager.store(u);
+							System.out.println("Nuevo usuario creado: " + u);
+							userName.setText("");
+							userPassword.setText("");
+						}
+
 					}
 
 				}
+			});
 
-			}
-		});
+			// INCIO DE SESIÓN
+			logIn.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if ((userName.getText().isBlank()) || (userPassword.getText().isBlank())) {
 
-		// INCIO DE SESIÓN
-		logIn = new JButton("Iniciar sesión");
-		logIn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if ((userName.getText().isBlank()) || (userPassword.getText().isBlank())) {
+						System.out.println("No se pudo crear el usuario: TextField vacío");
+						JOptionPane.showMessageDialog(null, "Nombre y Contraseña son campos obligatorios",
+								"Error de inicio de sesión", JOptionPane.WARNING_MESSAGE);
 
-					System.out.println("No se pudo crear el usuario: TextField vacío");
-					JOptionPane.showMessageDialog(null,"Nombre y Contraseña son campos obligatorios");
-					
-				} else {
-					// Sacamos los usuarios de la BD
-					List<User> users = new ArrayList<User>();
-					users = DBManager.getAllUsers();
-					Boolean exists = false;
-					User u_selected = new User();
-					
-					for (Iterator<User> iterator = users.iterator(); iterator.hasNext();) {
-						User user = (User) iterator.next();
-						String u_name = userName.getText();
-
-						if (u_name.equals(user.getName())) {
-							exists = true;
-							u_selected = user;
-							System.out.println("Usuario seleccionado");
-						} else {
-							System.out.println(user.getName() + " != " + u_name);
-						}
-					}
-					if (!exists) {
-						System.out.println("No se pudo iniciar sesión");
 					} else {
-						if(u_selected.getPassword().equals(userPassword.getText())) {
-							System.out.println("Sesión iniciada para el usuario " + u_selected);
-							new MainWindow();
+						// Sacamos los usuarios de la BD
+						List<User> users = new ArrayList<User>();
+						users = DBManager.getAllUsers();
+						Boolean exists = false;
+						User u_selected = new User();
+
+						for (Iterator<User> iterator = users.iterator(); iterator.hasNext();) {
+							User user = (User) iterator.next();
+							String u_name = userName.getText();
+
+							if (u_name.equals(user.getName())) {
+								exists = true;
+								u_selected = user;
+								System.out.println("Usuario seleccionado");
+							}
+						}
+						if (!exists) {
+							System.out.println("No se pudo iniciar sesión");
+							JOptionPane.showMessageDialog(null, "Usuario " + userName.getText() + " no existe",
+									"Error de inicio de sesión", JOptionPane.WARNING_MESSAGE);
 						} else {
-							System.out.println("Contraseña incorrecta.");
+							if (u_selected.getPassword().equals(userPassword.getText())) {
+								System.out.println("Sesión iniciada para el usuario " + u_selected);
+								new MainWindow();
+								MainWindow.login_w.setVisible(false);
+								JOptionPane.showMessageDialog(null,
+										"Sesión iniciada para el usuario " + u_selected.getName());
+								
+							} else {
+								System.out.println("Contraseña incorrecta.");
+								JOptionPane.showMessageDialog(null, "Contraseña incorrecta",
+										"Error de inicio de sesión", JOptionPane.WARNING_MESSAGE);
+							}
 						}
 					}
 				}
-			}
-		});
-
+			});
+		}
+	
+	private void addComponentsToWindow() {
 		// AÑADIR LOS COMPONENTES A LA UI
-		JPanel center = new JPanel();
 		// Definir el panel para los componentes
 		GridBagLayout layout = new GridBagLayout();
 		center.setLayout(layout);
@@ -176,15 +185,19 @@ public class LogInWindow extends JFrame {
 
 		center.add(registerUser, gbc);
 
-		add(north, BorderLayout.NORTH);
 
-		add(center);
+		add(center);		
+	}
+
+	public LogInWindow() {
+		guiComponentDeclaration();
+		addComponentsToWindow();
 
 		setTitle("Iniciar Sesión");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(400, 300);
 		setResizable(false);
 		setLocationRelativeTo(null);
-		setVisible(true);
+		setVisible(false);
 	}
 }
