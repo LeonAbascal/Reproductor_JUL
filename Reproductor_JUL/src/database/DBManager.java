@@ -23,14 +23,12 @@ public class DBManager {
 		boolean opSuccess;
 		try { 
 			Class.forName("org.sqlite.JDBC"); 
-			//System.out.println("Drivers were loaded successfully.");
-			logger.info("Drivers were loaded successfully.");
+			logger.info("Database drivers were loaded successfully.");
 			
 			opSuccess = true;
 
 		} catch (ClassNotFoundException e) { 
-			//System.err.println("Drivers could not be loaded."); 
-			logger.severe("Drivers could not be loaded.");
+			logger.severe("Database drivers could not be loaded.");
 			opSuccess = false;
 		}
 
@@ -46,15 +44,13 @@ public class DBManager {
 				conn = DriverManager.getConnection("jdbc:sqlite:" + databasePath);
 				opSuccess = true;
 			} catch (SQLException e) {
-				//System.err.println("Error connecting to the database.");
 				logger.severe("Error connecting to the database due to a SQL exception: ");
 				logger.info(e.toString());
 				opSuccess = false;
 			}
 		} else {
 			opSuccess = false;
-			//System.err.println("Driver could not be loaded, thus, the connection can not be opened.");
-			logger.severe("Driver could not be loaded, thus, the connection can not be opened.");
+			logger.severe("Database driver could not be loaded, thus, the connection can not be opened.");
 		}
 		
 		
@@ -65,11 +61,9 @@ public class DBManager {
 		boolean opSuccess;
 		try {
 			conn.close();
-			//System.out.println("Connection closed.");
-			logger.info("Connection closed.");
+			logger.info("Connection successfully closed.");
 			opSuccess = true;
 		} catch (SQLException e) {
-			//System.err.println("Error closing the connection.");
 			logger.severe("Error closing the connection.");
 			opSuccess = false;
 		}
@@ -102,7 +96,6 @@ public class DBManager {
 			logger.info("All users were obtained succesfully");
 
 		} catch (SQLException e) {
-			//System.out.println("Error obteniendo todos los usuarios'");
 			logger.severe("Error retrieving all users from database.");
 			logger.info(e.toString());
 		}
@@ -120,7 +113,6 @@ public class DBManager {
 			stmt.executeUpdate();
 
 		} catch (SQLException e) {
-			//System.out.println("No se pudo guardar el usuario en la BD");
 			logger.severe("Could not store the user into the database");
 			logger.info(e.toString());
 		}
