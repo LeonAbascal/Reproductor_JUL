@@ -90,7 +90,7 @@ public class MainWindow extends JFrame {
 	}
 
 	private void guiComponentDeclaration() {
-		// PANELS
+		// PANELS A
 		centerPanel = new JPanel(new BorderLayout());
 		southPanel = new JPanel(new FlowLayout());
 		menuPanel = new JPanel();
