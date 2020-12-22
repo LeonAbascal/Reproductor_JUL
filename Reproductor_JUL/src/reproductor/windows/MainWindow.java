@@ -69,8 +69,6 @@ public class MainWindow extends JFrame {
 		JButton nextB;
 		
 	static LogInWindow login_w;
-	static LoadingWindow load_w;
-	
 
 	// Generados por WindowBuilder
 	private JLabel metadataText;
@@ -231,13 +229,9 @@ public class MainWindow extends JFrame {
 
 			@Override
 			public void run() {
-				load_w= new LoadingWindow();
 				applySkin();
 				login_w = new LogInWindow();
 				login_w.setVisible(true);
-				
-				
-				
 			}
 		});
 	}

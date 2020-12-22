@@ -38,8 +38,6 @@ public class LogInWindow extends JFrame {
 		
 		JButton registerUser;
 		JButton logIn;
-		static LoadingWindow load_w;
-		
 	
 		private void guiComponentDeclaration() {
 			// PANEL
@@ -91,7 +89,6 @@ public class LogInWindow extends JFrame {
 							logger.log(Level.INFO, "New user registered -> " + u.getName());
 							userName.setText("");
 							userPassword.setText("");
-							
 						}
 
 					}
@@ -136,7 +133,6 @@ public class LogInWindow extends JFrame {
 								logger.log(Level.INFO, "User " + u_selected.getName() + " succesfully logged");
 								JOptionPane.showMessageDialog(null,
 										"Sesión iniciada para el usuario " + u_selected.getName());
-								
 								
 							} else {
 								logger.log(Level.WARNING, "Cant logIn into user, wrong password");
@@ -202,6 +198,5 @@ public class LogInWindow extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(false);
-		
 	}
 }
