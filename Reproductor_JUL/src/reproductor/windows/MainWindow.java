@@ -6,12 +6,14 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,13 +21,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.SwingConstants;
-import javax.swing.ImageIcon;
 
 public class MainWindow extends JFrame {
 
@@ -186,6 +184,13 @@ public class MainWindow extends JFrame {
 	}
 
 	public static void main(String[] args) {
+		
+		try (FileInputStream fis = new FileInputStream("logger/logger.properties")) {
+            LogManager.getLogManager().readConfiguration(fis);
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "No se pudo leer el fichero de configuración del logger");
+        }
+		
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
