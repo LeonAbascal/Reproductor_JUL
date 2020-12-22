@@ -26,6 +26,8 @@ public class Counter {
 	
 	public void inc( int inc ) { cont += inc; }
 	
+	public void reset() { cont = 0;}
+	
 	@Override
 	public String toString() { return "" + cont; }
 	
