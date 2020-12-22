@@ -1,7 +1,5 @@
 package reproductor.windows;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -10,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,7 +18,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 import database.DBManager;
 import reproductor.mainClasses.User;
@@ -29,6 +28,7 @@ public class LogInWindow extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = -9084596910689539165L;
+	static Logger logger = Logger.getLogger(DBManager.class.getName());
 	JPanel center;
 		JLabel name;
 		JTextField userName;
@@ -76,7 +76,7 @@ public class LogInWindow extends JFrame {
 							}
 						}
 						if (contiene) {
-							System.out.println("Nombre de usuario ya existente");
+							logger.log(Level.WARNING, "Cant register user, userName already exists");
 							JOptionPane.showMessageDialog(null, "Nombre de usuario ya existente", "Error de registro",
 									JOptionPane.WARNING_MESSAGE);
 
@@ -86,7 +86,7 @@ public class LogInWindow extends JFrame {
 							// AÑADIR NUEVO USUARIO A LA LISTA DE USUARIOS
 							// ---------------------------------------------------------
 							DBManager.store(u);
-							System.out.println("Nuevo usuario creado: " + u);
+							logger.log(Level.INFO, "New user registered -> " + u.getName());
 							userName.setText("");
 							userPassword.setText("");
 						}
@@ -102,7 +102,7 @@ public class LogInWindow extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					if ((userName.getText().isBlank()) || (userPassword.getText().isBlank())) {
 
-						System.out.println("No se pudo crear el usuario: TextField vacío");
+						logger.log(Level.WARNING, "Cant logIn into user, blank TextField");
 						JOptionPane.showMessageDialog(null, "Nombre y Contraseña son campos obligatorios",
 								"Error de inicio de sesión", JOptionPane.WARNING_MESSAGE);
 
@@ -120,23 +120,22 @@ public class LogInWindow extends JFrame {
 							if (u_name.equals(user.getName())) {
 								exists = true;
 								u_selected = user;
-								System.out.println("Usuario seleccionado");
 							}
 						}
 						if (!exists) {
-							System.out.println("No se pudo iniciar sesión");
+							logger.log(Level.WARNING, "Cant logIn into user, user does not exist");
 							JOptionPane.showMessageDialog(null, "Usuario " + userName.getText() + " no existe",
 									"Error de inicio de sesión", JOptionPane.WARNING_MESSAGE);
 						} else {
 							if (u_selected.getPassword().equals(userPassword.getText())) {
-								System.out.println("Sesión iniciada para el usuario " + u_selected);
 								new MainWindow();
 								MainWindow.login_w.setVisible(false);
+								logger.log(Level.INFO, "User " + u_selected.getName() + " succesfully logged");
 								JOptionPane.showMessageDialog(null,
 										"Sesión iniciada para el usuario " + u_selected.getName());
 								
 							} else {
-								System.out.println("Contraseña incorrecta.");
+								logger.log(Level.WARNING, "Cant logIn into user, wrong password");
 								JOptionPane.showMessageDialog(null, "Contraseña incorrecta",
 										"Error de inicio de sesión", JOptionPane.WARNING_MESSAGE);
 							}
