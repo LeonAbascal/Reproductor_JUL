@@ -2,11 +2,13 @@ package reproductor.windows;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,6 +31,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import reproductor.mainClasses.Counter;
+import reproductor.mainClasses.MP3;
 
 public class MainWindow extends JFrame {
 
@@ -53,13 +56,14 @@ public class MainWindow extends JFrame {
 	JPanel centerPanel; // border layout
 		JPanel menuPanel; // to the left
 			JLabel imageText;
+			JLabel txtMenuDescendente;
 		JPanel metadataPanel; // to the right
-			JLabel metadataLabel;
+			JLabel metadataText;
 			JLabel titleLabel;
 			JLabel artistLabel;
 			JLabel albumLabel;
 		JPanel songsPanel;
-			JScrollPane songsScroll;
+			JScrollPane songsScroll; // center
 
 	JPanel southPanel;
 		JButton playB;
@@ -69,14 +73,12 @@ public class MainWindow extends JFrame {
 		JButton nextB;
 		
 	static LogInWindow login_w;
-
-	// Generados por WindowBuilder
-	private JLabel metadataText;
-	private JLabel txtMenuDescendente;
+	static String playingSongPath;
 
 	public MainWindow() {
 		guiComponentDeclaration();
 		addComponentsToWindow();
+		songsScrollPanel("MusicFiles");
 
 		setTitle("Título");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -92,50 +94,19 @@ public class MainWindow extends JFrame {
 		centerPanel = new JPanel(new BorderLayout());
 		southPanel = new JPanel(new FlowLayout());
 		menuPanel = new JPanel();
-		metadataPanel = new JPanel(new GridLayout());
-		
-		// SONGS SCROLL PANELS ----------------------------------------------
-		
+		menuPanel.setMaximumSize(new Dimension(20, 20));
+		metadataPanel = new JPanel();
 		songsPanel = new JPanel(null);
 		songsScroll = new JScrollPane(songsPanel);
-		Counter contx = new Counter();
-		Counter conty = new Counter();
-		// Definir archivo de canciones
-		File songsFile = new File("MusicFiles");
 		
-		// Definir el panel para los componentes
-		GridBagLayout gLayout = new GridBagLayout();
-		songsPanel.setLayout(gLayout);
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = new Insets(10, 10, 50, 10);
-
-		// Poner diferentes dimensiones a los componentes
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-
-		for (final File ficheroEntrada : songsFile.listFiles()) {
-			JButton l = new JButton(ficheroEntrada.getName());
-			if (!ficheroEntrada.getName().contains(".mp3")) {
-				continue;
-			}
-			if (contx.get() >= 2) {
-				contx.reset();
-				conty.inc();
-			}
-			gbc.gridx = contx.get();
-			gbc.gridy = conty.get();
-			songsPanel.add(l, gbc);
-			contx.inc();
-		}
-		
-		songsPanel.setLayout(gLayout);
-		
-		// SONGS SCROLL PANEL END ---------------------------------------------
 
 		menuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		menuPanel.setLayout(new BorderLayout(0, 0));
 
 		txtMenuDescendente = new JLabel("Men\u00FA Descendente");
 		menuPanel.add(txtMenuDescendente);
 		metadataPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		metadataPanel.setLayout(new BorderLayout(0, 0));
 
 		metadataText = new JLabel("Metadata");
 		metadataPanel.add(metadataText);
@@ -157,11 +128,21 @@ public class MainWindow extends JFrame {
 		randomB = new JButton("Random");
 		previousB = new JButton("Previous");
 		nextB = new JButton("Next");
+		
+		// PLAY BUTTON ACTION
+		playB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MP3 mp3 = new MP3(playingSongPath);
+				mp3.play();
+			}
+			
+		});
 	}
 
 	private void addComponentsToWindow() {
 		southPanel.add(previousB);
 		southPanel.add(playB);
+		southPanel.add(pauseB);
 		southPanel.add(nextB);
 		southPanel.add(randomB);
 
@@ -172,6 +153,50 @@ public class MainWindow extends JFrame {
 		getContentPane().add(centerPanel, BorderLayout.CENTER);
 		getContentPane().add(southPanel, BorderLayout.SOUTH);
 	}
+	
+	// Method that creates the center scroll panel with the songs buttons
+		private void songsScrollPanel(String filePath) {
+
+			Counter contx = new Counter();
+			Counter conty = new Counter();
+
+			File songsFile = new File(filePath);
+
+			// DEFINING THE PANEL FOR THE COMPONENTS
+			GridBagLayout gLayout = new GridBagLayout();
+			songsPanel.setLayout(gLayout);
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.insets = new Insets(10, 10, 50, 10);
+
+			// DIFFERENT DIMENSIONS FOR EACH COMPONENT
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+
+			for (final File file : songsFile.listFiles()) {
+				String fileName = file.getName();
+				// BUTTON CREATION FOR EACH SONG
+				JButton l = new JButton(fileName);
+				l.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						metadataText.setText(fileName);
+						playingSongPath = file.getAbsolutePath();
+					}
+				});
+
+				if (!fileName.contains(".mp3")) {
+					continue;
+				}
+				if (contx.get() >= 2) {
+					contx.reset();
+					conty.inc();
+				}
+				gbc.gridx = contx.get();
+				gbc.gridy = conty.get();
+				songsPanel.add(l, gbc);
+				contx.inc();
+			}
+
+			songsPanel.setLayout(gLayout);
+		}
 
 	private static void applySkin() {
 		try {
