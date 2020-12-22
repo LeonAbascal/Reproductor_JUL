@@ -32,6 +32,11 @@ import reproductor.mainClasses.Counter;
 
 public class MainWindow extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1073903793200315336L;
+
 	private static Logger logger = Logger.getLogger(MainWindow.class.getName());
 
 	JMenuBar menuBar;
