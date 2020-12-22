@@ -7,6 +7,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,6 +20,7 @@ import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -27,6 +30,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import reproductor.mainClasses.Counter;
 
@@ -39,6 +44,8 @@ public class MainWindow extends JFrame {
 
 	private static Logger logger = Logger.getLogger(MainWindow.class.getName());
 
+	JButton fileChooser;
+	
 	JMenuBar menuBar;
 		JMenu fileMenu;
 			JMenuItem openMp3MU;
@@ -85,6 +92,30 @@ public class MainWindow extends JFrame {
 		setVisible(true);
 		setLocationRelativeTo(null);
 		logger.log(Level.SEVERE, "logger de prueba");
+		
+		fileChooser.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				JFileChooser fileChooser = new JFileChooser();
+	               
+	               // solo se admiten ficheros con extensión ".txt"
+	               FileFilter filter = new FileNameExtensionFilter("Canciones Mp3", "mp3");
+	               fileChooser.setFileFilter(filter);
+
+	               // en este caso se muestra un dialogo de selección de fichero de
+	               // guardado.
+	               int result = fileChooser.showSaveDialog(MainWindow.this);
+	               if (result == JFileChooser.APPROVE_OPTION) {
+	                   // el usuario ha pulsado el boton aceptar
+	                   // se obtiene el fichero seleccionado -> File
+	                   File file = fileChooser.getSelectedFile();
+	                   System.out.println("Fichero seleccionado: " + file.toString());
+	               }
+	               
+			}
+		});
 	}
 
 	private void guiComponentDeclaration() {
@@ -152,6 +183,8 @@ public class MainWindow extends JFrame {
 		queue = new JMenuItem("Queue");
 
 		// THESE BUTTONS WILL CONTAIN IMAGES
+		fileChooser= new JButton("Choose Songs");
+		
 		playB = new JButton("Play");
 		pauseB = new JButton("Pause");
 		randomB = new JButton("Random");
@@ -164,6 +197,7 @@ public class MainWindow extends JFrame {
 		southPanel.add(playB);
 		southPanel.add(nextB);
 		southPanel.add(randomB);
+		southPanel.add(fileChooser);
 
 		centerPanel.add(metadataPanel, BorderLayout.EAST);
 		centerPanel.add(menuPanel, BorderLayout.WEST);
@@ -216,7 +250,7 @@ public class MainWindow extends JFrame {
 			// logger.log(Level.WARNING, "Skin could not be applied.");
 		}
 	}
-
+	
 	public static void main(String[] args) {
 		
 		try (FileInputStream fis = new FileInputStream("logger/logger.properties")) {
