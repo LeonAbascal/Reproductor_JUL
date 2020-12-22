@@ -1,72 +1,46 @@
 package reproductor.mainClasses;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
+import java.io.File;
 
-import javazoom.jl.player.Player;
+import javazoom.jlgui.basicplayer.BasicPlayer;
 
 
 public class MP3 {
-    private String filename;
-    private Player player; 
+    private static BasicPlayer player = new BasicPlayer();
 
-    // constructor that takes the name of an MP3 file
-    public MP3(String filename) {
-        this.filename = filename;
-    }
-
-    public void close() { if (player != null) player.close(); }
-
-    // play the MP3 file to the sound card
-    public void play() {
+    public static void play(File f) {
         try {
-            FileInputStream fis     = new FileInputStream(filename);
-            BufferedInputStream bis = new BufferedInputStream(fis);
-            player = new Player(bis);
+        	player.open(f);
+        	player.play();
         }
         catch (Exception e) {
-            System.out.println("Problem playing file " + filename);
+            System.out.println("Problem playing file " + f);
             System.out.println(e);
         }
-
-        // run in new thread to play in background
-        new Thread() {
-            public void run() {
-                try { player.play(); }
-                catch (Exception e) { System.out.println(e); }
-            }
-        }.start();
-
-
-
-
     }
-
-
-    // test client
-    public static void main(String[] args) {
-        String filename = "MusicFiles\\Beave - Too Much Ft. Bethany Lamb (Torin Dundas Remix).mp3";
-        MP3 mp3 = new MP3(filename);
-        mp3.play();
-
-        // do whatever computation you like, while music plays
-        /*
-        int N = 4000;
-        double sum = 0.0;
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                sum += Math.sin(i + j);
-            }
-        }
-        System.out.println(sum);
-		*/
-        // when the computation is done, stop playing it
-        mp3.close();
-
-        // play from the beginning
-        mp3 = new MP3(filename);
-        mp3.play();
-
+    
+    public static void pause() {
+    	try {
+    		player.pause();
+    	} catch (Exception e) {
+    		
+    	}
+    }
+    
+    public static void stop() {
+    	try {
+    		player.stop();
+    	} catch (Exception e) {
+    		System.err.println("No se pudo detener el reproductor.");
+    	}
+    }
+    
+    public static void resume() {
+    	try {
+    		player.resume();
+    	} catch (Exception e) {
+    		
+    	}
     }
 
 }
