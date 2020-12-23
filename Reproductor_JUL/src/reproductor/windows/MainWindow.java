@@ -99,20 +99,21 @@ public class MainWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 	               
 	               // solo se admiten ficheros con extensión ".txt"
-	               FileFilter filter = new FileNameExtensionFilter("Canciones Mp3", "mp3");
-	               fileChooser.setFileFilter(filter);
+//	               FileFilter filter = new FileNameExtensionFilter("Canciones Mp3", "mp3");
+//	               fileChooser.setFileFilter(filter);
 
-	               // en este caso se muestra un dialogo de selección de fichero de guardado
+	               // en este caso se muestra un dialogo de selección de fichero de
+	               // guardado.
 	               int result = fileChooser.showSaveDialog(MainWindow.this);
 	               if (result == JFileChooser.APPROVE_OPTION) {
 	                   // el usuario ha pulsado el boton aceptar
 	                   // se obtiene el fichero seleccionado -> File
 	                   File file = fileChooser.getSelectedFile();
-	                   System.out.println("Fichero seleccionado: " + file.getAbsolutePath());
-	                   MP3 mp3 = new MP3(file.getAbsolutePath());
-	   				   mp3.play();
+	                   System.out.println("Fichero seleccionado: " + file.toString());
+	                   songsScrollPanel(file.getAbsolutePath());
 	               }
 	               
 			}
@@ -233,6 +234,7 @@ public class MainWindow extends JFrame {
 			}
 
 			songsPanel.setLayout(gLayout);
+			SwingUtilities.updateComponentTreeUI(songsPanel);
 		}
 
 	private static void applySkin() {
