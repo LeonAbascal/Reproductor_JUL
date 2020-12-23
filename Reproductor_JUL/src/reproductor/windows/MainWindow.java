@@ -46,6 +46,7 @@ public class MainWindow extends JFrame {
 	private static Logger logger = Logger.getLogger(MainWindow.class.getName());
 
 	JButton fileChooser;
+	JButton configuracion;
 	
 	JMenuBar menuBar;
 		JMenu fileMenu;
@@ -79,6 +80,7 @@ public class MainWindow extends JFrame {
 		
 	static LogInWindow login_w;
 	static String playingSongPath;
+	static Configuracion config;
 
 	public MainWindow() {
 		guiComponentDeclaration();
@@ -118,6 +120,16 @@ public class MainWindow extends JFrame {
 	               
 			}
 		});
+		configuracion.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				config = new Configuracion();
+	               
+			}
+		});
+
 	}
 
 	private void guiComponentDeclaration() {
@@ -155,6 +167,7 @@ public class MainWindow extends JFrame {
 
 		// THESE BUTTONS WILL CONTAIN IMAGES
 		fileChooser= new JButton("Choose Songs");
+		configuracion= new JButton("configuracion");
 		
 		playB = new JButton("Play");
 		pauseB = new JButton("Pause");
@@ -180,6 +193,7 @@ public class MainWindow extends JFrame {
 		southPanel.add(nextB);
 		southPanel.add(randomB);
 		southPanel.add(fileChooser);
+		southPanel.add(configuracion);
 
 		centerPanel.add(metadataPanel, BorderLayout.EAST);
 		centerPanel.add(menuPanel, BorderLayout.WEST);
