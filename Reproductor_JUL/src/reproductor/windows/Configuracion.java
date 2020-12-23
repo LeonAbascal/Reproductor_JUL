@@ -32,9 +32,9 @@ public class Configuracion extends JFrame {
 
     public Configuracion() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setTitle("Configuracion");
+        setTitle("Configuration");
         setVisible(true);
-        setSize(200, 200);
+        setSize(400, 300);
 
         // datos de ejemplo
         String[] strings = { 
@@ -62,13 +62,13 @@ public class Configuracion extends JFrame {
             public void itemStateChanged(ItemEvent e) {
                 // se comprueba si se ha seleccionado o deseleccionado un elemento de la lista
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                	try (FileReader reader = new FileReader("/Info Files/propertiesproperties")) {
+                	try (FileReader reader = new FileReader("JUL.init")) {
                         // Se crea el objeto y se leen las propiedades del fichero
                         Properties properties = new Properties();
                         properties.load(reader);
                         
                         // Se puede acceder al valor de las propiedades por nombre
-                        properties.setProperty("skin", (String) comboBox.getSelectedItem());
+                        properties.setProperty("skin=", (String) comboBox.getSelectedItem());
                         
                         
 
