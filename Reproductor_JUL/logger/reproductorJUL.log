@@ -1,10 +1,10 @@
-dic. 23, 2020 1:25:59 P. M. database.DBManager loadDriver
+dic. 27, 2020 5:10:12 A. M. database.DBManager loadDriver
 INFORMACIÓN: Database drivers were loaded successfully.
-dic. 23, 2020 1:25:59 P. M. database.DBManager getAllUsers
+dic. 27, 2020 5:10:13 A. M. database.DBManager getAllUsers
 INFORMACIÓN: All users were obtained succesfully
-dic. 23, 2020 1:25:59 P. M. database.DBManager disconnect
+dic. 27, 2020 5:10:13 A. M. database.DBManager disconnect
 INFORMACIÓN: Connection successfully closed.
-dic. 23, 2020 1:25:59 P. M. reproductor.windows.MainWindow <init>
+dic. 27, 2020 5:10:13 A. M. reproductor.windows.MainWindow <init>
 GRAVE: logger de prueba
-dic. 23, 2020 1:25:59 P. M. reproductor.windows.LogInWindow$2 actionPerformed
+dic. 27, 2020 5:10:13 A. M. reproductor.windows.LogInWindow$2 actionPerformed
 INFORMACIÓN: User admin succesfully logged

@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,7 +20,10 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,6 +34,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -47,6 +52,7 @@ public class MainWindow extends JFrame {
 
 	JButton fileChooser;
 	JButton configuracion;
+	JButton crearPlaylist;
 	
 	JMenuBar menuBar;
 		JMenu fileMenu;
@@ -63,6 +69,11 @@ public class MainWindow extends JFrame {
 		JPanel menuPanel; // to the left
 			JLabel imageText;
 			JLabel txtMenuDescendente;
+			
+			JPanel comboBoxPanelPlaylist;
+			JPanel playlistButtons;
+				
+			
 		JPanel metadataPanel; // to the right
 			JLabel metadataText;
 			JLabel titleLabel;
@@ -81,6 +92,7 @@ public class MainWindow extends JFrame {
 	static LogInWindow login_w;
 	static String playingSongPath;
 	static Configuracion config;
+	static PlaylistCreationWindow pcw;
 
 	public MainWindow() {
 		guiComponentDeclaration();
@@ -129,6 +141,14 @@ public class MainWindow extends JFrame {
 	               
 			}
 		});
+		crearPlaylist.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				pcw= new PlaylistCreationWindow();
+				
+			}
+		});
 
 	}
 
@@ -136,18 +156,43 @@ public class MainWindow extends JFrame {
 		// PANELS A
 		centerPanel = new JPanel(new BorderLayout());
 		southPanel = new JPanel(new FlowLayout());
-		menuPanel = new JPanel();
+		menuPanel = new JPanel(new GridLayout(2, 1));
 		menuPanel.setMaximumSize(new Dimension(20, 20));
 		metadataPanel = new JPanel();
 		songsPanel = new JPanel(null);
 		songsScroll = new JScrollPane(songsPanel);
 		
+		//Datos de prueba
+		String[] strings = { 
+        		"1",
+        		"1",
+        		"1",
+        		"1",
+        		"1",
+        		"1",
+        		"1",
+        		"1",
+        		"1"
+        		
+        		
+        		
+        		
+        };
+		comboBoxPanelPlaylist= new JPanel();
+        ComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(strings);
+        JComboBox<String> comboBox = new JComboBox<>(comboBoxModel);
+        Border comboBoxPanelBorder = BorderFactory.createTitledBorder("Playlist");
+        comboBoxPanelPlaylist.add(comboBox);
+		playlistButtons= new JPanel();
+		
+		
 
 		menuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		menuPanel.setLayout(new BorderLayout(0, 0));
+		menuPanel.setLayout(new GridLayout(2, 1));
 
-		txtMenuDescendente = new JLabel("Men\u00FA Descendente");
-		menuPanel.add(txtMenuDescendente);
+		//txtMenuDescendente = new JLabel("Men\u00FA Descendente");
+		
+		//menuPanel.add(txtMenuDescendente);
 		metadataPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		metadataPanel.setLayout(new BorderLayout(0, 0));
 
@@ -168,6 +213,8 @@ public class MainWindow extends JFrame {
 		// THESE BUTTONS WILL CONTAIN IMAGES
 		fileChooser= new JButton("Choose Songs");
 		configuracion= new JButton("configuracion");
+		crearPlaylist= new JButton("crear playlist");
+		
 		
 		playB = new JButton("Play");
 		pauseB = new JButton("Pause");
@@ -194,7 +241,13 @@ public class MainWindow extends JFrame {
 		southPanel.add(randomB);
 		southPanel.add(fileChooser);
 		southPanel.add(configuracion);
-
+		
+		
+		
+		playlistButtons.add(crearPlaylist);
+		menuPanel.add(comboBoxPanelPlaylist);
+		menuPanel.add(playlistButtons);
+		
 		centerPanel.add(metadataPanel, BorderLayout.EAST);
 		centerPanel.add(menuPanel, BorderLayout.WEST);
 		centerPanel.add(songsScroll, BorderLayout.CENTER);
@@ -310,6 +363,7 @@ public class MainWindow extends JFrame {
 				applySkin();
 				login_w = new LogInWindow();
 				login_w.setVisible(true);
+				
 			}
 		});
 	}
