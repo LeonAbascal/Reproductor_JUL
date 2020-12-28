@@ -10,10 +10,12 @@ import reproductor.mainClasses.Song;
 public class SongTest {
 
 	private Song s;
+	private Song emptyS;
 	
 	@Before
 	public void setUp() {
 		
+		emptyS = new Song();
 		s = new Song("Fire", "Pedro","New", 2, "2:00");
 
 	}

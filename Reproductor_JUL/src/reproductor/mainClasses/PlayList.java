@@ -3,7 +3,7 @@ package reproductor.mainClasses;
 import java.util.ArrayList;
 
 public class PlayList {
-	private ArrayList<Song> songs = new ArrayList<Song>();
+	private ArrayList<Song> songs;
 	private String title;
 	
 	public PlayList(ArrayList<Song> songs, String title) {
