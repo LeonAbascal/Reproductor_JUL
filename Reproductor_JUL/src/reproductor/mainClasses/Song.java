@@ -6,14 +6,16 @@ public class Song {
 	private String album;
 	private int track;
 	private String duration;
+	private String path;
 	
-	public Song(String name, String artist, String album, int track, String duration) {
+	public Song(String name, String artist, String album, int track, String duration, String path) {
 		super();
 		this.name = name;
 		this.artist = artist;
 		this.album = album;
 		this.track = track;
 		this.duration = duration;
+		this.path=path;
 	}
 
 	public Song() {
@@ -23,6 +25,7 @@ public class Song {
 		this.album = "";
 		this.track = 0;
 		this.duration = "";
+		this.path="";
 	}
 
 	public String getName() {
@@ -64,5 +67,14 @@ public class Song {
 	public void setDuration(String duration) {
 		this.duration = duration;
 	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+	
 	
 }

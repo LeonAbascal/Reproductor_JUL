@@ -6,38 +6,52 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 
+import database.DBManager;
 import reproductor.mainClasses.Counter;
+import reproductor.mainClasses.PlayList;
+import reproductor.mainClasses.Song;
 
 public class PlaylistCreationWindow extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
-	
+	private static PlayList playlist;
+	private static ArrayList<Song> songs = new ArrayList<Song>();
 	
 	
 	JPanel checkBoxPanelSongs;
 	public PlaylistCreationWindow() {
+		 
+		 
 		 setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	     setTitle("Creacion de Playlist");
 	     setVisible(true);
 	     setSize(600, 600);
 	     JButton fileChooser;
+	     JButton save;
 	     fileChooser= new JButton("Select the path of the songs");
+	     save = new JButton("Save playlist");
 	     JPanel mainPanel = new JPanel();
 	     mainPanel.add(fileChooser);
+	     mainPanel.add(save);
 	     checkBoxPanelSongs = new JPanel(null);
 	     
 	     mainPanel.add(checkBoxPanelSongs);
 	     add(mainPanel);
+	     
 	    
 	     
 	     
@@ -68,6 +82,25 @@ public class PlaylistCreationWindow extends JFrame{
 		               
 				}
 			});
+	     
+	     save.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String name = JOptionPane.showInputDialog("	Insert the name of the Playlist");
+				JOptionPane.showMessageDialog(null, "Playlist" + name+ "created");
+				playlist= new PlayList(songs, name);
+				//Dbmanager store playlist method
+				DBManager.storePlaylist(playlist,LogInWindow.user.getName());;
+				for (Song song : songs) {
+					//Dbmanager store songs method
+					DBManager.storeSong(song, name);
+				}
+				
+				
+			}
+		});
+	     
 	}
 
 
@@ -98,6 +131,12 @@ public class PlaylistCreationWindow extends JFrame{
     				public void actionPerformed(ActionEvent e) {
     					JToggleButton toggleButton = (JToggleButton) e.getSource();
     	                System.out.println("Cambio de estado en " + toggleButton.getText() + ". Seleccionado: " + toggleButton.isSelected());
+    	                Song s = new Song(fileName,"","",0,"",file.getAbsolutePath());
+    	                if (toggleButton.isSelected()) {
+							songs.add(s);
+						}if (!toggleButton.isSelected()){
+							songs.remove(s);
+						}
     				}
     			});
 

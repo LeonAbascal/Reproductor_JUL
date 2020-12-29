@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import reproductor.mainClasses.PlayList;
+import reproductor.mainClasses.Song;
 import reproductor.mainClasses.User;
 
 
@@ -118,5 +120,47 @@ public class DBManager {
 		}
 		disconnect();
 	}
+	public static void storePlaylist(PlayList playlist,String username) {
+		connect();
+		try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO playlist (name_p,belong_to_user) VALUES (?, ?)")){
+
+			stmt.setString(1, playlist.getTitle());
+			stmt.setString(2, username);
+
+			stmt.executeUpdate();
+
+		} catch (SQLException e) {
+			logger.severe("Could not store the playlist into the database");
+			logger.info(e.toString());
+		}
+		disconnect();
+	}
+	public static void storeSong(Song song, String playlistName) {
+		connect();
+		try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO  belongs (name_p, song_path) VALUES (?, ?)")){
+
+			stmt.setString(1, playlistName);
+			stmt.setString(2, song.getPath());
+
+			stmt.executeUpdate();
+
+		} catch (SQLException e) {
+			logger.severe("Could not store the song into the database");
+			logger.info(e.toString());
+		}
+		try (PreparedStatement stmt2 = conn.prepareStatement("INSERT INTO song (name,song_path) VALUES (?, ?)")){
+
+			stmt2.setString(1, song.getName());
+			stmt2.setString(2, song.getPath());
+
+			stmt2.executeUpdate();
+
+		} catch (SQLException e) {
+			logger.severe("Could not store the song into the database");
+			logger.info(e.toString());
+		}
+		disconnect();
+	}
+	
 
 }

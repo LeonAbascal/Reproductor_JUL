@@ -16,7 +16,7 @@ public class SongTest {
 	public void setUp() {
 		
 		emptyS = new Song();
-		s = new Song("Fire", "Pedro","New", 2, "2:00");
+		s = new Song("Fire", "Pedro","New", 2, "2:00","//examplepath");
 
 	}
 	@Test
@@ -66,7 +66,14 @@ public class SongTest {
 		s.setDuration("3:00");
 		assertEquals("3:00",s.getDuration());
 	}
-	
+	public void testGetPath() {
+		assertEquals("//examplepath",s.getPath());
+	}
+
+	public void testSetPath(String path) {
+		s.setPath("//examplepath");
+		assertEquals("//examplepath",s.getPath());
+	}
 
 }
 
