@@ -29,7 +29,7 @@ public class LogInWindow extends JFrame {
 	 */
 	private static final long serialVersionUID = -9084596910689539165L;
 	static Logger logger = Logger.getLogger(DBManager.class.getName());
-	static User user;
+	private String nameu;
 	JPanel center;
 		JLabel name;
 		JTextField userName;
@@ -39,7 +39,10 @@ public class LogInWindow extends JFrame {
 		
 		JButton registerUser;
 		JButton logIn;
-	
+		public String getLogInWindowUsername(){
+			return nameu;
+			
+		}
 		private void guiComponentDeclaration() {
 			// PANEL
 			center = new JPanel();
@@ -83,7 +86,7 @@ public class LogInWindow extends JFrame {
 
 						} else {
 							User u = new User(userName.getText(), userPassword.getText(), null);
-							user=u;
+							nameu=u.getName();
 							// ---------------------------------------------------------
 							// AÑADIR NUEVO USUARIO A LA LISTA DE USUARIOS
 							// ---------------------------------------------------------
@@ -122,7 +125,7 @@ public class LogInWindow extends JFrame {
 							if (u_name.equals(user.getName())) {
 								exists = true;
 								u_selected = user;
-								user=u_selected;
+								nameu=u_selected.getName();
 								
 							}
 						}

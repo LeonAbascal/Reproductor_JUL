@@ -10,10 +10,14 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -38,8 +42,10 @@ import javax.swing.border.Border;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import database.DBManager;
 import reproductor.mainClasses.Counter;
 import reproductor.mainClasses.MP3;
+import reproductor.mainClasses.Song;
 
 public class MainWindow extends JFrame {
 
@@ -79,8 +85,11 @@ public class MainWindow extends JFrame {
 			JLabel titleLabel;
 			JLabel artistLabel;
 			JLabel albumLabel;
-		JPanel songsPanel;
-			JScrollPane songsScroll; // center
+		JPanel songsAndPlaylistSongsPanel;
+			JPanel songsPanel;
+			JPanel songsPlaylistPanel;
+				JScrollPane songsScroll; // center
+				JScrollPane songsPlaylistScroll;
 
 	JPanel southPanel;
 		JButton playB;
@@ -88,6 +97,7 @@ public class MainWindow extends JFrame {
 		JButton randomB;
 		JButton previousB;
 		JButton nextB;
+	
 		
 	static LogInWindow login_w;
 	static String playingSongPath;
@@ -145,10 +155,12 @@ public class MainWindow extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				pcw= new PlaylistCreationWindow();
+				pcw= new PlaylistCreationWindow(login_w.getLogInWindowUsername());
 				
 			}
 		});
+		
+		
 
 	}
 
@@ -160,9 +172,13 @@ public class MainWindow extends JFrame {
 		menuPanel.setMaximumSize(new Dimension(20, 20));
 		metadataPanel = new JPanel();
 		songsPanel = new JPanel(null);
+		songsPlaylistPanel = new JPanel(null);
 		songsScroll = new JScrollPane(songsPanel);
+		songsPlaylistScroll = new JScrollPane(songsPlaylistPanel);
+		songsAndPlaylistSongsPanel= new JPanel(new GridLayout(2, 1));
 		
 		//Datos de prueba
+		/*
 		String[] strings = { 
         		"1",
         		"1",
@@ -172,14 +188,14 @@ public class MainWindow extends JFrame {
         		"1",
         		"1",
         		"1",
-        		"1"
-        		
-        		
-        		
-        		
+        		"1"		
         };
+        */
+		List<String> strings = new ArrayList<String>();
+		strings=DBManager.getAllPlaylist(login_w.getLogInWindowUsername());
+		
 		comboBoxPanelPlaylist= new JPanel();
-        ComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(strings);
+        ComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(strings.toArray(new String[0]));
         JComboBox<String> comboBox = new JComboBox<>(comboBoxModel);
         Border comboBoxPanelBorder = BorderFactory.createTitledBorder("Playlist");
         comboBoxPanelPlaylist.add(comboBox);
@@ -212,8 +228,8 @@ public class MainWindow extends JFrame {
 
 		// THESE BUTTONS WILL CONTAIN IMAGES
 		fileChooser= new JButton("Choose Songs");
-		configuracion= new JButton("configuracion");
-		crearPlaylist= new JButton("crear playlist");
+		configuracion= new JButton("Setting");
+		crearPlaylist= new JButton("Create playlist");
 		
 		
 		playB = new JButton("Play");
@@ -230,6 +246,59 @@ public class MainWindow extends JFrame {
 			}
 			
 		});
+		
+		comboBox.addItemListener(new ItemListener() {
+
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                // se comprueba si se ha seleccionado o deseleccionado
+                // un elemento de la lista
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    System.out.println("Seleccionado: " + e.getItem());
+                    List<Song> songs = new ArrayList<Song>();
+                    songs=DBManager.getSongs((String) e.getItem(), login_w.getLogInWindowUsername());
+                    
+        			Counter contx = new Counter();
+        			Counter conty = new Counter();
+
+        			// DEFINING THE PANEL FOR THE COMPONENTS
+        			GridBagLayout gLayout = new GridBagLayout();
+        			songsPlaylistPanel.setLayout(gLayout);
+        			GridBagConstraints gbc = new GridBagConstraints();
+        			gbc.insets = new Insets(10, 10, 50, 10);
+
+        			// DIFFERENT DIMENSIONS FOR EACH COMPONENT
+        			gbc.fill = GridBagConstraints.HORIZONTAL;
+        			songsPlaylistPanel.removeAll();
+        			songsPlaylistPanel.repaint();
+                    for (Song song : songs) {
+						//System.out.println(song.getName());
+                    	// BUTTON CREATION FOR EACH SONG
+        				JButton l = new JButton(song.getName());
+        				l.addActionListener(new ActionListener() {
+        					public void actionPerformed(ActionEvent e) {
+        						metadataText.setText(song.getName());
+        						playingSongPath = song.getPath();
+        					}
+        				});
+        				if (!song.getName().contains(".mp3")) {
+        					continue;
+        				}
+        				if (contx.get() >= 2) {
+        					contx.reset();
+        					conty.inc();
+        				}
+        				gbc.gridx = contx.get();
+        				gbc.gridy = conty.get();
+        				songsPlaylistPanel.add(l, gbc);
+        				contx.inc();
+					}
+                    songsPlaylistPanel.setLayout(gLayout);
+        			SwingUtilities.updateComponentTreeUI(songsPlaylistPanel);
+                }
+            }
+
+        });
 	}
 
 	private void addComponentsToWindow() {
@@ -248,9 +317,13 @@ public class MainWindow extends JFrame {
 		menuPanel.add(comboBoxPanelPlaylist);
 		menuPanel.add(playlistButtons);
 		
+		songsAndPlaylistSongsPanel.add(songsScroll);
+		songsAndPlaylistSongsPanel.add(songsPlaylistScroll);
+		
 		centerPanel.add(metadataPanel, BorderLayout.EAST);
 		centerPanel.add(menuPanel, BorderLayout.WEST);
-		centerPanel.add(songsScroll, BorderLayout.CENTER);
+		centerPanel.add(songsAndPlaylistSongsPanel, BorderLayout.CENTER);
+		//centerPanel.add(songsPlaylistPanel, BorderLayout.CENTER);
 
 		getContentPane().add(centerPanel, BorderLayout.CENTER);
 		getContentPane().add(southPanel, BorderLayout.SOUTH);
@@ -275,7 +348,9 @@ public class MainWindow extends JFrame {
 
 			// DIFFERENT DIMENSIONS FOR EACH COMPONENT
 			gbc.fill = GridBagConstraints.HORIZONTAL;
-
+			
+			songsPanel.removeAll();
+			songsPanel.repaint();
 			for (final File file : songsFile.listFiles()) {
 				String fileName = file.getName();
 				// BUTTON CREATION FOR EACH SONG

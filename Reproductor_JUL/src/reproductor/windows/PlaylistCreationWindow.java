@@ -33,7 +33,7 @@ public class PlaylistCreationWindow extends JFrame{
 	
 	
 	JPanel checkBoxPanelSongs;
-	public PlaylistCreationWindow() {
+	public PlaylistCreationWindow(String username) {
 		 
 		 
 		 setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -91,7 +91,7 @@ public class PlaylistCreationWindow extends JFrame{
 				JOptionPane.showMessageDialog(null, "Playlist" + name+ "created");
 				playlist= new PlayList(songs, name);
 				//Dbmanager store playlist method
-				DBManager.storePlaylist(playlist,LogInWindow.user.getName());;
+				DBManager.storePlaylist(playlist,username);;
 				for (Song song : songs) {
 					//Dbmanager store songs method
 					DBManager.storeSong(song, name);

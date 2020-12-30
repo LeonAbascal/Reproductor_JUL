@@ -161,6 +161,61 @@ public class DBManager {
 		}
 		disconnect();
 	}
-	
+	public static List<String> getAllPlaylist(String user) {
+		connect();
+
+		List<String> playlists = new ArrayList<String>();
+
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT name_p FROM playlist WHERE belong_to_user=?")) {
+			
+			stmt.setString(1, user);
+			
+			
+			ResultSet rs = stmt.executeQuery();
+
+			while(rs.next()) {
+				playlists.add(rs.getString("name_p"));
+			}
+			
+			logger.info("All users were obtained succesfully");
+
+		} catch (SQLException e) {
+			logger.severe("Error retrieving all playlists from database.");
+			logger.info(e.toString());
+		}
+		
+		disconnect();
+		return playlists;
+	}
+	public static List<Song> getSongs(String playlist, String user) {
+		connect();
+
+		List<Song> songs = new ArrayList<Song>();
+
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT s.name, s.song_path FROM song s,belongs b,playlist p WHERE p.belong_to_user=? AND p.name_p=? AND p.name_p=b.name_p AND s.song_path=b.song_path ")) {
+			
+			stmt.setString(1, user);
+			stmt.setString(2, playlist);
+			
+			
+			ResultSet rs = stmt.executeQuery();
+
+			while(rs.next()) {
+				Song song = new Song();
+				song.setName(rs.getString("name"));
+				song.setPath(rs.getString("song_path"));
+				songs.add(song);
+			}
+			
+			logger.info("All users were obtained succesfully");
+
+		} catch (SQLException e) {
+			logger.severe("Error retrieving all songs from database.");
+			logger.info(e.toString());
+		}
+		
+		disconnect();
+		return songs;
+	}
 
 }
