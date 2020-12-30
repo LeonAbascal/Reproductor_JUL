@@ -17,6 +17,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -39,12 +41,11 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import database.DBManager;
 import reproductor.mainClasses.Counter;
 import reproductor.mainClasses.MP3;
+import reproductor.mainClasses.PlayList;
 import reproductor.mainClasses.Song;
 
 public class MainWindow extends JFrame {
@@ -81,6 +82,7 @@ public class MainWindow extends JFrame {
 				ComboBoxModel<String> comboBoxModel;
 				JComboBox<String> comboBox;
 				Border comboBoxPanelBorder;
+				List<Song> selectedPLSongs;
 			JPanel playlistButtons;
 				
 			
@@ -200,6 +202,7 @@ public class MainWindow extends JFrame {
 		// PlayList panel creation
 		comboBoxPanelPlaylist= new JPanel();
 		comboBox = new JComboBox<>();
+		List<Song> selectedPLSongs = new ArrayList<Song>();
 		updatePlayListBox();
 		playlistButtons= new JPanel();
 		
@@ -249,6 +252,22 @@ public class MainWindow extends JFrame {
 			
 		});
 		
+		//RANDOM BUTTON ACTION
+		randomB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				List<Song> randomized = new ArrayList<Song>(selectedPLSongs);
+				System.out.println(randomized);
+				Collections.shuffle(randomized);  // Randomizes the PlayList
+				
+				for (Song song : randomized) {
+					MP3 mp3 = new MP3(song.getPath());
+					mp3.play();
+					System.out.println("NOW PLAYING: " + song.getName());	
+				}
+			}
+			
+		});
+		
 		comboBox.addItemListener(new ItemListener() {
 
             @Override
@@ -256,10 +275,11 @@ public class MainWindow extends JFrame {
                 // se comprueba si se ha seleccionado o deseleccionado
                 // un elemento de la lista
                 if (e.getStateChange() == ItemEvent.SELECTED) {
+                	selectedPLSongs.clear();
                     System.out.println("Seleccionado: " + e.getItem());
                     List<Song> songs = new ArrayList<Song>();
                     songs=DBManager.getSongs((String) e.getItem(), login_w.getLogInWindowUsername());
-                    
+                                        
         			Counter contx = new Counter();
         			Counter conty = new Counter();
 
@@ -274,6 +294,7 @@ public class MainWindow extends JFrame {
         			songsPlaylistPanel.removeAll();
         			songsPlaylistPanel.repaint();
                     for (Song song : songs) {
+                    	selectedPLSongs.add(song);
 						//System.out.println(song.getName());
                     	// BUTTON CREATION FOR EACH SONG
         				JButton l = new JButton(song.getName());

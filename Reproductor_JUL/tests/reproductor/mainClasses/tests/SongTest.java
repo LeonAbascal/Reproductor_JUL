@@ -11,70 +11,79 @@ public class SongTest {
 
 	private Song s;
 	private Song emptyS;
-	
+
 	@Before
 	public void setUp() {
-		
+
 		emptyS = new Song();
-		s = new Song("Fire", "Pedro","New", 2, "2:00","//examplepath");
+		s = new Song("Fire", "Pedro", "New", 2, "2:00", "examplepath");
 
 	}
+
 	@Test
 	public void testGetName() {
-		assertEquals("Fire",s.getName());
+		assertEquals("Fire", s.getName());
 	}
-	
+
 	@Test
 	public void testSetName() {
 		s.setName("Firee");
-		assertEquals("Firee",s.getName());
+		assertEquals("Firee", s.getName());
 	}
-	
+
 	@Test
-	public void  testGetArtist() {
-		assertEquals("Pedro",s.getArtist());
+	public void testGetArtist() {
+		assertEquals("Pedro", s.getArtist());
 	}
+
 	@Test
 	public void testSetArtist() {
 		s.setArtist("Pedroo");
-		assertEquals("Pedroo",s.getArtist());
+		assertEquals("Pedroo", s.getArtist());
 	}
+
 	@Test
 	public void testGetAlbum() {
-		assertEquals("New",s.getAlbum());
+		assertEquals("New", s.getAlbum());
 	}
+
 	@Test
 	public void testSetAlbum() {
 		s.setAlbum("Neww");
-		assertEquals("Neww",s.getAlbum());
+		assertEquals("Neww", s.getAlbum());
 	}
+
 	@Test
 	public void testGetTrack() {
-		assertEquals(2,s.getTrack());
+		assertEquals(2, s.getTrack());
 	}
+
 	@Test
 	public void testSetTrack() {
 		s.setTrack(3);
-		assertEquals(3,s.getTrack());
+		assertEquals(3, s.getTrack());
 	}
+
 	@Test
 	public void testGetDuration() {
-		assertEquals("2:00",s.getDuration());
+		assertEquals("2:00", s.getDuration());
 	}
+
 	@Test
 	public void testSetDuration() {
 		s.setDuration("3:00");
-		assertEquals("3:00",s.getDuration());
-	}
-	public void testGetPath() {
-		assertEquals("//examplepath",s.getPath());
+		assertEquals("3:00", s.getDuration());
 	}
 
-	public void testSetPath(String path) {
-		s.setPath("//examplepath");
-		assertEquals("//examplepath",s.getPath());
+	@Test
+	public void testGetPath() {
+		assertEquals("examplepath", s.getPath());
+	}
+
+	@Test
+	public void testSetPath() {
+		emptyS.setPath("examplepath");
+		assertEquals("examplepath", emptyS.getPath());
 	}
 
 }
-
-
