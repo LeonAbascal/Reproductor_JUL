@@ -77,6 +77,10 @@ public class MainWindow extends JFrame {
 			JLabel txtMenuDescendente;
 			
 			JPanel comboBoxPanelPlaylist;
+				List<String> strings;
+				ComboBoxModel<String> comboBoxModel;
+				JComboBox<String> comboBox;
+				Border comboBoxPanelBorder;
 			JPanel playlistButtons;
 				
 			
@@ -100,6 +104,7 @@ public class MainWindow extends JFrame {
 	
 		
 	static LogInWindow login_w;
+	static public MainWindow main_window;
 	static String playingSongPath;
 	static Configuracion config;
 	static PlaylistCreationWindow pcw;
@@ -113,7 +118,7 @@ public class MainWindow extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(1280, 720);
 		setResizable(false);
-		setVisible(true);
+		setVisible(false);
 		setLocationRelativeTo(null);
 		logger.log(Level.SEVERE, "logger de prueba");
 		
@@ -191,14 +196,11 @@ public class MainWindow extends JFrame {
         		"1"		
         };
         */
-		List<String> strings = new ArrayList<String>();
-		strings=DBManager.getAllPlaylist(login_w.getLogInWindowUsername());
 		
+		// PlayList panel creation
 		comboBoxPanelPlaylist= new JPanel();
-        ComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(strings.toArray(new String[0]));
-        JComboBox<String> comboBox = new JComboBox<>(comboBoxModel);
-        Border comboBoxPanelBorder = BorderFactory.createTitledBorder("Playlist");
-        comboBoxPanelPlaylist.add(comboBox);
+		comboBox = new JComboBox<>();
+		updatePlayListBox();
 		playlistButtons= new JPanel();
 		
 		
@@ -314,6 +316,8 @@ public class MainWindow extends JFrame {
 		
 		
 		playlistButtons.add(crearPlaylist);
+		comboBoxPanelBorder = BorderFactory.createTitledBorder("Playlist");
+		comboBoxPanelPlaylist.add(comboBox);
 		menuPanel.add(comboBoxPanelPlaylist);
 		menuPanel.add(playlistButtons);
 		
@@ -332,52 +336,61 @@ public class MainWindow extends JFrame {
 		
 	}
 	
+	// Method that updates PlayList ComboBox
+	
+	public void updatePlayListBox() {
+		strings = new ArrayList<String>();
+		strings = DBManager.getAllPlaylist(login_w.getLogInWindowUsername());
+		comboBoxModel = new DefaultComboBoxModel<>(strings.toArray(new String[0]));
+		comboBox.setModel(comboBoxModel);
+	}
+
 	// Method that creates the center scroll panel with the songs buttons
-		private void songsScrollPanel(String filePath) {
+	private void songsScrollPanel(String filePath) {
 
-			Counter contx = new Counter();
-			Counter conty = new Counter();
+		Counter contx = new Counter();
+		Counter conty = new Counter();
 
-			File songsFile = new File(filePath);
+		File songsFile = new File(filePath);
 
-			// DEFINING THE PANEL FOR THE COMPONENTS
-			GridBagLayout gLayout = new GridBagLayout();
-			songsPanel.setLayout(gLayout);
-			GridBagConstraints gbc = new GridBagConstraints();
-			gbc.insets = new Insets(10, 10, 50, 10);
+		// DEFINING THE PANEL FOR THE COMPONENTS
+		GridBagLayout gLayout = new GridBagLayout();
+		songsPanel.setLayout(gLayout);
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.insets = new Insets(10, 10, 50, 10);
 
-			// DIFFERENT DIMENSIONS FOR EACH COMPONENT
-			gbc.fill = GridBagConstraints.HORIZONTAL;
-			
-			songsPanel.removeAll();
-			songsPanel.repaint();
-			for (final File file : songsFile.listFiles()) {
-				String fileName = file.getName();
-				// BUTTON CREATION FOR EACH SONG
-				JButton l = new JButton(fileName);
-				l.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						metadataText.setText(fileName);
-						playingSongPath = file.getAbsolutePath();
-					}
-				});
+		// DIFFERENT DIMENSIONS FOR EACH COMPONENT
+		gbc.fill = GridBagConstraints.HORIZONTAL;
 
-				if (!fileName.contains(".mp3")) {
-					continue;
+		songsPanel.removeAll();
+		songsPanel.repaint();
+		for (final File file : songsFile.listFiles()) {
+			String fileName = file.getName();
+			// BUTTON CREATION FOR EACH SONG
+			JButton l = new JButton(fileName);
+			l.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					metadataText.setText(fileName);
+					playingSongPath = file.getAbsolutePath();
 				}
-				if (contx.get() >= 2) {
-					contx.reset();
-					conty.inc();
-				}
-				gbc.gridx = contx.get();
-				gbc.gridy = conty.get();
-				songsPanel.add(l, gbc);
-				contx.inc();
+			});
+
+			if (!fileName.contains(".mp3")) {
+				continue;
 			}
-
-			songsPanel.setLayout(gLayout);
-			SwingUtilities.updateComponentTreeUI(songsPanel);
+			if (contx.get() >= 2) {
+				contx.reset();
+				conty.inc();
+			}
+			gbc.gridx = contx.get();
+			gbc.gridy = conty.get();
+			songsPanel.add(l, gbc);
+			contx.inc();
 		}
+
+		songsPanel.setLayout(gLayout);
+		SwingUtilities.updateComponentTreeUI(songsPanel);
+	}
 
 	private static void applySkin() {
 		try {
@@ -422,15 +435,15 @@ public class MainWindow extends JFrame {
 			// logger.log(Level.WARNING, "Skin could not be applied.");
 		}
 	}
-	
+
 	public static void main(String[] args) {
-		
+
 		try (FileInputStream fis = new FileInputStream("logger/logger.properties")) {
-            LogManager.getLogManager().readConfiguration(fis);
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "No se pudo leer el fichero de configuración del logger");
-        }
-		
+			LogManager.getLogManager().readConfiguration(fis);
+		} catch (IOException e) {
+			logger.log(Level.SEVERE, "No se pudo leer el fichero de configuración del logger");
+		}
+
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
@@ -438,7 +451,7 @@ public class MainWindow extends JFrame {
 				applySkin();
 				login_w = new LogInWindow();
 				login_w.setVisible(true);
-				
+
 			}
 		});
 	}

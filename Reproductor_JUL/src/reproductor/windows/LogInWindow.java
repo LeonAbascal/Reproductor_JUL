@@ -101,7 +101,11 @@ public class LogInWindow extends JFrame {
 				}
 			});
 
-			// INCIO DE SESIÓN
+			/* 
+			* INCIO DE SESIÓN
+			*-----------------
+			*/
+			
 			logIn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -135,7 +139,8 @@ public class LogInWindow extends JFrame {
 									"Error de inicio de sesión", JOptionPane.WARNING_MESSAGE);
 						} else {
 							if (u_selected.getPassword().equals(userPassword.getText())) {
-								new MainWindow();
+								MainWindow.main_window = new MainWindow(); // MainWindow init.
+								MainWindow.main_window.setVisible(true);
 								MainWindow.login_w.setVisible(false);
 								logger.log(Level.INFO, "User " + u_selected.getName() + " succesfully logged");
 								JOptionPane.showMessageDialog(null,

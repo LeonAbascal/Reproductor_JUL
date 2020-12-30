@@ -40,6 +40,7 @@ public class PlaylistCreationWindow extends JFrame{
 	     setTitle("Creacion de Playlist");
 	     setVisible(true);
 	     setSize(600, 600);
+	     setLocationRelativeTo(null);
 	     JButton fileChooser;
 	     JButton save;
 	     fileChooser= new JButton("Select the path of the songs");
@@ -51,8 +52,6 @@ public class PlaylistCreationWindow extends JFrame{
 	     
 	     mainPanel.add(checkBoxPanelSongs);
 	     add(mainPanel);
-	     
-	    
 	     
 	     
 	     
@@ -96,8 +95,9 @@ public class PlaylistCreationWindow extends JFrame{
 					//Dbmanager store songs method
 					DBManager.storeSong(song, name);
 				}
-				
-				
+				MainWindow.main_window.updatePlayListBox();
+				SwingUtilities.updateComponentTreeUI(MainWindow.main_window.menuPanel);
+				dispose();
 			}
 		});
 	     

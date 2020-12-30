@@ -35,6 +35,7 @@ public class Configuracion extends JFrame {
         setTitle("Configuration");
         setVisible(true);
         setSize(400, 300);
+        setLocationRelativeTo(null);
 
         // datos de ejemplo
         String[] strings = { 
