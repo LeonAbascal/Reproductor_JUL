@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -414,39 +415,42 @@ public class MainWindow extends JFrame {
 	}
 
 	private static void applySkin() {
+		File f = new File("JUL.init");
+    	Properties p = new Properties();
+		
 		try {
-			Scanner sc = new Scanner(new FileInputStream("JUL.init"));
-			String skinLine = sc.nextLine();
-			switch (skinLine) {
-			case "skin=SWING": {
+			p.load(new FileInputStream(f));
+			String skinS = p.getProperty("skin");
+			
+			switch (skinS) {
+			case "SWING": {
 				UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 				// logger.log(Level.INFO, "First line read: " + skinLine + " in lionSynth.init.
 				// Default skin applied.");
 				break;
 			}
-			case "skin=MOTIF": {
+			case "MOTIF": {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
 				// logger.log(Level.INFO, "First line read: " + skinLine + " in lionSynth.ini.
 				// Motif skin applied.");
 				break;
 			}
-			case "skin=NIMBUS": {
+			case "NIMBUS": {
 				UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 				System.out.println("Classic Macintosh skin applied");
 				// logger.log(Level.INFO, "First line read: " + skinLine + " in lionSynth.ini.
 				// Classic Machintosh skin applied");
 				break;
 			}
-			case "skin=WINDOWS": {
+			case "WINDOWS": {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 				// logger.log(Level.INFO, "First line read: " + skinLine + " in lionSynth.ini.
 				// Windows skin applied");
 			}
 			default:
-				System.out.println("Not valid value in init file: " + skinLine);
+				logger.warning("Not valid value in init file: " + skinS);
 			}
 
-			sc.close();
 
 		} catch (FileNotFoundException e) {
 			// logger.log(Level.FINE, "lionSynth.init file was deleted or does not still

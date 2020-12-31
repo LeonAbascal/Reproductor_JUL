@@ -1,27 +1,24 @@
 package reproductor.windows;
 
 import java.awt.BorderLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.io.FileReader;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 public class Configuracion extends JFrame {
 
@@ -30,6 +27,11 @@ public class Configuracion extends JFrame {
      */
     private static final long serialVersionUID = 1L;
 
+    static JButton applyChangesButton;
+    static JComboBox<String> comboBox;
+    private static Logger logger = Logger.getLogger(MainWindow.class.getName());
+    
+    
     public Configuracion() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Configuration");
@@ -42,47 +44,74 @@ public class Configuracion extends JFrame {
         		"SWING", 
         		"MOTIF",
         		"NIMBUS",
-        		"INDOWS"
+        		"WINDOWS"
         };
 
         ComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(strings);
-        JComboBox<String> comboBox = new JComboBox<>(comboBoxModel);
+        comboBox = new JComboBox<>(comboBoxModel);
+        applyChangesButton = new JButton("Apply");
 
         JPanel comboBoxPanel = new JPanel();
         Border comboBoxPanelBorder = BorderFactory.createTitledBorder("JComboBox");
+        
+        
         comboBoxPanel.setBorder(comboBoxPanelBorder);
         comboBoxPanel.add(comboBox);
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.add(comboBoxPanel);
         add(mainPanel, BorderLayout.CENTER);
+        mainPanel.add(applyChangesButton);
         
-        comboBox.addItemListener(new ItemListener() {
+        addActionListeners();
+        setPrevoiusConfiguration();
+        
+    }
+    
+    private static void setPrevoiusConfiguration() {
+    	File f = new File("JUL.init");
+    	Properties p = new Properties();
 
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                // se comprueba si se ha seleccionado o deseleccionado un elemento de la lista
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                	try (FileReader reader = new FileReader("JUL.init")) {
-                        // Se crea el objeto y se leen las propiedades del fichero
-                        Properties properties = new Properties();
-                        properties.load(reader);
-                        
-                        // Se puede acceder al valor de las propiedades por nombre
-                        properties.setProperty("skin=", (String) comboBox.getSelectedItem());
-                        
-                        
+    	// load previous configuration
+    	try {
+    		// Se crea el objeto y se leen las propiedades del fichero
+    		p.load(new FileInputStream(f));
+    		String skinS = p.getProperty("skin");
+    		
+    		comboBox.setSelectedItem(skinS);
+    		logger.info("Skin in init file: " + skinS);
 
-                    } catch (IOException e1) {
-                        System.out.println("No se pudo leer el fichero de propiedades");
-                    }
+    	} catch (IOException ex) { logger.warning("Init file (" + f + ") could not be found."); };
+
+    }
+
+    public static void addActionListeners(){
+    	applyChangesButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				File f = new File("JUL.init");
+		    	Properties p = new Properties();
+				 
+				try {
+					String skinS = (String) comboBox.getSelectedItem();
+					
+                    // Se puede acceder al valor de las propiedades por nombre
+                    p.setProperty("skin", skinS );
+                    logger.info("Skin set: " + skinS);
+                    // properties.setProperty("windowSize", "");
+                    
+                    p.store(new FileOutputStream(f), "Init file for ");
+                    
+                    
+
+                } catch (IOException ex) {
+                	System.err.println(ex);
+                	logger.warning("Properties file could not be written.");
                 }
-
-                if (e.getStateChange() == ItemEvent.DESELECTED) {
-                    System.out.println("Deseleccionado: " + e.getItem());
-                }
-            }
-
-        });
+				
+			}
+		});
+    	
     }
 }
