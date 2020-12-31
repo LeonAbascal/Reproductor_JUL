@@ -74,7 +74,6 @@ public class Configuration extends JFrame {
 
     	// load previous configuration
     	try {
-    		// Se crea el objeto y se leen las propiedades del fichero
     		p.load(new FileInputStream(f));
     		String skinS = p.getProperty("skin");
     		
@@ -92,17 +91,14 @@ public class Configuration extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				File f = new File("JUL.init");
 		    	Properties p = new Properties();
-				 
+		    	String skinS = (String) comboBox.getSelectedItem();
+		    	
 				try {
-					String skinS = (String) comboBox.getSelectedItem();
-					
-                    // Se puede acceder al valor de las propiedades por nombre
                     p.setProperty("skin", skinS );
                     logger.info("Skin set: " + skinS);
                     // properties.setProperty("windowSize", "");
                     
                     p.store(new FileOutputStream(f), "Init file for ");
-                    
                     
 
                 } catch (IOException ex) {
