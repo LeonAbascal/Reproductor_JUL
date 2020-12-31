@@ -20,7 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-public class Configuracion extends JFrame {
+public class Configuration extends JFrame {
 
     /**
      *
@@ -32,7 +32,7 @@ public class Configuracion extends JFrame {
     private static Logger logger = Logger.getLogger(MainWindow.class.getName());
     
     
-    public Configuracion() {
+    public Configuration() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Configuration");
         setVisible(true);

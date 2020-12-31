@@ -109,7 +109,7 @@ public class MainWindow extends JFrame {
 	static LogInWindow login_w;
 	static public MainWindow main_window;
 	static String playingSongPath;
-	static Configuracion config;
+	static Configuration config;
 	static PlaylistCreationWindow pcw;
 
 	public MainWindow() {
@@ -155,7 +155,7 @@ public class MainWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				config = new Configuracion();
+				config = new Configuration();
 	               
 			}
 		});
