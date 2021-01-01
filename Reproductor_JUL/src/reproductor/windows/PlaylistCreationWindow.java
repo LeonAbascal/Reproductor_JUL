@@ -1,5 +1,6 @@
 package reproductor.windows;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -7,8 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -16,7 +16,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 
@@ -30,7 +29,7 @@ public class PlaylistCreationWindow extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private static PlayList playlist;
 	private static ArrayList<Song> songs = new ArrayList<Song>();
-	
+	private static Logger logger = Logger.getLogger(MainWindow.class.getName());
 	
 	JPanel checkBoxPanelSongs;
 	public PlaylistCreationWindow(String username) {
@@ -41,22 +40,24 @@ public class PlaylistCreationWindow extends JFrame{
 	     setVisible(true);
 	     setSize(600, 600);
 	     setLocationRelativeTo(null);
-	     JButton fileChooser;
+	     JButton fileChooserButton;
 	     JButton save;
-	     fileChooser= new JButton("Select the path of the songs");
+	     
+	     fileChooserButton = new JButton("Select the path of the songs");
 	     save = new JButton("Save playlist");
 	     JPanel mainPanel = new JPanel();
-	     mainPanel.add(fileChooser);
-	     mainPanel.add(save);
-	     checkBoxPanelSongs = new JPanel(null);
 	     
-	     mainPanel.add(checkBoxPanelSongs);
+	     mainPanel.add(fileChooserButton, BorderLayout.WEST);
+	     mainPanel.add(save, BorderLayout.EAST);
+	     checkBoxPanelSongs = new JPanel();
+
+	     mainPanel.add(checkBoxPanelSongs, BorderLayout.SOUTH);
 	     add(mainPanel);
 	     
 	     
 	     
 	     
-	     fileChooser.addActionListener(new ActionListener() {
+	     fileChooserButton.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -75,7 +76,7 @@ public class PlaylistCreationWindow extends JFrame{
 		                   // el usuario ha pulsado el boton aceptar
 		                   // se obtiene el fichero seleccionado -> File
 		                   File file = fileChooser.getSelectedFile();
-		                   System.out.println("Fichero seleccionado: " + file.toString());
+		                   logger.info("Directorio seleccionado: " + file.toString());
 		                   checkBoxPanelSongs(file.getAbsolutePath());
 		               }
 		               
