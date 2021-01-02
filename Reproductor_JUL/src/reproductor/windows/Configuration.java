@@ -80,7 +80,7 @@ public class Configuration extends JFrame {
     		comboBox.setSelectedItem(skinS);
     		logger.info("Skin in init file: " + skinS);
 
-    	} catch (IOException ex) { logger.warning("Init file (" + f + ") could not be found."); };
+    	} catch (IOException ex) { logger.warning("Init file (" + f.getAbsolutePath() + ") could not be found."); };
 
     }
 
