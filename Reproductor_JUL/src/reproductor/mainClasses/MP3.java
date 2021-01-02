@@ -53,8 +53,17 @@ public class MP3 {
 
 	// test client
 	public static void main(String[] args) {
-		File f = new File("D:\\Users\\Leon\\Music\\Arctic Monkeys - Do I Wanna Know (Official Video).mp3");
-
+		File f = new File("MusicFiles\\Arctic Monkeys - Do I Wanna Know (Official Video).mp3");
+		System.out.println(MP3.getTrackNoTag(f));
+		try {
+			Mp3File mp3 = new Mp3File(f);
+			System.out.println("ID3v1: " + mp3.hasId3v1Tag());
+			System.out.println("ID3v2: " + mp3.hasId3v2Tag());
+			if (mp3.hasId3v2Tag()) {
+				ID3v2 tag = mp3.getId3v2Tag();
+				System.out.println(tag.getTitle());
+			}
+		} catch (Exception e) { System.err.println(e);}
 		/*
         String filename = "MusicFiles\\Beave - Too Much Ft. Bethany Lamb (Torin Dundas Remix).mp3";
         MP3 mp3 = new MP3(filename);
@@ -74,13 +83,13 @@ public class MP3 {
 	public static String getTitleTag(File f) {
 		try {
 			Mp3File mp3 = new Mp3File(f);
-			if (mp3.hasId3v1Tag()) {
-				ID3v1 tag = mp3.getId3v1Tag();
+			if (mp3.hasId3v2Tag()) {
+				ID3v2 tag = mp3.getId3v2Tag();
 				return tag.getTitle();
 			}
 
-			else if (mp3.hasId3v2Tag()) { 
-				ID3v2 tag = mp3.getId3v2Tag();
+			else if (mp3.hasId3v1Tag()) { 
+				ID3v1 tag = mp3.getId3v1Tag();
 				return tag.getTitle();
 			}
 
@@ -92,13 +101,13 @@ public class MP3 {
 	public static String getArtistTag(File f) {
 		try {
 			Mp3File mp3 = new Mp3File(f);
-			if (mp3.hasId3v1Tag()) {
-				ID3v1 tag = mp3.getId3v1Tag();
+			if (mp3.hasId3v2Tag()) {
+				ID3v2 tag = mp3.getId3v2Tag();
 				return tag.getArtist();
 			}
 
-			else if (mp3.hasId3v2Tag()) {
-				ID3v2 tag = mp3.getId3v2Tag();
+			else if (mp3.hasId3v1Tag()) {
+				ID3v1 tag = mp3.getId3v1Tag();
 				return tag.getArtist();
 			}
 
@@ -110,13 +119,13 @@ public class MP3 {
 	public static String getAlbumTag(File f) {
 		try {
 			Mp3File mp3 = new Mp3File(f);
-			if (mp3.hasId3v1Tag()) {
-				ID3v1 tag = mp3.getId3v1Tag();
+			if (mp3.hasId3v2Tag()) {
+				ID3v2 tag = mp3.getId3v2Tag();
 				return tag.getAlbum();
 			}
 
-			else if (mp3.hasId3v2Tag()) {
-				ID3v2 tag = mp3.getId3v2Tag();
+			else if (mp3.hasId3v1Tag()) {
+				ID3v1 tag = mp3.getId3v1Tag();
 				return tag.getAlbum();
 			}
 
@@ -128,13 +137,13 @@ public class MP3 {
 	public static String getTrackNoTag(File f) {
 		try {
 			Mp3File mp3 = new Mp3File(f);
-			if (mp3.hasId3v1Tag()) {
-				ID3v1 tag = mp3.getId3v1Tag();
-				return tag.getTrack();
-			}
-
-			else if (mp3.hasId3v2Tag()) {
+			if (mp3.hasId3v2Tag()) {
 				ID3v2 tag = mp3.getId3v2Tag();
+				return tag.getTrack();
+			} 
+			
+			else if (mp3.hasId3v1Tag()) {
+				ID3v1 tag = mp3.getId3v1Tag();
 				return tag.getTrack();
 			}
 
@@ -146,13 +155,13 @@ public class MP3 {
 	public static String getGenreTag(File f) {
 		try {
 			Mp3File mp3 = new Mp3File(f);
-			if (mp3.hasId3v1Tag()) {
-				ID3v1 tag = mp3.getId3v1Tag();
+			if (mp3.hasId3v2Tag()) {
+				ID3v2 tag = mp3.getId3v2Tag();
 				return tag.getGenreDescription();
 			}
 
-			else if (mp3.hasId3v2Tag()) {
-				ID3v2 tag = mp3.getId3v2Tag();
+			else if (mp3.hasId3v1Tag()) {
+				ID3v1 tag = mp3.getId3v1Tag();
 				return tag.getGenreDescription();
 			}
 
@@ -164,13 +173,13 @@ public class MP3 {
 	public static String getYearTag(File f) {
 		try {
 			Mp3File mp3 = new Mp3File(f);
-			if (mp3.hasId3v1Tag()) {
-				ID3v1 tag = mp3.getId3v1Tag();
+			if (mp3.hasId3v2Tag()) {
+				ID3v2 tag = mp3.getId3v2Tag();
 				return tag.getYear();
 			}
 
-			else if (mp3.hasId3v2Tag()) {
-				ID3v2 tag = mp3.getId3v2Tag();
+			else if (mp3.hasId3v1Tag()) {
+				ID3v1 tag = mp3.getId3v1Tag();
 				return tag.getYear();
 			}
 
@@ -190,8 +199,8 @@ public class MP3 {
 		try {
 
 			Mp3File mp3 = new Mp3File(f);
-			if (mp3.hasId3v1Tag()) {
-				ID3v1 tag = mp3.getId3v1Tag();
+			if (mp3.hasId3v2Tag()) {
+				ID3v2 tag = mp3.getId3v2Tag();
 				tags[0] = tag.getTitle();
 				tags[1] = tag.getArtist();
 				tags[2] =  tag.getAlbum();
@@ -200,8 +209,8 @@ public class MP3 {
 				tags[5] =  tag.getYear();
 			}
 
-			else if (mp3.hasId3v2Tag()) {
-				ID3v2 tag = mp3.getId3v2Tag();
+			else if (mp3.hasId3v1Tag()) {
+				ID3v1 tag = mp3.getId3v1Tag();
 				tags[0] = tag.getTitle();
 				tags[1] = tag.getArtist();
 				tags[2] =  tag.getAlbum();
@@ -222,14 +231,14 @@ public class MP3 {
 		try {
 			Mp3File mp3 = new Mp3File(f);
 
-			if (mp3.hasId3v1Tag()) {
-				ID3v1 tag = mp3.getId3v1Tag();
+			if (mp3.hasId3v2Tag()) {
+				ID3v2 tag = mp3.getId3v2Tag();
 				tag.setTitle(title);
 
 			}
 
-			else if (mp3.hasId3v2Tag()) {
-				ID3v2 tag = mp3.getId3v2Tag();
+			else if (mp3.hasId3v1Tag()) {
+				ID3v1 tag = mp3.getId3v1Tag();
 				tag.setTitle(title);
 			}
 
@@ -240,14 +249,14 @@ public class MP3 {
 		try {
 			Mp3File mp3 = new Mp3File(f);
 
-			if (mp3.hasId3v1Tag()) {
-				ID3v1 tag = mp3.getId3v1Tag();
+			if (mp3.hasId3v2Tag()) {
+				ID3v2 tag = mp3.getId3v2Tag();
 				tag.setArtist(artist);
 
 			}
 
-			else if (mp3.hasId3v2Tag()) {
-				ID3v2 tag = mp3.getId3v2Tag();
+			else if (mp3.hasId3v1Tag()) {
+				ID3v1 tag = mp3.getId3v1Tag();
 				tag.setArtist(artist);
 			}
 
@@ -258,14 +267,14 @@ public class MP3 {
 		try {
 			Mp3File mp3 = new Mp3File(f);
 
-			if (mp3.hasId3v1Tag()) {
-				ID3v1 tag = mp3.getId3v1Tag();
+			if (mp3.hasId3v2Tag()) {
+				ID3v2 tag = mp3.getId3v2Tag();
 				tag.setAlbum(album);
 
 			}
 
-			else if (mp3.hasId3v2Tag()) {
-				ID3v2 tag = mp3.getId3v2Tag();
+			else if (mp3.hasId3v1Tag()) {
+				ID3v1 tag = mp3.getId3v1Tag();
 				tag.setAlbum(album);
 			}
 
@@ -276,14 +285,14 @@ public class MP3 {
 		try {
 			Mp3File mp3 = new Mp3File(f);
 
-			if (mp3.hasId3v1Tag()) {
-				ID3v1 tag = mp3.getId3v1Tag();
+			if (mp3.hasId3v2Tag()) {
+				ID3v2 tag = mp3.getId3v2Tag();
 				tag.setTrack(trackNo);
 
 			}
 
-			else if (mp3.hasId3v2Tag()) {
-				ID3v2 tag = mp3.getId3v2Tag();
+			else if (mp3.hasId3v1Tag()) {
+				ID3v1 tag = mp3.getId3v1Tag();
 				tag.setTrack(trackNo);
 			}
 
@@ -294,14 +303,14 @@ public class MP3 {
 		try {
 			Mp3File mp3 = new Mp3File(f);
 
-			if (mp3.hasId3v1Tag()) {
-				ID3v1 tag = mp3.getId3v1Tag();
+			if (mp3.hasId3v2Tag()) {
+				ID3v2 tag = mp3.getId3v2Tag();
 				tag.setYear(year);
 
 			}
 
-			else if (mp3.hasId3v2Tag()) {
-				ID3v2 tag = mp3.getId3v2Tag();
+			else if (mp3.hasId3v1Tag()) {
+				ID3v1 tag = mp3.getId3v1Tag();
 				tag.setYear(year);
 			}
 
@@ -312,8 +321,8 @@ public class MP3 {
 		try {
 			Mp3File mp3 = new Mp3File(f);
 
-			if (mp3.hasId3v1Tag()) {
-				ID3v1 tag = mp3.getId3v1Tag();
+			if (mp3.hasId3v2Tag()) {
+				ID3v2 tag = mp3.getId3v2Tag();
 				tag.setTitle(title);
 				tag.setArtist(artist);
 				tag.setAlbum(album);
@@ -321,8 +330,8 @@ public class MP3 {
 
 			}
 
-			else if (mp3.hasId3v2Tag()) {
-				ID3v2 tag = mp3.getId3v2Tag();
+			else if (mp3.hasId3v1Tag()) {
+				ID3v1 tag = mp3.getId3v1Tag();
 				tag.setTitle(title);
 				tag.setArtist(artist);
 				tag.setAlbum(album);
