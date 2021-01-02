@@ -16,11 +16,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 
 import database.DBManager;
 import reproductor.mainClasses.Counter;
+import reproductor.mainClasses.MP3;
 import reproductor.mainClasses.PlayList;
 import reproductor.mainClasses.Song;
 
@@ -44,15 +46,20 @@ public class PlaylistCreationWindow extends JFrame{
 	     JButton save;
 	     
 	     fileChooserButton = new JButton("Select the path of the songs");
+	     fileChooserButton.setBounds(157, 5, 161, 21);
 	     save = new JButton("Save playlist");
+	     save.setBounds(323, 5, 89, 21);
 	     JPanel mainPanel = new JPanel();
+	     mainPanel.setLayout(null);
 	     
-	     mainPanel.add(fileChooserButton, BorderLayout.WEST);
-	     mainPanel.add(save, BorderLayout.EAST);
+	     mainPanel.add(fileChooserButton);
+	     mainPanel.add(save);
 	     checkBoxPanelSongs = new JPanel();
+	     JScrollPane mainScrollPane = new JScrollPane(checkBoxPanelSongs);
+	     mainScrollPane.setBounds(10, 35, 566, 518);
 
-	     mainPanel.add(checkBoxPanelSongs, BorderLayout.SOUTH);
-	     add(mainPanel);
+	     mainPanel.add(mainScrollPane);
+	     getContentPane().add(mainPanel);
 	     
 	     
 	     
@@ -125,13 +132,19 @@ public class PlaylistCreationWindow extends JFrame{
 
     		for (final File file : songsFile.listFiles()) {
     			String fileName = file.getName();
-    			// BUTTON CREATION FOR EACH SONG
+    			if (!fileName.contains(".mp3")) {
+    				continue;
+    			}
     			
-    			JCheckBox l = new JCheckBox(fileName);
+    			// CheckBox CREATION FOR EACH SONG
+    			JCheckBox l = new JCheckBox();
+    			
+    			l.setText(fileName);
+    			
     			l.addActionListener(new ActionListener() {
     				public void actionPerformed(ActionEvent e) {
     					JToggleButton toggleButton = (JToggleButton) e.getSource();
-    	                System.out.println("Cambio de estado en " + toggleButton.getText() + ". Seleccionado: " + toggleButton.isSelected());
+    	                logger.info("Cambio de estado en " + toggleButton.getText() + ". Seleccionado: " + toggleButton.isSelected());
     	                Song s = new Song(fileName,"","",0,"",file.getAbsolutePath());
     	                if (toggleButton.isSelected()) {
 							songs.add(s);
@@ -141,10 +154,7 @@ public class PlaylistCreationWindow extends JFrame{
     				}
     			});
 
-    			if (!fileName.contains(".mp3")) {
-    				continue;
-    			}
-    			if (contx.get() >= 2) {
+    			if (contx.get() >= 1) {
     				contx.reset();
     				conty.inc();
     			}
