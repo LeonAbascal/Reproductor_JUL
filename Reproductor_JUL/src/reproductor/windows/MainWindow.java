@@ -29,6 +29,8 @@ import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -100,12 +102,12 @@ public class MainWindow extends JFrame {
 
 	JPanel southPanel;
 		JButton playB;
-		JButton pauseB;
+		JButton stopB;
 		JButton randomB;
 		JButton previousB;
 		JButton nextB;
 	
-		
+	static Boolean playing = false;
 	static LogInWindow login_w;
 	static public MainWindow main_window;
 	static String playingSongPath;
@@ -237,38 +239,7 @@ public class MainWindow extends JFrame {
 		configuracion= new JButton("Setting");
 		crearPlaylist= new JButton("Create playlist");
 		
-		
-		playB = new JButton("Play");
-		pauseB = new JButton("Pause");
-		randomB = new JButton("Random");
-		previousB = new JButton("Previous");
-		nextB = new JButton("Next");
-		
-		// PLAY BUTTON ACTION
-		playB.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MP3 mp3 = new MP3(playingSongPath);
-				mp3.play();
-			}
-			
-		});
-		
-		//RANDOM BUTTON ACTION
-		randomB.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				List<Song> randomized = new ArrayList<Song>(selectedPLSongs);
-				System.out.println(randomized);
-				Collections.shuffle(randomized);  // Randomizes the PlayList
-				
-				for (Song song : randomized) {
-					MP3 mp3 = new MP3(song.getPath());
-					mp3.play();
-					System.out.println("NOW PLAYING: " + song.getName());	
-				}
-			}
-			
-		});
-		
+		// ComboBox BUTTON
 		comboBox.addItemListener(new ItemListener() {
 
             @Override
@@ -325,13 +296,79 @@ public class MainWindow extends JFrame {
         });
 	}
 
+	// CONVERT TO PAUSE BUTTON METHOD
+	private void pauseConvert(JButton b) {
+		b.setIcon(new ImageIcon("MusicFiles\\Icons\\pauseButton.png"));
+		stopB.setEnabled(true);
+		playing = true;
+	}
+			
 	private void addComponentsToWindow() {
 		
-		southPanel.add(previousB);
-		southPanel.add(playB);
-		southPanel.add(pauseB);
-		southPanel.add(nextB);
+		// PLAY BUTTON
+		playB = new JButton("");
+		playB.setMargin(new Insets(0, 0, 0, 0));
+		playB.setBackground(new Color(238,238,238));
+		playB.setBorder(null);
+		playB.setIcon(new ImageIcon("MusicFiles\\Icons\\playButton.png"));
+		
+		// PLAY BUTTON ACTION
+		playB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MP3 mp3 = new MP3(playingSongPath);
+				if (!playing) {
+					mp3.play();
+					pauseConvert(playB);
+				} else {
+					playB.setIcon(new ImageIcon("MusicFiles\\Icons\\playButton.png"));
+					// TODO Implementar acción que pause la canción
+					playing = false;
+				}
+			}
+			
+		});
+		randomB = new JButton("Random");
+		
+		// STOP BUTTON
+		stopB = new JButton("");
+		stopB.setMargin(new Insets(0, 0, 0, 0));
+		stopB.setBackground(new Color(238,238,238));
+		stopB.setBorder(null);
+		stopB.setEnabled(false);
+		stopB.setIcon(new ImageIcon("MusicFiles\\Icons\\stopButton.png"));
+		
+		stopB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO STOP ALL PLAYING SONGS
+				stopB.setEnabled(false);
+				playB.setIcon(new ImageIcon("MusicFiles\\Icons\\playButton.png"));
+				playing = false;
+			}
+		});
+		
+		//RANDOM BUTTON ACTION
+		randomB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				List<Song> randomized = new ArrayList<Song>(selectedPLSongs);
+				System.out.println(randomized);
+				Collections.shuffle(randomized);  // Randomizes the PlayList
+				
+				for (Song song : randomized) {
+					MP3 mp3 = new MP3(song.getPath());
+					mp3.play();
+					System.out.println("NOW PLAYING: " + song.getName());	
+				}
+			}
+			
+		});
 		southPanel.add(randomB);
+		previousB = new JButton("Previous");
+		
+		southPanel.add(previousB);
+		southPanel.add(stopB);
+		southPanel.add(playB);
+		nextB = new JButton("Next");
+		southPanel.add(nextB);
 		southPanel.add(fileChooser);
 		southPanel.add(configuracion);
 		
@@ -388,6 +425,9 @@ public class MainWindow extends JFrame {
 		songsPanel.repaint();
 		for (final File file : songsFile.listFiles()) {
 			String fileName = file.getName();
+			if (!fileName.contains(".mp3")) {
+				continue;
+			}
 			// BUTTON CREATION FOR EACH SONG
 			JButton l = new JButton(fileName);
 			l.addActionListener(new ActionListener() {
@@ -397,9 +437,6 @@ public class MainWindow extends JFrame {
 				}
 			});
 
-			if (!fileName.contains(".mp3")) {
-				continue;
-			}
 			if (contx.get() >= 2) {
 				contx.reset();
 				conty.inc();
