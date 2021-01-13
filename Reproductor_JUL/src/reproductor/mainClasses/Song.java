@@ -75,6 +75,13 @@ public class Song {
 	public void setPath(String path) {
 		this.path = path;
 	}
-	
+	@Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Song))
+            return false;
+
+        Song s = (Song) o;
+        return s.name.equals(this.name);
+    }
 	
 }

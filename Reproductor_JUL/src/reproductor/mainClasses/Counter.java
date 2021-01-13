@@ -1,8 +1,10 @@
 package reproductor.mainClasses;
 
+import java.io.Serializable;
+
 /** Clase para gestionar contadores
  */
-public class Counter {
+public class Counter implements Serializable{
 	
 	private int cont = 0;  // Contador entero
 	

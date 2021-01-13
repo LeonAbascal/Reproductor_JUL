@@ -103,6 +103,7 @@ public class PlaylistCreationWindow extends JFrame{
 					//Dbmanager store songs method
 					DBManager.storeSong(song, name);
 				}
+				songs.clear();
 				MainWindow.main_window.updatePlayListBox();
 				SwingUtilities.updateComponentTreeUI(MainWindow.main_window.menuPanel);
 				dispose();
@@ -145,11 +146,11 @@ public class PlaylistCreationWindow extends JFrame{
     				public void actionPerformed(ActionEvent e) {
     					JToggleButton toggleButton = (JToggleButton) e.getSource();
     	                logger.info("Cambio de estado en " + toggleButton.getText() + ". Seleccionado: " + toggleButton.isSelected());
-    	                Song s = new Song(fileName,"","",0,"",file.getAbsolutePath());
+    	                //Song s = new Song(fileName,"","",0,"",file.getAbsolutePath());
     	                if (toggleButton.isSelected()) {
-							songs.add(s);
+							songs.add(new Song(fileName,"","",0,"",file.getAbsolutePath()));
 						}if (!toggleButton.isSelected()){
-							songs.remove(s);
+							songs.remove(new Song(fileName,"","",0,"",file.getAbsolutePath()));
 						}
     				}
     			});
