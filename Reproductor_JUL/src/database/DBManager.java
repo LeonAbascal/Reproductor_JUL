@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import reproductor.mainClasses.PlayList;
@@ -216,6 +218,29 @@ public class DBManager {
 		
 		disconnect();
 		return songs;
+	}
+	public static Map<String, Integer> getAllUsersPlaylistsCount() {
+		connect();
+
+		Map<String, Integer> usersPlaylistCount=new HashMap<String, Integer>();
+
+		try (Statement stmt = conn.createStatement()) {
+
+			ResultSet rs = stmt.executeQuery("Select Distinct belong_to_user as Usuario ,count(belong_to_user) as TotalPlaylist from playlist group by belong_to_user;");
+
+			while(rs.next()) {
+				usersPlaylistCount.put(rs.getString("Usuario"),rs.getInt("TotalPlaylist"));
+			}
+			
+			logger.info("All users were obtained succesfully");
+
+		} catch (SQLException e) {
+			logger.severe("Error retrieving all users from database.");
+			logger.info(e.toString());
+		}
+		
+		disconnect();
+		return usersPlaylistCount;
 	}
 
 }
