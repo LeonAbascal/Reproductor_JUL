@@ -445,6 +445,7 @@ public class MainWindow extends JFrame {
 				Song song = randomized.get(0);
 				MP3 mp3 = new MP3(song.getPath());
 				mp3.play();
+				pauseConvert(playB);
 				System.out.println("NOW PLAYING: " + song.getName());
 				/*
 				for (Song song : randomized) {
