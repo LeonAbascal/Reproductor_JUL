@@ -3,11 +3,17 @@ package reproductor.mainClasses;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.logging.Logger;
 
+import com.mpatric.mp3agic.ID3Wrapper;
 import com.mpatric.mp3agic.ID3v1;
+import com.mpatric.mp3agic.ID3v1Genres;
+import com.mpatric.mp3agic.ID3v1Tag;
 import com.mpatric.mp3agic.ID3v2;
+import com.mpatric.mp3agic.ID3v23Tag;
 import com.mpatric.mp3agic.Mp3File;
+import com.mpatric.mp3agic.NotSupportedException;
 
 import database.DBManager;
 import javazoom.jl.player.Player;
@@ -51,38 +57,36 @@ public class MP3 {
 	}
 
 
-	// test client
+	
 	public static void main(String[] args) {
 		File f = new File("MusicFiles\\Arctic Monkeys - Do I Wanna Know (Official Video).mp3");
-		System.out.println(MP3.getTrackNoTag(f));
+		File f2 = new File("MusicFiles\\Outrun Project.mp3"); // ID 3v1
+		System.out.println(MP3.getGenreTag(f));
 		try {
-			Mp3File mp3 = new Mp3File(f);
+			Mp3File mp3 = new Mp3File(f2);
 			System.out.println("ID3v1: " + mp3.hasId3v1Tag());
 			System.out.println("ID3v2: " + mp3.hasId3v2Tag());
 			if (mp3.hasId3v2Tag()) {
 				ID3v2 tag = mp3.getId3v2Tag();
-				System.out.println(tag.getTitle());
+				System.out.println(tag.getGenre());
 			}
+			
+			else if (mp3.hasId3v1Tag()) {
+				ID3v1 tag = mp3.getId3v1Tag();
+				System.out.println(tag.getArtist());
+			}
+			
 		} catch (Exception e) { System.err.println(e);}
-		/*
-        String filename = "MusicFiles\\Beave - Too Much Ft. Bethany Lamb (Torin Dundas Remix).mp3";
-        MP3 mp3 = new MP3(filename);
-        mp3.play();
-
-        mp3.close();
-
-        // play from the beginning
-        mp3 = new MP3(filename);
-        mp3.play();
-		 */
+		
 
 
 	}
-
+	
 
 	public static String getTitleTag(File f) {
 		try {
 			Mp3File mp3 = new Mp3File(f);
+			//System.out.println(mp3.hasId3v2Tag());
 			if (mp3.hasId3v2Tag()) {
 				ID3v2 tag = mp3.getId3v2Tag();
 				return tag.getTitle();
@@ -91,6 +95,11 @@ public class MP3 {
 			else if (mp3.hasId3v1Tag()) { 
 				ID3v1 tag = mp3.getId3v1Tag();
 				return tag.getTitle();
+			}
+			
+			else {
+				System.err.println("Not supported tag");
+				logger.info("File (" + f + ") is using an unsupported tagging format");
 			}
 
 		} catch (Exception e) { logger.warning("Exception trying to read title tag of mp3 file (" + f.getAbsolutePath() + ")"); }
@@ -110,6 +119,11 @@ public class MP3 {
 				ID3v1 tag = mp3.getId3v1Tag();
 				return tag.getArtist();
 			}
+			
+			else {
+				System.err.println("Not supported tag");
+				logger.info("File (" + f + ") is using an unsupported tagging format");
+			}
 
 		} catch (Exception e) { logger.warning("Exception trying to read title tag of mp3 file (" + f.getAbsolutePath() + ")"); }
 
@@ -127,6 +141,11 @@ public class MP3 {
 			else if (mp3.hasId3v1Tag()) {
 				ID3v1 tag = mp3.getId3v1Tag();
 				return tag.getAlbum();
+			}
+			
+			else {
+				System.err.println("Not supported tag");
+				logger.info("File (" + f + ") is using an unsupported tagging format");
 			}
 
 		} catch (Exception e) { logger.warning("Exception trying to read title tag of mp3 file (" + f.getAbsolutePath() + ")"); }
@@ -146,6 +165,11 @@ public class MP3 {
 				ID3v1 tag = mp3.getId3v1Tag();
 				return tag.getTrack();
 			}
+			
+			else {
+				System.err.println("Not supported tag");
+				logger.info("File (" + f + ") is using an unsupported tagging format");
+			}
 
 		} catch (Exception e) { logger.warning("Exception trying to read title tag of mp3 file (" + f.getAbsolutePath() + ")"); }
 
@@ -164,6 +188,11 @@ public class MP3 {
 				ID3v1 tag = mp3.getId3v1Tag();
 				return tag.getGenreDescription();
 			}
+			
+			else {
+				System.err.println("Not supported tag");
+				logger.info("File (" + f + ") is using an unsupported tagging format");
+			}
 
 		} catch (Exception e) { logger.warning("Exception trying to read title tag of mp3 file (" + f.getAbsolutePath() + ")"); }
 
@@ -181,6 +210,11 @@ public class MP3 {
 			else if (mp3.hasId3v1Tag()) {
 				ID3v1 tag = mp3.getId3v1Tag();
 				return tag.getYear();
+			}
+			
+			else {
+				System.err.println("Not supported tag");
+				logger.info("File (" + f + ") is using an unsupported tagging format");
 			}
 
 		} catch (Exception e) { logger.warning("Exception trying to read title tag of mp3 file (" + f.getAbsolutePath() + ")"); }
@@ -219,7 +253,10 @@ public class MP3 {
 				tags[5] =  tag.getYear();
 			} 
 
-
+			else {
+				System.err.println("Not supported tag");
+				logger.info("File (" + f + ") is using an unsupported tagging format");
+			}
 
 		}  catch (Exception e) { logger.warning("Exception trying to read title tag of mp3 file (" + f.getAbsolutePath() + ")"); }
 
@@ -241,6 +278,14 @@ public class MP3 {
 				ID3v1 tag = mp3.getId3v1Tag();
 				tag.setTitle(title);
 			}
+			
+			else {
+				System.err.println("Not supported tag");
+				logger.info("File (" + f + ") is using an unsupported tagging format");
+			}
+			
+			// WRITE CHANGES TO FILE
+			updateTags(f, mp3);
 
 		} catch (Exception e) { logger.warning("Exception trying to write tag of mp3 file (" + f.getAbsolutePath() + ") \n" + e); }
 	}
@@ -259,6 +304,14 @@ public class MP3 {
 				ID3v1 tag = mp3.getId3v1Tag();
 				tag.setArtist(artist);
 			}
+			
+			else {
+				System.err.println("Not supported tag");
+				logger.info("File (" + f + ") is using an unsupported tagging format");
+			}
+			
+			// WRITE CHANGES TO FILE
+			updateTags(f, mp3);
 
 		} catch (Exception e) { logger.warning("Exception trying to write tag of mp3 file (" + f.getAbsolutePath() + ") \n" + e); }
 	}
@@ -277,6 +330,14 @@ public class MP3 {
 				ID3v1 tag = mp3.getId3v1Tag();
 				tag.setAlbum(album);
 			}
+			
+			else {
+				System.err.println("Not supported tag");
+				logger.info("File (" + f + ") is using an unsupported tagging format");
+			}
+			
+			// WRITE CHANGES TO FILE
+			updateTags(f, mp3);
 
 		} catch (Exception e) { logger.warning("Exception trying to write tag of mp3 file (" + f.getAbsolutePath() + ") \n" + e); }
 	}
@@ -295,6 +356,14 @@ public class MP3 {
 				ID3v1 tag = mp3.getId3v1Tag();
 				tag.setTrack(trackNo);
 			}
+			
+			else {
+				System.err.println("Not supported tag");
+				logger.info("File (" + f + ") is using an unsupported tagging format");
+			}
+			
+			// WRITE CHANGES TO FILE
+			updateTags(f, mp3);
 
 		} catch (Exception e) { logger.warning("Exception trying to write tag of mp3 file (" + f.getAbsolutePath() + ") \n" + e); }
 	}
@@ -313,10 +382,55 @@ public class MP3 {
 				ID3v1 tag = mp3.getId3v1Tag();
 				tag.setYear(year);
 			}
+			
+			else {
+				System.err.println("Not supported tag");
+				logger.info("File (" + f + ") is using an unsupported tagging format");
+			}
+			
+			// WRITE CHANGES TO FILE
+			updateTags(f, mp3);
 
 		} catch (Exception e) { logger.warning("Exception trying to write tag of mp3 file (" + f.getAbsolutePath() + ") \n" + e); }
 	}
 
+	/** Will only work with ID3v2
+	 * 
+	 * @param f File to write
+	 * @param genreDescription Genre name
+	 */
+	public static void setGenreTag(File f, String genreDescription) {
+		
+		try {
+			Mp3File mp3 = new Mp3File(f);
+
+			if (mp3.hasId3v2Tag()) {
+				ID3v2 tag = mp3.getId3v2Tag();
+				tag.setGenreDescription(genreDescription);
+
+			}
+
+			else if (mp3.hasId3v1Tag()) {
+				int index = ID3v1Genres.matchGenreDescription(genreDescription);
+				
+				if (index >= 0) {
+					ID3v1 tag = mp3.getId3v1Tag();
+					tag.setGenre(index);					
+				} else {
+					logger.info("Not valid genre name");
+				}
+			}
+			
+			else {
+				logger.info("File (" + f + ") is using an unsupported tagging format");
+			}
+			
+			// WRITE CHANGES TO FILE
+			updateTags(f, mp3);
+
+		} catch (Exception e) { logger.warning("Exception trying to write tag of mp3 file (" + f.getAbsolutePath() + ") \n" + e); }
+	}
+	
 	public static void setStandardTags(File f, String title, String artist, String album) {
 		try {
 			Mp3File mp3 = new Mp3File(f);
@@ -326,8 +440,6 @@ public class MP3 {
 				tag.setTitle(title);
 				tag.setArtist(artist);
 				tag.setAlbum(album);
-
-
 			}
 
 			else if (mp3.hasId3v1Tag()) {
@@ -336,8 +448,26 @@ public class MP3 {
 				tag.setArtist(artist);
 				tag.setAlbum(album);
 			}
+			
+			else {
+				System.err.println("Not supported tag");
+				logger.info("File (" + f + ") is using an unsupported tagging format");
+			}
+			
+			// WRITE CHANGES TO FILE
+			updateTags(f, mp3);
 
 		} catch (Exception e) { logger.warning("Exception trying to write tag of mp3 file (" + f.getAbsolutePath() + ") \n" + e); }
+	}
+	
+	
+	private static void updateTags(File f, Mp3File mp3){
+		File tempFile = new File("MusicFiles\\tmp\\tmp.mp3");
+		try {
+			mp3.save(tempFile.getAbsolutePath());
+			//f.delete();
+			mp3.save(f.getAbsolutePath());
+		} catch (NotSupportedException | IOException e) { System.err.println(e);}
 	}
 
 }
