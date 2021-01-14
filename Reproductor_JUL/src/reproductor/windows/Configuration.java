@@ -39,7 +39,7 @@ public class Configuration extends JFrame {
         setSize(400, 300);
         setLocationRelativeTo(null);
 
-        // datos de ejemplo
+        // Skins
         String[] strings = { 
         		"SWING", 
         		"MOTIF",
@@ -96,7 +96,6 @@ public class Configuration extends JFrame {
 				try {
                     p.setProperty("skin", skinS );
                     logger.info("Skin set: " + skinS);
-                    // properties.setProperty("windowSize", "");
                     
                     p.store(new FileOutputStream(f), "Init file for ");
                     

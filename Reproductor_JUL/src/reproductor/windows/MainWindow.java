@@ -127,20 +127,6 @@ public class MainWindow extends JFrame {
 		guiComponentDeclaration();
 		addComponentsToWindow();
 		songsScrollPanel("MusicFiles");
-		//
-		/*
-		songsCounter= new Counter();
-		executedCounter= new Counter();
-		songsCounter.inc();
-		executedCounter.inc();
-		*/
-		/*
-		songsCounter= new Counter();
-		executedCounter= new Counter();
-		writeExecutedCounter(executedCounter);
-		writeSongsCounter(songsCounter);
-		*/
-		//
 		
 		readSongsCounter();
 		readExecutedCounter();
@@ -163,9 +149,9 @@ public class MainWindow extends JFrame {
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 	               
-	               // solo se admiten ficheros con extensión ".txt"
-//	               FileFilter filter = new FileNameExtensionFilter("Canciones Mp3", "mp3");
-//	               fileChooser.setFileFilter(filter);
+	               // Para establecer un filtro
+				   //FileFilter filter = new FileNameExtensionFilter("Canciones Mp3", "mp3");
+				   //fileChooser.setFileFilter(filter);
 
 	               // en este caso se muestra un dialogo de selección de fichero de
 	               // guardado.
@@ -174,7 +160,7 @@ public class MainWindow extends JFrame {
 	                   // el usuario ha pulsado el boton aceptar
 	                   // se obtiene el fichero seleccionado -> File
 	                   File file = fileChooser.getSelectedFile();
-	                   System.out.println("Fichero seleccionado: " + file.toString());
+	                   logger.log(Level.INFO, "Fichero seleccionado: " + file.toString());
 	                   songsScrollPanel(file.getAbsolutePath());
 	               }
 	               
@@ -211,35 +197,35 @@ public class MainWindow extends JFrame {
 	private void readSongsCounter() {
         try (ObjectInputStream is = new ObjectInputStream(new FileInputStream("numberOfSongs"))) {
             songsCounter = (Counter) is.readObject();
-            //System.out.println(songCounter);
+            logger.log(Level.INFO, "Songs counter readed");
+            
             is.close();
         } catch (IOException e) {
-            System.out.println("Error. No se pudo deserializar el objeto. " + e.getMessage());
+            logger.log(Level.WARNING, "Error. No se pudo deserializar el objeto. " + e.getMessage());
         } catch (ClassNotFoundException e) {
-            System.out.println("Error. No se pudo encontrar la clase asociada. " + e.getMessage());
+            logger.log(Level.WARNING, "Error. No se pudo encontrar la clase asociada. " + e.getMessage());
         }
 	}
 	private void readExecutedCounter() {
         try (ObjectInputStream is = new ObjectInputStream(new FileInputStream("timesExecuted"))) {
             executedCounter = (Counter) is.readObject();
-            //System.out.println(songCounter);
+            logger.log(Level.INFO, "Executed counter readed");
             is.close();
         } catch (IOException e) {
-            System.out.println("Error. No se pudo deserializar el objeto. " + e.getMessage());
+            logger.log(Level.WARNING, "Error. No se pudo deserializar el objeto. " + e.getMessage());
         } catch (ClassNotFoundException e) {
-            System.out.println("Error. No se pudo encontrar la clase asociada. " + e.getMessage());
+            logger.log(Level.WARNING, "Error. No se pudo encontrar la clase asociada. " + e.getMessage());
         }
 	}
 	private void writeSongsCounter(Counter c) {
 
         // Creamos un stream de salida de objetos a fichero
         try (ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("numberOfSongs"))) {
-        	
             os.writeObject(c);
-            System.out.println("Datos serializados correctamente");
+            logger.log(Level.INFO, "Songs counter writed");
             os.close();
         } catch (IOException e) {
-            System.out.println("Error al serializar los datos al fichero");
+        	logger.log(Level.WARNING, "Error al serializar los datos al fichero");
         }
 	}
 	private void writeExecutedCounter(Counter c) {
@@ -247,10 +233,10 @@ public class MainWindow extends JFrame {
         // Creamos un stream de salida de objetos a fichero
         try (ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("timesExecuted"))) {
             os.writeObject(c);
-            System.out.println("Datos serializados correctamente");
+            logger.log(Level.INFO, "Executed counter writed");
             os.close();
         } catch (IOException e) {
-            System.out.println("Error al serializar los datos al fichero");
+            logger.log(Level.WARNING, "Error al serializar los datos al fichero");
         }
 	}
 	
@@ -269,21 +255,6 @@ public class MainWindow extends JFrame {
 		songsAndPlaylistSongsPanel= new JPanel(new GridLayout(2, 1));
 		playlistotalSongs= new JLabel();
 		
-		//Datos de prueba
-		/*
-		String[] strings = { 
-        		"1",
-        		"1",
-        		"1",
-        		"1",
-        		"1",
-        		"1",
-        		"1",
-        		"1",
-        		"1"		
-        };
-        */
-		
 		// PlayList panel creation
 		comboBoxPanelPlaylist= new JPanel();
 		comboBox = new JComboBox<>();
@@ -291,14 +262,8 @@ public class MainWindow extends JFrame {
 		updatePlayListBox();
 		playlistButtons= new JPanel();
 		
-		
-
 		menuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		menuPanel.setLayout(new GridLayout(2, 1));
-
-		//txtMenuDescendente = new JLabel("Men\u00FA Descendente");
 		
-		//menuPanel.add(txtMenuDescendente);
 		metadataPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		metadataPanel.setLayout(new BorderLayout(0, 0));
 
@@ -323,7 +288,6 @@ public class MainWindow extends JFrame {
 		statistics= new JButton("Statistics");
 		
 		
-		
 		// ComboBox BUTTON
 		comboBox.addItemListener(new ItemListener() {
 
@@ -333,10 +297,10 @@ public class MainWindow extends JFrame {
                 // un elemento de la lista
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                 	selectedPLSongs.clear();
-                    System.out.println("Seleccionado: " + e.getItem());
+                    logger.log(Level.INFO, "Seleccionado: " + e.getItem());
                     List<Song> songs = new ArrayList<Song>();
                     songs=DBManager.getSongs((String) e.getItem(), login_w.getLogInWindowUsername());
-                                        
+                    MainWindow.this.selectedPLSongs = songs;               
         			Counter contx = new Counter();
         			Counter conty = new Counter();
 
@@ -351,7 +315,7 @@ public class MainWindow extends JFrame {
         			songsPlaylistPanel.removeAll();
         			songsPlaylistPanel.repaint();
                     for (Song song : songs) {
-                    	selectedPLSongs.add(song);
+                    	//selectedPLSongs.add(song);
 						//System.out.println(song.getName());
                     	// BUTTON CREATION FOR EACH SONG
         				JButton l = new JButton(song.getName());
@@ -375,8 +339,7 @@ public class MainWindow extends JFrame {
 					}
                     songsPlaylistPanel.setLayout(gLayout);
         			SwingUtilities.updateComponentTreeUI(songsPlaylistPanel);
-        			playlistotalSongs.setText("Total: " +String.valueOf(songs.size()));
-        			
+        			playlistotalSongs.setText("Total songs: " +String.valueOf(songs.size()));
                 }
             }
 
@@ -438,15 +401,21 @@ public class MainWindow extends JFrame {
 		//RANDOM BUTTON ACTION
 		randomB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				List<Song> randomized = new ArrayList<Song>(selectedPLSongs);
-				System.out.println(randomized);
-				Collections.shuffle(randomized);  // Randomizes the PlayList
 				
+				List<Song> randomized = new ArrayList<Song>(selectedPLSongs);
+				Collections.shuffle(randomized);  // Randomizes the PlayList
+				Song song = randomized.get(0);
+				MP3 mp3 = new MP3(song.getPath());
+				mp3.play();
+				pauseConvert(playB);
+				logger.log(Level.INFO, "NOW PLAYING: " + song.getName());
+				/*
 				for (Song song : randomized) {
 					MP3 mp3 = new MP3(song.getPath());
 					mp3.play();
 					System.out.println("NOW PLAYING: " + song.getName());	
 				}
+				*/
 			}
 			
 		});
@@ -462,8 +431,6 @@ public class MainWindow extends JFrame {
 		southPanel.add(configuracion);
 		southPanel.add(statistics);
 		
-		
-		
 		playlistButtons.add(crearPlaylist);
 		comboBoxPanelBorder = BorderFactory.createTitledBorder("Playlist");
 		comboBoxPanelPlaylist.add(comboBox);
@@ -478,12 +445,9 @@ public class MainWindow extends JFrame {
 		centerPanel.add(metadataPanel, BorderLayout.EAST);
 		centerPanel.add(menuPanel, BorderLayout.WEST);
 		centerPanel.add(songsAndPlaylistSongsPanel, BorderLayout.CENTER);
-		//centerPanel.add(songsPlaylistPanel, BorderLayout.CENTER);
 
 		getContentPane().add(centerPanel, BorderLayout.CENTER);
 		getContentPane().add(southPanel, BorderLayout.SOUTH);
-		
-		
 		
 	}
 	

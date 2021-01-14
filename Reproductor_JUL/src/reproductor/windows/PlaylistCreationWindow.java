@@ -62,8 +62,6 @@ public class PlaylistCreationWindow extends JFrame{
 	     getContentPane().add(mainPanel);
 	     
 	     
-	     
-	     
 	     fileChooserButton.addActionListener(new ActionListener() {
 				
 				@Override
@@ -72,9 +70,9 @@ public class PlaylistCreationWindow extends JFrame{
 					JFileChooser fileChooser = new JFileChooser();
 					fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		               
-		               // solo se admiten ficheros con extensión ".txt"
-//		               FileFilter filter = new FileNameExtensionFilter("Canciones Mp3", "mp3");
-//		               fileChooser.setFileFilter(filter);
+		               // Para a�adir un filtro
+					   //FileFilter filter = new FileNameExtensionFilter("Canciones Mp3", "mp3");
+					   //fileChooser.setFileFilter(filter);
 
 		               // en este caso se muestra un dialogo de selección de fichero de
 		               // guardado.
@@ -111,9 +109,6 @@ public class PlaylistCreationWindow extends JFrame{
 		});
 	     
 	}
-
-
-
 
 	protected void checkBoxPanelSongs(String filePath) {
 
@@ -170,8 +165,4 @@ public class PlaylistCreationWindow extends JFrame{
     		SwingUtilities.updateComponentTreeUI(checkBoxPanelSongs);
     	}
 		
-	
-
-
-	
 }
