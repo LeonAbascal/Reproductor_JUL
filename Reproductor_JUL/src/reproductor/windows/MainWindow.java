@@ -67,7 +67,7 @@ public class MainWindow extends JFrame {
 	private static Logger logger = Logger.getLogger(MainWindow.class.getName());
 
 	JButton fileChooser;
-	JButton configuracion;
+	JButton configB;
 	JButton crearPlaylist;
 	JButton statistics;
 	
@@ -170,7 +170,7 @@ public class MainWindow extends JFrame {
 	               
 			}
 		});
-		configuracion.addActionListener(new ActionListener() {
+		configB.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -321,7 +321,6 @@ public class MainWindow extends JFrame {
 
 		// THESE BUTTONS WILL CONTAIN IMAGES
 		fileChooser= new JButton("Choose Songs");
-		configuracion= new JButton("Setting");
 		crearPlaylist= new JButton("Create playlist");
 		statistics= new JButton("Statistics");
 		
@@ -385,22 +384,12 @@ public class MainWindow extends JFrame {
 
         });
 	}
-
-	// CONVERT TO PAUSE BUTTON METHOD
-	private void pauseConvert(JButton b) {
-		b.setIcon(new ImageIcon("MusicFiles\\Icons\\pauseButton.png"));
-		stopB.setEnabled(true);
-		playing = true;
-	}
 			
 	private void addComponentsToWindow() {
 		
 		// PLAY BUTTON
-		playB = new JButton("");
-		playB.setMargin(new Insets(0, 0, 0, 0));
-		playB.setBackground(new Color(238,238,238));
-		playB.setBorder(null);
-		playB.setIcon(new ImageIcon("MusicFiles\\Icons\\playButton.png"));
+		playB = new JButton();
+		setButtonIcon(playB,"playButton.png");
 		
 		// PLAY BUTTON ACTION
 		playB.addActionListener(new ActionListener() {
@@ -419,15 +408,11 @@ public class MainWindow extends JFrame {
 			}
 			
 		});
-		randomB = new JButton("Random");
 		
 		// STOP BUTTON
-		stopB = new JButton("");
-		stopB.setMargin(new Insets(0, 0, 0, 0));
-		stopB.setBackground(new Color(238,238,238));
-		stopB.setBorder(null);
+		stopB = new JButton();
+		setButtonIcon(stopB,"stopButton.png");
 		stopB.setEnabled(false);
-		stopB.setIcon(new ImageIcon("MusicFiles\\Icons\\stopButton.png"));
 		
 		stopB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -438,7 +423,22 @@ public class MainWindow extends JFrame {
 			}
 		});
 		
-		//RANDOM BUTTON ACTION
+		// PREVIOUS BUTTON
+		previousB = new JButton();
+		setButtonIcon(previousB, "previousButton.png");
+		
+		// NEXT BUTTON
+		nextB = new JButton();
+		setButtonIcon(nextB, "nextButton.png");
+		
+		// CONFIG BUTTON
+		configB = new JButton();
+		setButtonIcon(configB, "configButton.png");
+		
+		//RANDOM BUTTON
+		randomB = new JButton();
+		setButtonIcon(randomB, "randomButton.png");
+		
 		randomB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -459,17 +459,15 @@ public class MainWindow extends JFrame {
 			}
 			
 		});
-		southPanel.add(randomB);
-		previousB = new JButton("Previous");
-		nextB = new JButton("Next");
 		
+		southPanel.add(statistics);
+		southPanel.add(configB);
 		southPanel.add(previousB);
-		southPanel.add(nextB);
 		southPanel.add(stopB);
 		southPanel.add(playB);
+		southPanel.add(nextB);
+		southPanel.add(randomB);
 		southPanel.add(fileChooser);
-		southPanel.add(configuracion);
-		southPanel.add(statistics);
 		
 		playlistButtons.add(crearPlaylist);
 		comboBoxPanelBorder = BorderFactory.createTitledBorder("Playlist");
@@ -490,6 +488,21 @@ public class MainWindow extends JFrame {
 		getContentPane().add(southPanel, BorderLayout.SOUTH);
 		
 	}
+	
+	// Method to put icons in Buttons
+	public void setButtonIcon(JButton b, String fileName) {
+		b.setMargin(new Insets(0, 0, 0, 0));
+		b.setBackground(new Color(238,238,238));
+		b.setBorder(null);
+		b.setIcon(new ImageIcon("MusicFiles\\Icons\\" + fileName));
+	}
+	
+	// Method to convert button to pauseadmin
+		private void pauseConvert(JButton b) {
+			b.setIcon(new ImageIcon("MusicFiles\\Icons\\pauseButton.png"));
+			stopB.setEnabled(true);
+			playing = true;
+		}
 	
 	// Method that updates PlayList ComboBox
 	
