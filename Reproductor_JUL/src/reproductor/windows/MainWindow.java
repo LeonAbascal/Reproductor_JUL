@@ -53,6 +53,9 @@ import reproductor.mainClasses.Counter;
 import reproductor.mainClasses.MP3;
 import reproductor.mainClasses.PlayList;
 import reproductor.mainClasses.Song;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import java.awt.Component;
 
 public class MainWindow extends JFrame {
 
@@ -95,10 +98,12 @@ public class MainWindow extends JFrame {
 				
 			
 		JPanel metadataPanel; // to the right
-			JLabel metadataText;
-			JLabel titleLabel;
-			JLabel artistLabel;
-			JLabel albumLabel;
+			JLabel l_title;
+			JLabel l_artist;
+			JLabel l_duration;
+			JLabel txt_title;
+			JLabel txt_artist;
+			JLabel txt_duration;
 		JPanel songsAndPlaylistSongsPanel;
 			JPanel songsPanel;
 			JPanel songsPlaylistPanel;
@@ -121,7 +126,6 @@ public class MainWindow extends JFrame {
 	Counter songsCounter;
 	Counter executedCounter;
 	static StatisticsWindow sw;
-	
 
 	public MainWindow() {
 		guiComponentDeclaration();
@@ -133,7 +137,7 @@ public class MainWindow extends JFrame {
 		executedCounter.inc();
 		writeExecutedCounter(executedCounter);
 	    
-		setTitle("Título");
+		setTitle("Tï¿½tulo");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(1280, 720);
 		setResizable(false);
@@ -245,15 +249,21 @@ public class MainWindow extends JFrame {
 		// PANELS A
 		centerPanel = new JPanel(new BorderLayout());
 		southPanel = new JPanel(new FlowLayout());
-		menuPanel = new JPanel(new GridLayout(2, 1));
+		menuPanel = new JPanel(new GridLayout(0, 1));
+		menuPanel.setPreferredSize(new Dimension(200, 200));
 		menuPanel.setMaximumSize(new Dimension(20, 20));
 		metadataPanel = new JPanel();
+		metadataPanel.setSize(new Dimension(100, 100));
+		metadataPanel.setPreferredSize(new Dimension(200, 100));
+		metadataPanel.setMinimumSize(new Dimension(200, 200));
+		metadataPanel.setMaximumSize(new Dimension(200, 200));
 		songsPanel = new JPanel(null);
 		songsPlaylistPanel = new JPanel(null);
 		songsScroll = new JScrollPane(songsPanel);
 		songsPlaylistScroll = new JScrollPane(songsPlaylistPanel);
 		songsAndPlaylistSongsPanel= new JPanel(new GridLayout(2, 1));
 		playlistotalSongs= new JLabel();
+		playlistotalSongs.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		// PlayList panel creation
 		comboBoxPanelPlaylist= new JPanel();
@@ -265,10 +275,38 @@ public class MainWindow extends JFrame {
 		menuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		metadataPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		metadataPanel.setLayout(new BorderLayout(0, 0));
+		metadataPanel.setLayout(new GridLayout(0, 2, 1, 0));
 
-		metadataText = new JLabel("Metadata");
-		metadataPanel.add(metadataText);
+		// Metadata panel labels and texts (txt_* changes)
+		l_title = new JLabel("Title:");
+		l_title.setPreferredSize(new Dimension(12, 12));
+		l_title.setHorizontalAlignment(SwingConstants.CENTER);
+		metadataPanel.add(l_title);
+		
+		txt_title = new JLabel("\"TITLE\"");
+		txt_title.setPreferredSize(new Dimension(12, 12));
+		txt_title.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_title.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		metadataPanel.add(txt_title);
+		
+		l_artist = new JLabel("Artist:");
+		l_artist.setHorizontalAlignment(SwingConstants.CENTER);
+		metadataPanel.add(l_artist);
+		
+		txt_artist = new JLabel("\"ARTIST\"");
+		txt_artist.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_artist.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		metadataPanel.add(txt_artist);
+		
+		l_duration = new JLabel("Duration:");
+		l_duration.setMaximumSize(new Dimension(38, 13));
+		l_duration.setPreferredSize(new Dimension(25, 13));
+		l_duration.setHorizontalAlignment(SwingConstants.CENTER);
+		metadataPanel.add(l_duration);
+		
+		txt_duration = new JLabel("\"DURATION\"");
+		txt_duration.setHorizontalAlignment(SwingConstants.LEFT);
+		metadataPanel.add(txt_duration);
 
 		// MENU BAR
 		fileMenu = new JMenu("File");
@@ -321,7 +359,9 @@ public class MainWindow extends JFrame {
         				JButton l = new JButton(song.getName());
         				l.addActionListener(new ActionListener() {
         					public void actionPerformed(ActionEvent e) {
-        						metadataText.setText(song.getName());
+        						txt_title.setText(song.getName());
+        						txt_artist.setText(song.getAlbum());
+//        						txt_duration.setText(MP3.getDuration(songsFile)); TODO Falta por poner
         						playingSongPath = song.getPath();
         					}
         				});
@@ -373,7 +413,7 @@ public class MainWindow extends JFrame {
 					writeSongsCounter(songsCounter);
 				} else {
 					playB.setIcon(new ImageIcon("MusicFiles\\Icons\\playButton.png"));
-					// TODO Implementar acción que pause la canción
+					// TODO Implementar acciï¿½n que pause la canciï¿½n
 					playing = false;
 				}
 			}
@@ -421,12 +461,12 @@ public class MainWindow extends JFrame {
 		});
 		southPanel.add(randomB);
 		previousB = new JButton("Previous");
+		nextB = new JButton("Next");
 		
 		southPanel.add(previousB);
+		southPanel.add(nextB);
 		southPanel.add(stopB);
 		southPanel.add(playB);
-		nextB = new JButton("Next");
-		southPanel.add(nextB);
 		southPanel.add(fileChooser);
 		southPanel.add(configuracion);
 		southPanel.add(statistics);
@@ -488,7 +528,9 @@ public class MainWindow extends JFrame {
 			JButton l = new JButton(fileName);
 			l.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					metadataText.setText(fileName);
+					txt_title.setText(fileName);
+					txt_artist.setText(MP3.getAlbumTag(songsFile));
+//					txt_duration.setText(MP3.getDuration(songsFile)); TODO Falta por poner
 					playingSongPath = file.getAbsolutePath();
 				}
 			});
@@ -559,7 +601,7 @@ public class MainWindow extends JFrame {
 		try (FileInputStream fis = new FileInputStream("logger/logger.properties")) {
 			LogManager.getLogManager().readConfiguration(fis);
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, "No se pudo leer el fichero de configuración del logger");
+			logger.log(Level.SEVERE, "No se pudo leer el fichero de configuraciï¿½n del logger");
 		}
 
 		SwingUtilities.invokeLater(new Runnable() {
