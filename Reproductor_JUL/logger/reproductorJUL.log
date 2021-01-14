@@ -1,10 +1,24 @@
-dic. 27, 2020 5:10:12 A. M. database.DBManager loadDriver
+ene. 14, 2021 7:09:50 P. M. reproductor.windows.MainWindow applySkin
+ADVERTENCIA: Not valid value in init file: 
+ene. 14, 2021 7:09:58 P. M. database.DBManager loadDriver
 INFORMACIÓN: Database drivers were loaded successfully.
-dic. 27, 2020 5:10:13 A. M. database.DBManager getAllUsers
+ene. 14, 2021 7:09:58 P. M. database.DBManager getAllUsers
 INFORMACIÓN: All users were obtained succesfully
-dic. 27, 2020 5:10:13 A. M. database.DBManager disconnect
+ene. 14, 2021 7:09:58 P. M. database.DBManager disconnect
 INFORMACIÓN: Connection successfully closed.
-dic. 27, 2020 5:10:13 A. M. reproductor.windows.MainWindow <init>
+ene. 14, 2021 7:09:58 P. M. database.DBManager loadDriver
+INFORMACIÓN: Database drivers were loaded successfully.
+ene. 14, 2021 7:09:58 P. M. database.DBManager getAllPlaylist
+INFORMACIÓN: All users were obtained succesfully
+ene. 14, 2021 7:09:58 P. M. database.DBManager disconnect
+INFORMACIÓN: Connection successfully closed.
+ene. 14, 2021 7:09:58 P. M. reproductor.windows.MainWindow <init>
 GRAVE: logger de prueba
-dic. 27, 2020 5:10:13 A. M. reproductor.windows.LogInWindow$2 actionPerformed
-INFORMACIÓN: User admin succesfully logged
+ene. 14, 2021 7:09:58 P. M. reproductor.windows.LogInWindow$2 actionPerformed
+INFORMACIÓN: User Julen succesfully logged
+ene. 14, 2021 7:10:02 P. M. database.DBManager loadDriver
+INFORMACIÓN: Database drivers were loaded successfully.
+ene. 14, 2021 7:10:02 P. M. database.DBManager getSongs
+INFORMACIÓN: All users were obtained succesfully
+ene. 14, 2021 7:10:02 P. M. database.DBManager disconnect
+INFORMACIÓN: Connection successfully closed.

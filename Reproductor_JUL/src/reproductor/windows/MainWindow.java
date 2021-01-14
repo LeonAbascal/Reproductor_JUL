@@ -336,7 +336,7 @@ public class MainWindow extends JFrame {
                     System.out.println("Seleccionado: " + e.getItem());
                     List<Song> songs = new ArrayList<Song>();
                     songs=DBManager.getSongs((String) e.getItem(), login_w.getLogInWindowUsername());
-                                        
+                    MainWindow.this.selectedPLSongs = songs;               
         			Counter contx = new Counter();
         			Counter conty = new Counter();
 
@@ -438,15 +438,21 @@ public class MainWindow extends JFrame {
 		//RANDOM BUTTON ACTION
 		randomB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				List<Song> randomized = new ArrayList<Song>(selectedPLSongs);
-				System.out.println(randomized);
-				Collections.shuffle(randomized);  // Randomizes the PlayList
 				
+				List<Song> randomized = new ArrayList<Song>(selectedPLSongs);
+				//System.out.println(randomized);
+				Collections.shuffle(randomized);  // Randomizes the PlayList
+				Song song = randomized.get(0);
+				MP3 mp3 = new MP3(song.getPath());
+				mp3.play();
+				System.out.println("NOW PLAYING: " + song.getName());
+				/*
 				for (Song song : randomized) {
 					MP3 mp3 = new MP3(song.getPath());
 					mp3.play();
 					System.out.println("NOW PLAYING: " + song.getName());	
 				}
+				*/
 			}
 			
 		});
