@@ -160,7 +160,7 @@ public class MainWindow extends JFrame {
 	                   // el usuario ha pulsado el boton aceptar
 	                   // se obtiene el fichero seleccionado -> File
 	                   File file = fileChooser.getSelectedFile();
-	                   System.out.println("Fichero seleccionado: " + file.toString());
+	                   logger.log(Level.INFO, "Fichero seleccionado: " + file.toString());
 	                   songsScrollPanel(file.getAbsolutePath());
 	               }
 	               
@@ -262,9 +262,7 @@ public class MainWindow extends JFrame {
 		updatePlayListBox();
 		playlistButtons= new JPanel();
 		
-		
 		menuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		menuPanel.setLayout(new GridLayout(2, 1));
 		
 		metadataPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		metadataPanel.setLayout(new BorderLayout(0, 0));
@@ -341,8 +339,7 @@ public class MainWindow extends JFrame {
 					}
                     songsPlaylistPanel.setLayout(gLayout);
         			SwingUtilities.updateComponentTreeUI(songsPlaylistPanel);
-        			playlistotalSongs.setText("Total: " +String.valueOf(songs.size()));
-        			
+        			playlistotalSongs.setText("Total songs: " +String.valueOf(songs.size()));
                 }
             }
 
