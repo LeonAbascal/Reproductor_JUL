@@ -66,10 +66,8 @@ public class MainWindow extends JFrame {
 
 	private static Logger logger = Logger.getLogger(MainWindow.class.getName());
 
-	JButton fileChooser;
-	JButton configB;
-	JButton crearPlaylist;
-	JButton statistics;
+	static String playingSongPath;
+	MP3 mp3 = new MP3(playingSongPath);
 	
 	JMenuBar menuBar;
 		JMenu fileMenu;
@@ -116,11 +114,14 @@ public class MainWindow extends JFrame {
 		JButton randomB;
 		JButton previousB;
 		JButton nextB;
+		JButton fileChooser;
+		JButton configB;
+		JButton crearPlaylist;
+		JButton statistics;
 	
 	static Boolean playing = false;
 	static LogInWindow login_w;
 	static public MainWindow main_window;
-	static String playingSongPath;
 	static Configuration config;
 	static PlaylistCreationWindow pcw;
 	Counter songsCounter;
@@ -394,8 +395,9 @@ public class MainWindow extends JFrame {
 		// PLAY BUTTON ACTION
 		playB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MP3 mp3 = new MP3(playingSongPath);
 				if (!playing) {
+					mp3.close();
+					mp3.setFilename(playingSongPath);
 					mp3.play();
 					pauseConvert(playB);
 					songsCounter.inc();
@@ -416,7 +418,7 @@ public class MainWindow extends JFrame {
 		
 		stopB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO STOP ALL PLAYING SONGS
+				mp3.close();
 				stopB.setEnabled(false);
 				playB.setIcon(new ImageIcon("MusicFiles\\Icons\\playButton.png"));
 				playing = false;

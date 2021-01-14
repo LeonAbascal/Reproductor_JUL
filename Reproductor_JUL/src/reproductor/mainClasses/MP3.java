@@ -223,6 +223,10 @@ public class MP3 {
 	}
 
 
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
 	/**
 	 * @param f
 	 * @return Returns a String array with the content of the tags on the following order: title, artist, album, trackNo, genre, year 
