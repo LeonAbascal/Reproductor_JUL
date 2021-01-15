@@ -242,5 +242,23 @@ public class DBManager {
 		disconnect();
 		return usersPlaylistCount;
 	}
+	public static void Delete(String playlist, String user) {
+		connect();
+
+		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM playlist WHERE  belong_to_user=? AND name_p=?;")) {
+			
+			stmt.setString(1, user);
+			stmt.setString(2, playlist);
+			
+			stmt.executeUpdate();
+			logger.info("Playlist deleted succesfully");
+
+		} catch (SQLException e) {
+			logger.severe("Error deleting playlist");
+			logger.info(e.toString());
+		}
+		
+		disconnect();
+	}
 
 }
