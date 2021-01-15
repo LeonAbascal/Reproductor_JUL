@@ -509,6 +509,7 @@ public class MainWindow extends JFrame {
 		strings = DBManager.getAllPlaylist(login_w.getLogInWindowUsername());
 		comboBoxModel = new DefaultComboBoxModel<>(strings.toArray(new String[0]));
 		comboBox.setModel(comboBoxModel);
+		comboBox.setSelectedIndex(-1);
 	}
 
 	// Method that creates the center scroll panel with the songs buttons
