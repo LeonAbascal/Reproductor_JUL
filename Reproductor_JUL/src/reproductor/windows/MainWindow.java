@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -21,10 +22,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -32,7 +31,6 @@ import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -44,6 +42,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
@@ -51,11 +50,7 @@ import javax.swing.border.Border;
 import database.DBManager;
 import reproductor.mainClasses.Counter;
 import reproductor.mainClasses.MP3;
-import reproductor.mainClasses.PlayList;
 import reproductor.mainClasses.Song;
-import javax.swing.SwingConstants;
-import java.awt.Font;
-import java.awt.Component;
 
 public class MainWindow extends JFrame {
 
@@ -418,6 +413,7 @@ public class MainWindow extends JFrame {
 		
 		stopB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				mp3.stop();
 				mp3.close();
 				stopB.setEnabled(false);
 				playB.setIcon(new ImageIcon("MusicFiles\\Icons\\playButton.png"));
@@ -570,37 +566,34 @@ public class MainWindow extends JFrame {
 		
 		try {
 			p.load(new FileInputStream(f));
-			String skinS = p.getProperty("skin");
+			String skinLine = p.getProperty("skin");
 			
-			switch (skinS) {
+			switch (skinLine) {
 			case "SWING": {
-				UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-				// logger.log(Level.INFO, "First line read: " + skinLine + " in lionSynth.init.
-				// Default skin applied.");
+				UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");	
+				// Default skin applied
 				break;
 			}
 			case "MOTIF": {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
-				// logger.log(Level.INFO, "First line read: " + skinLine + " in lionSynth.ini.
-				// Motif skin applied.");
+				// Motif skin applied
 				break;
 			}
 			case "NIMBUS": {
 				UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-				System.out.println("Classic Macintosh skin applied");
-				// logger.log(Level.INFO, "First line read: " + skinLine + " in lionSynth.ini.
-				// Classic Machintosh skin applied");
+				// Classic Machintosh skin applied
 				break;
 			}
 			case "WINDOWS": {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-				// logger.log(Level.INFO, "First line read: " + skinLine + " in lionSynth.ini.
-				// Windows skin applied");
+				// Windows skin applied
+				break;
 			}
 			default:
-				logger.warning("Not valid value in init file: " + skinS);
+				logger.warning("Not valid value in init file: " + skinLine);
 			}
-
+			
+			logger.log(Level.INFO, "First line read: " + skinLine + " from JUL.init.");
 
 		} catch (FileNotFoundException e) {
 			// logger.log(Level.FINE, "lionSynth.init file was deleted or does not still

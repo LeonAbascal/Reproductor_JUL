@@ -1,87 +1,85 @@
 package reproductor.mainClasses;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.net.URL;
 import java.util.logging.Logger;
 
-import com.mpatric.mp3agic.ID3Wrapper;
 import com.mpatric.mp3agic.ID3v1;
-import com.mpatric.mp3agic.ID3v1Genres;
-import com.mpatric.mp3agic.ID3v1Tag;
 import com.mpatric.mp3agic.ID3v2;
-import com.mpatric.mp3agic.ID3v23Tag;
 import com.mpatric.mp3agic.Mp3File;
-import com.mpatric.mp3agic.NotSupportedException;
 
 import database.DBManager;
-import javazoom.jl.player.Player;
+import javazoom.jl.player.advanced.AdvancedPlayer;
+import javazoom.jl.player.advanced.PlaybackEvent;
+import javazoom.jl.player.advanced.PlaybackListener;
 
 
-public class MP3 {
+public class MP3 extends PlaybackListener implements Runnable {
 	private String filename;
-	private Player player; 
+	//private Player player; 
 	static Logger logger = Logger.getLogger(DBManager.class.getName());
+	private AdvancedPlayer player;
+	private Thread playerThread;
+	boolean playing;
 
-	// constructor that takes the name of an MP3 file
+	/** MP3 class that allows mp3 files playback
+	 * 
+	 * @param filename file name must always be absolute path
+	 */
 	public MP3(String filename) {
 		this.filename = filename;
+		playing = false;
 	}
 
 	public void close() { if (player != null) player.close(); }
 
-	// play the MP3 file to the sound card
+	// PLAYBACK METHODS
 	public void play() {
 		try {
-			FileInputStream fis     = new FileInputStream(filename);
-			BufferedInputStream bis = new BufferedInputStream(fis);
-			player = new Player(bis);
+			String urlAsString = "file:///" + filename;
+
+			this.player = new AdvancedPlayer(new URL(urlAsString).openStream(),
+					javazoom.jl.player.FactoryRegistry.systemRegistry().createAudioDevice());
+
+			this.player.setPlayBackListener(this);
+
+			this.playerThread = new Thread(this, "AudioPlayerThread");
+
+			this.playerThread.start();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
-		catch (Exception e) {
-			System.out.println("Problem playing file " + filename);
-			System.out.println(e);
-		}
-
-		// run in new thread to play in background
-		new Thread() {
-			public void run() {
-				try { player.play(); }
-				catch (Exception e) { System.out.println(e); }
-			}
-		}.start();
-
-
-
 
 	}
-
-
 	
-	public static void main(String[] args) {
-		File f = new File("MusicFiles\\Arctic Monkeys - Do I Wanna Know (Official Video).mp3");
-		File f2 = new File("MusicFiles\\Outrun Project.mp3"); // ID 3v1
-		System.out.println(MP3.getGenreTag(f));
+	public void stop() {
+		this.player.stop();
+	}
+	
+	public void playbackStarted(PlaybackEvent playbackEvent) {
+		System.out.println("playbackStarted()");
+		this.playing = true;
+	}
+
+	public void playbackFinished(PlaybackEvent playbackEvent) {
+		System.out.println("playbackEnded()");
+		this.playing = false;
+	}
+	
+	public void run() {
 		try {
-			Mp3File mp3 = new Mp3File(f2);
-			System.out.println("ID3v1: " + mp3.hasId3v1Tag());
-			System.out.println("ID3v2: " + mp3.hasId3v2Tag());
-			if (mp3.hasId3v2Tag()) {
-				ID3v2 tag = mp3.getId3v2Tag();
-				System.out.println(tag.getGenre());
-			}
-			
-			else if (mp3.hasId3v1Tag()) {
-				ID3v1 tag = mp3.getId3v1Tag();
-				System.out.println(tag.getArtist());
-			}
-			
-		} catch (Exception e) { System.err.println(e);}
-		
-
-
+			this.player.play();
+		} catch (javazoom.jl.decoder.JavaLayerException ex) {
+			ex.printStackTrace();
+		}
 	}
 	
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+	
+	
+	// TAGGING METHODS (STATIC)
 
 	public static String getTitleTag(File f) {
 		try {
@@ -220,11 +218,6 @@ public class MP3 {
 		} catch (Exception e) { logger.warning("Exception trying to read title tag of mp3 file (" + f.getAbsolutePath() + ")"); }
 
 		return "";
-	}
-
-
-	public void setFilename(String filename) {
-		this.filename = filename;
 	}
 
 	/**

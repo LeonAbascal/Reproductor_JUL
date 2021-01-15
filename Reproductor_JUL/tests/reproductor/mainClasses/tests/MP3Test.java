@@ -13,15 +13,11 @@ public class MP3Test {
 
 	private File f;
 	private File f2;
-	private File f3;
-	private File f4;
 	
 	@Before
 	public void setUp() {
 		f = new File("MusicFiles\\Arctic Monkeys - Do I Wanna Know (Official Video).mp3"); // ID 3v2 GETTERS
 		f2 = new File("MusicFiles\\Outrun Project.mp3"); // ID 3v1 GETTERS
-		f3 = new File("MusicFiles\\Beave - Too Much Ft. Bethany Lamb (Torin Dundas Remix).mp3"); // ID 3v2 SETTERS
-		f4 = new File("MusicFiles\\Pink Floyd - Have a Cigar.mp3"); // ID 3v1 SETTERS
 	}
 	
 	@Test

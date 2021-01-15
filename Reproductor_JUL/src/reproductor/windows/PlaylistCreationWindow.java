@@ -50,6 +50,7 @@ public class PlaylistCreationWindow extends JFrame{
 	     setTitle("Playlist management");
 	     setVisible(true);
 	     setSize(600, 600);
+	     setResizable(false);
 	     setLocationRelativeTo(null);
 	     JButton fileChooserButton;
 	     JButton save;
@@ -189,10 +190,13 @@ public class PlaylistCreationWindow extends JFrame{
     					JToggleButton toggleButton = (JToggleButton) e.getSource();
     	                logger.info("Cambio de estado en " + toggleButton.getText() + ". Seleccionado: " + toggleButton.isSelected());
     	                //Song s = new Song(fileName,"","",0,"",file.getAbsolutePath());
+    	                
     	                if (toggleButton.isSelected()) {
 							songs.add(new Song(fileName,"","",0,"",file.getAbsolutePath()));
-						}if (!toggleButton.isSelected()){
+							
+						} if (!toggleButton.isSelected()){
 							songs.remove(new Song(fileName,"","",0,"",file.getAbsolutePath()));
+							
 						}
     				}
     			});
