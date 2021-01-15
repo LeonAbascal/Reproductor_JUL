@@ -147,9 +147,10 @@ public class PlaylistCreationWindow extends JFrame{
 	                    	MainWindow.main_window.updatePlayListBox();
 		    				SwingUtilities.updateComponentTreeUI(MainWindow.main_window.menuPanel);
 		    				dispose();
-	          
-	                	
-	                }
+		    			
+	                	}else{
+	                		comboBox.setSelectedIndex(-1);
+	                	}
 	            }
 
 	        }});
