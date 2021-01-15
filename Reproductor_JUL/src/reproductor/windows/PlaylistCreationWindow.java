@@ -140,7 +140,7 @@ public class PlaylistCreationWindow extends JFrame{
 	                // un elemento de la lista
 	                if (e.getStateChange() == ItemEvent.SELECTED) {
 	                	logger.log(Level.INFO, "Seleccionado: " + e.getItem());
-	                	int response = JOptionPane.showConfirmDialog(PlaylistCreationWindow.this, "Estas seguro?", "Confirm", JOptionPane.YES_NO_OPTION);
+	                	int response = JOptionPane.showConfirmDialog(PlaylistCreationWindow.this, "Are you sure?", "Confirm", JOptionPane.YES_NO_OPTION);
 	                    if (response == JOptionPane.YES_OPTION) {
 	                    	//Dbmanager delete playlist
 	                    	DBManager.Delete(e.getItem().toString(), username);
