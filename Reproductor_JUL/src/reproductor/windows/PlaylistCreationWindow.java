@@ -59,6 +59,7 @@ public class PlaylistCreationWindow extends JFrame{
 	     List<String> playlists = DBManager.getAllPlaylist(username);
 	     ComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(playlists.toArray(new String[0]));
 	     comboBox = new JComboBox<>(comboBoxModel);
+	     comboBox.setSelectedIndex(-1);
 	     
 	     
 	     fileChooserButton = new JButton("Select the path of the songs");
