@@ -447,7 +447,7 @@ public class MainWindow extends JFrame {
 				List<Song> randomized = new ArrayList<Song>(selectedPLSongs);
 				Collections.shuffle(randomized);  // Randomizes the PlayList
 				Song song = randomized.get(0);
-				MP3 mp3 = new MP3(song.getPath());
+				mp3.setFilename(song.getPath());
 				mp3.play();
 				pauseConvert(playB);
 				logger.log(Level.INFO, "NOW PLAYING: " + song.getName());

@@ -32,7 +32,7 @@ public class StatisticsWindow extends JFrame{
         setLocationRelativeTo(null);
         
         JLabel songsPlayedLabelName= new JLabel("Number of songs played on this computer: ");
-        JLabel julExecutedTimesLabelName= new JLabel("Number of times opened JUL: ");
+        JLabel julExecutedTimesLabelName= new JLabel("Number of times opened JUL on this computer: ");
         JLabel songsPlayedLabel= new JLabel(String.valueOf(songsPlayed));
         JLabel julExecutedTimesLabel= new JLabel(String.valueOf(julExecutedTimes));
         JPanel mainPanel = new JPanel(new GridLayout(2, 2));
