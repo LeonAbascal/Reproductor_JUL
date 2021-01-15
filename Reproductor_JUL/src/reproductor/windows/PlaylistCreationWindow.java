@@ -6,14 +6,23 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -38,22 +47,37 @@ public class PlaylistCreationWindow extends JFrame{
 		 
 		 
 		 setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	     setTitle("Creacion de Playlist");
+	     setTitle("Playlist management");
 	     setVisible(true);
 	     setSize(600, 600);
 	     setLocationRelativeTo(null);
 	     JButton fileChooserButton;
 	     JButton save;
+	     JComboBox<String> comboBox;
+	     
+	     
+	     List<String> playlists = DBManager.getAllPlaylist(username);
+	     ComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(playlists.toArray(new String[0]));
+	     comboBox = new JComboBox<>(comboBoxModel);
+	     
 	     
 	     fileChooserButton = new JButton("Select the path of the songs");
-	     fileChooserButton.setBounds(157, 5, 161, 21);
+	     fileChooserButton.setBounds(17, 5, 200, 21);
 	     save = new JButton("Save playlist");
-	     save.setBounds(323, 5, 89, 21);
+	     save.setBounds(223, 5, 120, 21);
+	     
+	     comboBox.setBounds(450, 5, 100, 21);
 	     JPanel mainPanel = new JPanel();
 	     mainPanel.setLayout(null);
 	     
+	     JLabel delete= new JLabel("Delete Playlist: ");
+	     delete.setBounds(353, 5, 89, 21);
+	     
 	     mainPanel.add(fileChooserButton);
 	     mainPanel.add(save);
+	     mainPanel.add(comboBox);
+	     mainPanel.add(delete);
+	     
 	     checkBoxPanelSongs = new JPanel();
 	     JScrollPane mainScrollPane = new JScrollPane(checkBoxPanelSongs);
 	     mainScrollPane.setBounds(10, 35, 566, 518);
@@ -107,6 +131,27 @@ public class PlaylistCreationWindow extends JFrame{
 				dispose();
 			}
 		});
+	     comboBox.addItemListener(new ItemListener() {
+
+	            @Override
+	            public void itemStateChanged(ItemEvent e) {
+	                // se comprueba si se ha seleccionado o deseleccionado
+	                // un elemento de la lista
+	                if (e.getStateChange() == ItemEvent.SELECTED) {
+	                	logger.log(Level.INFO, "Seleccionado: " + e.getItem());
+	                	int response = JOptionPane.showConfirmDialog(PlaylistCreationWindow.this, "Estas seguro?", "Confirm", JOptionPane.YES_NO_OPTION);
+	                    if (response == JOptionPane.YES_OPTION) {
+	                    	//Dbmanager delete playlist
+	                    	DBManager.Delete(e.getItem().toString(), username);
+	                    	MainWindow.main_window.updatePlayListBox();
+		    				SwingUtilities.updateComponentTreeUI(MainWindow.main_window.menuPanel);
+		    				dispose();
+	          
+	                	
+	                }
+	            }
+
+	        }});
 	     
 	}
 

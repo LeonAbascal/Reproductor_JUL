@@ -322,7 +322,7 @@ public class MainWindow extends JFrame {
 
 		// THESE BUTTONS WILL CONTAIN IMAGES
 		fileChooser= new JButton("Choose Songs");
-		crearPlaylist= new JButton("Create playlist");
+		crearPlaylist= new JButton("Playlist management");
 		statistics= new JButton("Statistics");
 		
 		
