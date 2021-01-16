@@ -120,14 +120,22 @@ public class PlaylistCreationWindow extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String name = JOptionPane.showInputDialog("	Insert the name of the Playlist");
-				JOptionPane.showMessageDialog(null, "Playlist " + name+ " created");
-				playlist= new PlayList(songs, name);
-				//Dbmanager store playlist method
-				DBManager.storePlaylist(playlist,username);;
-				for (Song song : songs) {
-					//Dbmanager store songs method
-					DBManager.storeSong(song, name);
+				
+				if (name != null) {
+					if (!name.isBlank()) {
+						JOptionPane.showMessageDialog(null, "Playlist " + name+ " created");
+						playlist= new PlayList(songs, name);
+						//Dbmanager store playlist method
+						DBManager.storePlaylist(playlist,username);;
+						for (Song song : songs) {
+							//Dbmanager store songs method
+							DBManager.storeSong(song, name);
+						}
+						
+					}
+					
 				}
+				
 				songs.clear();
 				MainWindow.main_window.updatePlayListBox();
 				SwingUtilities.updateComponentTreeUI(MainWindow.main_window.menuPanel);
