@@ -267,6 +267,18 @@ public class DBManager {
 			logger.severe("Error deleting playlist");
 			logger.info(e.toString());
 		}
+
+		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM belongs WHERE name_p=?;")) {
+
+			stmt.setString(1, playlist);
+
+			stmt.executeUpdate();
+			logger.info("Playlist deleted succesfully");
+
+		} catch (SQLException e) {
+			logger.severe("Error deleting playlist");
+			logger.info(e.toString());
+		}
 		
 		disconnect();
 	}
