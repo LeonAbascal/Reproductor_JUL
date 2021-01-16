@@ -539,7 +539,7 @@ public class MainWindow extends JFrame {
 		playlistButtons= new JPanel();
 		playlistButtons.setLayout(null);
 		crearPlaylist= new JButton("Playlist management");
-		crearPlaylist.setBounds(33, 95, 127, 26);
+		crearPlaylist.setBounds(23, 95, 155, 26);
 		
 		playlistButtons.add(crearPlaylist);
 		menuPanel.add(playlistButtons);
