@@ -524,6 +524,10 @@ public class MainWindow extends JFrame {
 		randomB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				if (mp3.isPlaying()) {
+					mp3.close();
+				}
+				
 				Collections.shuffle(nowPlaying);  // Randomizes the PlayList
 				Song song = nowPlaying.get(0);
 				mp3.setFilename(song.getPath());
