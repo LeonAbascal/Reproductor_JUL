@@ -195,14 +195,16 @@ public class PlaylistCreationWindow extends JFrame{
     	                String titleTag = MP3.getTitleTag(file);
     	                String artistTag = MP3.getArtistTag(file);
     	                String albumTag = MP3.getAlbumTag(file);
-    	                
+    	                String trackTag = MP3.getTrackNoTag(file);
+    	                String genreTag = MP3.getGenreTag(file);
+    	                String yearTag = MP3.getYearTag(file);
     	                
     	                
     	                if (toggleButton.isSelected()) {
-							songs.add(new Song(titleTag, artistTag, albumTag, "", "", file.getAbsolutePath()));
+    	                	songs.remove(new Song(titleTag, artistTag, albumTag, trackTag, file.getAbsolutePath(), genreTag, yearTag));
 							
 						} if (!toggleButton.isSelected()){
-							songs.remove(new Song(titleTag, artistTag, albumTag, "", "", file.getAbsolutePath()));
+							songs.remove(new Song(titleTag, artistTag, albumTag, trackTag, file.getAbsolutePath(), genreTag, yearTag));
 							
 						}
     				}
