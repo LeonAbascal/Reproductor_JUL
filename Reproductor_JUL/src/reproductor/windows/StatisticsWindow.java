@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,6 +26,7 @@ public class StatisticsWindow extends JFrame{
 	
 	public StatisticsWindow(int songsPlayed,int julExecutedTimes){
 		
+		setIconImage(new ImageIcon("MusicFiles\\Icons\\icon_JUL.png").getImage());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Statistics");
         setVisible(true);

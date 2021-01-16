@@ -113,17 +113,20 @@ public class MainWindow extends JFrame {
 		JButton configB;
 		JButton crearPlaylist;
 		JButton statistics;
-	
+		
+		// Static v
 	static Boolean playing = false;
 	static LogInWindow login_w;
 	static public MainWindow main_window;
 	static Configuration config;
 	static PlaylistCreationWindow pcw;
+	static StatisticsWindow sw;
+	
 	Counter songsCounter;
 	Counter executedCounter;
-	static StatisticsWindow sw;
 
 	public MainWindow() {
+		setIconImage(new ImageIcon("MusicFiles\\Icons\\icon_JUL.png").getImage());
 		guiComponentDeclaration();
 		addComponentsToWindow();
 		songsScrollPanel("MusicFiles");
@@ -133,7 +136,7 @@ public class MainWindow extends JFrame {
 		executedCounter.inc();
 		writeExecutedCounter(executedCounter);
 	    
-		setTitle("T�tulo");
+		setTitle("Reproductor JUL");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(1280, 720);
 		setResizable(false);
@@ -244,7 +247,9 @@ public class MainWindow extends JFrame {
 	private void guiComponentDeclaration() {
 		// PANELS A
 		centerPanel = new JPanel(new BorderLayout());
-		southPanel = new JPanel(new FlowLayout());
+		FlowLayout fl_southPanel = new FlowLayout();
+		fl_southPanel.setHgap(10);
+		southPanel = new JPanel(fl_southPanel);
 		menuPanel = new JPanel(new GridLayout(0, 1));
 		menuPanel.setPreferredSize(new Dimension(200, 200));
 		menuPanel.setMaximumSize(new Dimension(20, 20));
@@ -259,6 +264,7 @@ public class MainWindow extends JFrame {
 		songsPlaylistScroll = new JScrollPane(songsPlaylistPanel);
 		songsAndPlaylistSongsPanel= new JPanel(new GridLayout(2, 1));
 		playlistotalSongs= new JLabel();
+		playlistotalSongs.setVerticalAlignment(SwingConstants.TOP);
 		playlistotalSongs.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		// PlayList panel creation
@@ -266,42 +272,47 @@ public class MainWindow extends JFrame {
 		comboBox = new JComboBox<>();
 		List<Song> selectedPLSongs = new ArrayList<Song>();
 		updatePlayListBox();
-		playlistButtons= new JPanel();
 		
 		menuPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		metadataPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		metadataPanel.setLayout(new GridLayout(0, 2, 1, 0));
+		metadataPanel.setLayout(new GridLayout(0, 1, 1, 0));
 
 		// Metadata panel labels and texts (txt_* changes)
 		l_title = new JLabel("Title:");
+		l_title.setFont(new Font("Tahoma", Font.BOLD, 12));
+		l_title.setVerticalAlignment(SwingConstants.BOTTOM);
 		l_title.setPreferredSize(new Dimension(12, 12));
 		l_title.setHorizontalAlignment(SwingConstants.CENTER);
 		metadataPanel.add(l_title);
 		
 		txt_title = new JLabel("\"TITLE\"");
 		txt_title.setPreferredSize(new Dimension(12, 12));
-		txt_title.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_title.setHorizontalAlignment(SwingConstants.CENTER);
 		txt_title.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		metadataPanel.add(txt_title);
 		
 		l_artist = new JLabel("Artist:");
+		l_artist.setFont(new Font("Tahoma", Font.BOLD, 12));
+		l_artist.setVerticalAlignment(SwingConstants.BOTTOM);
 		l_artist.setHorizontalAlignment(SwingConstants.CENTER);
 		metadataPanel.add(l_artist);
 		
 		txt_artist = new JLabel("\"ARTIST\"");
-		txt_artist.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_artist.setHorizontalAlignment(SwingConstants.CENTER);
 		txt_artist.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		metadataPanel.add(txt_artist);
 		
 		l_duration = new JLabel("Duration:");
+		l_duration.setFont(new Font("Tahoma", Font.BOLD, 12));
+		l_duration.setVerticalAlignment(SwingConstants.BOTTOM);
 		l_duration.setMaximumSize(new Dimension(38, 13));
 		l_duration.setPreferredSize(new Dimension(25, 13));
 		l_duration.setHorizontalAlignment(SwingConstants.CENTER);
 		metadataPanel.add(l_duration);
 		
 		txt_duration = new JLabel("\"DURATION\"");
-		txt_duration.setHorizontalAlignment(SwingConstants.LEFT);
+		txt_duration.setHorizontalAlignment(SwingConstants.CENTER);
 		metadataPanel.add(txt_duration);
 
 		// MENU BAR
@@ -317,7 +328,6 @@ public class MainWindow extends JFrame {
 
 		// THESE BUTTONS WILL CONTAIN IMAGES
 		fileChooser= new JButton("Choose Songs");
-		crearPlaylist= new JButton("Playlist management");
 		statistics= new JButton("Statistics");
 		
 		
@@ -466,14 +476,18 @@ public class MainWindow extends JFrame {
 		southPanel.add(nextB);
 		southPanel.add(randomB);
 		southPanel.add(fileChooser);
-		
-		playlistButtons.add(crearPlaylist);
 		comboBoxPanelBorder = BorderFactory.createTitledBorder("Playlist");
 		comboBoxPanelPlaylist.add(comboBox);
 		menuPanel.add(comboBoxPanelPlaylist);
+		playlistButtons= new JPanel();
+		playlistButtons.setLayout(null);
+		crearPlaylist= new JButton("Playlist management");
+		crearPlaylist.setBounds(33, 95, 127, 26);
+		
+		playlistButtons.add(crearPlaylist);
+		menuPanel.add(playlistButtons);
 		
 		menuPanel.add(playlistotalSongs);
-		menuPanel.add(playlistButtons);
 		
 		songsAndPlaylistSongsPanel.add(songsScroll);
 		songsAndPlaylistSongsPanel.add(songsPlaylistScroll);
@@ -540,7 +554,7 @@ public class MainWindow extends JFrame {
 			JButton l = new JButton(fileName);
 			l.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					txt_title.setText(fileName);
+					txt_title.setText(MP3.getTitleTag(songsFile));
 					txt_artist.setText(MP3.getAlbumTag(songsFile));
 //					txt_duration.setText(MP3.getDuration(songsFile)); TODO Falta por poner
 					playingSongPath = file.getAbsolutePath();

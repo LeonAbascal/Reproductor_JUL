@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -45,7 +46,7 @@ public class PlaylistCreationWindow extends JFrame{
 	JPanel checkBoxPanelSongs;
 	public PlaylistCreationWindow(String username) {
 		 
-		 
+		 setIconImage(new ImageIcon("MusicFiles\\Icons\\icon_JUL.png").getImage());
 		 setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	     setTitle("Playlist management");
 	     setVisible(true);
@@ -96,7 +97,7 @@ public class PlaylistCreationWindow extends JFrame{
 					JFileChooser fileChooser = new JFileChooser();
 					fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		               
-		               // Para añadir un filtro
+		               // Para aï¿½adir un filtro
 					   //FileFilter filter = new FileNameExtensionFilter("Canciones Mp3", "mp3");
 					   //fileChooser.setFileFilter(filter);
 

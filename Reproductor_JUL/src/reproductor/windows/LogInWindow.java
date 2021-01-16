@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -49,13 +50,13 @@ public class LogInWindow extends JFrame {
 
 			// NAME + PASSWORD
 			name = new JLabel("Nombre:");
-			password = new JLabel("Contraseña:");
+			password = new JLabel("Contraseï¿½a:");
 			userName = new JTextField(20);
 			userPassword = new JPasswordField(20);
 
 			// BUTTONS
 			registerUser = new JButton("Registrarse");
-			logIn = new JButton("Iniciar sesión");
+			logIn = new JButton("Iniciar sesiï¿½n");
 
 			// REGISTRO
 			registerUser.addActionListener(new ActionListener() {
@@ -64,8 +65,8 @@ public class LogInWindow extends JFrame {
 
 					if ((userName.getText().isBlank()) || (userPassword.getText().isBlank())) {
 
-						System.out.println("No se pudo crear el usuario: TextField vacío");
-						JOptionPane.showMessageDialog(null, "Nombre y Contraseña son campos obligatorios",
+						System.out.println("No se pudo crear el usuario: TextField vacï¿½o");
+						JOptionPane.showMessageDialog(null, "Nombre y Contraseï¿½a son campos obligatorios",
 								"Error de registro", JOptionPane.WARNING_MESSAGE);
 
 					} else {
@@ -88,7 +89,7 @@ public class LogInWindow extends JFrame {
 							User u = new User(userName.getText(), userPassword.getText(), null);
 							nameu=u.getName();
 							// ---------------------------------------------------------
-							// AÑADIR NUEVO USUARIO A LA LISTA DE USUARIOS
+							// Aï¿½ADIR NUEVO USUARIO A LA LISTA DE USUARIOS
 							// ---------------------------------------------------------
 							DBManager.store(u);
 							logger.log(Level.INFO, "New user registered -> " + u.getName());
@@ -102,7 +103,7 @@ public class LogInWindow extends JFrame {
 			});
 
 			/* 
-			* INCIO DE SESIÓN
+			* INCIO DE SESIï¿½N
 			*-----------------
 			*/
 			
@@ -112,8 +113,8 @@ public class LogInWindow extends JFrame {
 					if ((userName.getText().isBlank()) || (userPassword.getText().isBlank())) {
 
 						logger.log(Level.WARNING, "Cant logIn into user, blank TextField");
-						JOptionPane.showMessageDialog(null, "Nombre y Contraseña son campos obligatorios",
-								"Error de inicio de sesión", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Nombre y Contraseï¿½a son campos obligatorios",
+								"Error de inicio de sesiï¿½n", JOptionPane.WARNING_MESSAGE);
 
 					} else {
 						// Sacamos los usuarios de la BD
@@ -136,7 +137,7 @@ public class LogInWindow extends JFrame {
 						if (!exists) {
 							logger.log(Level.WARNING, "Cant logIn into user, user does not exist");
 							JOptionPane.showMessageDialog(null, "Usuario " + userName.getText() + " no existe",
-									"Error de inicio de sesión", JOptionPane.WARNING_MESSAGE);
+									"Error de inicio de sesiï¿½n", JOptionPane.WARNING_MESSAGE);
 						} else {
 							if (u_selected.getPassword().equals(userPassword.getText())) {
 								MainWindow.main_window = new MainWindow(); // MainWindow init.
@@ -144,12 +145,12 @@ public class LogInWindow extends JFrame {
 								MainWindow.login_w.setVisible(false);
 								logger.log(Level.INFO, "User " + u_selected.getName() + " succesfully logged");
 								JOptionPane.showMessageDialog(null,
-										"Sesión iniciada para el usuario " + u_selected.getName());
+										"Sesiï¿½n iniciada para el usuario " + u_selected.getName());
 								
 							} else {
 								logger.log(Level.WARNING, "Cant logIn into user, wrong password");
-								JOptionPane.showMessageDialog(null, "Contraseña incorrecta",
-										"Error de inicio de sesión", JOptionPane.WARNING_MESSAGE);
+								JOptionPane.showMessageDialog(null, "Contraseï¿½a incorrecta",
+										"Error de inicio de sesiï¿½n", JOptionPane.WARNING_MESSAGE);
 							}
 						}
 					}
@@ -158,7 +159,7 @@ public class LogInWindow extends JFrame {
 		}
 	
 	private void addComponentsToWindow() {
-		// AÑADIR LOS COMPONENTES A LA UI
+		// Aï¿½ADIR LOS COMPONENTES A LA UI
 		// Definir el panel para los componentes
 		GridBagLayout layout = new GridBagLayout();
 		center.setLayout(layout);
@@ -204,7 +205,8 @@ public class LogInWindow extends JFrame {
 		guiComponentDeclaration();
 		addComponentsToWindow();
 		
-		setTitle("Iniciar Sesión");
+		setIconImage(new ImageIcon("MusicFiles\\Icons\\icon_JUL.png").getImage());
+		setTitle("Iniciar Sesiï¿½n");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(400, 300);
 		setResizable(false);
