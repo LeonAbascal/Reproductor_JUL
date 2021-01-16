@@ -33,6 +33,14 @@ public class CounterTest {
 	}
 	
 	@Test
+	public void testDec() {
+		counter.dec();
+		assertEquals(-1, counter.get());
+		counter1.dec(3);
+		assertEquals(-2, counter1.get());
+	}
+	
+	@Test
 	public void testReset() {
 		counter1.reset();
 		assertEquals(0, counter.get());

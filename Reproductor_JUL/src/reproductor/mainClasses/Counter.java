@@ -28,6 +28,10 @@ public class Counter implements Serializable{
 	
 	public void inc( int inc ) { cont += inc; }
 	
+	public void dec() { cont--; }
+	
+	public void dec( int dec ) { cont -= dec; }
+	
 	public void reset() { cont = 0;}
 	
 	@Override
