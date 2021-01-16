@@ -16,7 +16,7 @@ public class SongTest {
 	public void setUp() {
 
 		emptyS = new Song();
-		s = new Song("Fire", "Pedro", "New", 2, "2:00", "examplepath");
+		s = new Song("Fire", "Pedro", "New", "2", "2:00", "examplepath");
 
 	}
 
@@ -55,13 +55,13 @@ public class SongTest {
 
 	@Test
 	public void testGetTrack() {
-		assertEquals(2, s.getTrack());
+		assertEquals("2", s.getTrack());
 	}
 
 	@Test
 	public void testSetTrack() {
-		s.setTrack(3);
-		assertEquals(3, s.getTrack());
+		s.setTrack("3");
+		assertEquals("3", s.getTrack());
 	}
 
 	@Test

@@ -199,10 +199,10 @@ public class PlaylistCreationWindow extends JFrame{
     	                
     	                
     	                if (toggleButton.isSelected()) {
-							songs.add(new Song(titleTag, artistTag, albumTag, 0, "", file.getAbsolutePath()));
+							songs.add(new Song(titleTag, artistTag, albumTag, "", "", file.getAbsolutePath()));
 							
 						} if (!toggleButton.isSelected()){
-							songs.remove(new Song(titleTag, artistTag, albumTag, 0, "", file.getAbsolutePath()));
+							songs.remove(new Song(titleTag, artistTag, albumTag, "", "", file.getAbsolutePath()));
 							
 						}
     				}
