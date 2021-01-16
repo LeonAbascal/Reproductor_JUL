@@ -93,13 +93,13 @@ public class MainWindow extends JFrame {
 		JPanel metadataPanel; // to the right
 			JLabel l_title;
 			JLabel l_artist;
-			JLabel l_duration;
+			JLabel l_album;
 			JLabel l_track;
 			JLabel l_genre;
 			JLabel l_year;
 			JLabel txt_title;
 			JLabel txt_artist;
-			JLabel txt_duration;
+			JLabel txt_album;
 			JLabel txt_track;
 			JLabel txt_genre;
 			JLabel txt_year;
@@ -309,17 +309,17 @@ public class MainWindow extends JFrame {
 		txt_artist.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		metadataPanel.add(txt_artist);
 		
-		l_duration = new JLabel("Album:");
-		l_duration.setFont(new Font("Tahoma", Font.BOLD, 12));
-		l_duration.setVerticalAlignment(SwingConstants.BOTTOM);
-		l_duration.setMaximumSize(new Dimension(38, 13));
-		l_duration.setPreferredSize(new Dimension(25, 13));
-		l_duration.setHorizontalAlignment(SwingConstants.CENTER);
-		metadataPanel.add(l_duration);
+		l_album = new JLabel("Album:");
+		l_album.setFont(new Font("Tahoma", Font.BOLD, 12));
+		l_album.setVerticalAlignment(SwingConstants.BOTTOM);
+		l_album.setMaximumSize(new Dimension(38, 13));
+		l_album.setPreferredSize(new Dimension(25, 13));
+		l_album.setHorizontalAlignment(SwingConstants.CENTER);
+		metadataPanel.add(l_album);
 		
-		txt_duration = new JLabel("\"ALBUM\"");
-		txt_duration.setHorizontalAlignment(SwingConstants.CENTER);
-		metadataPanel.add(txt_duration);
+		txt_album = new JLabel("\"ALBUM\"");
+		txt_album.setHorizontalAlignment(SwingConstants.CENTER);
+		metadataPanel.add(txt_album);
 		
 		l_track = new JLabel("Track:");
 		l_track.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -404,8 +404,12 @@ public class MainWindow extends JFrame {
         				l.addActionListener(new ActionListener() {
         					public void actionPerformed(ActionEvent e) {
         						txt_title.setText(song.getName());
-        						txt_artist.setText(MP3.getArtistTag(new File(song.getPath())));
-//        						txt_duration.setText(MP3.getDuration(songsFile)); TODO Falta por poner
+        						txt_artist.setText(song.getArtist());
+        						txt_album.setText(song.getAlbum());
+        						txt_track.setText(song.getTrack());
+        						txt_genre.setText(song.getGenre());
+        						txt_year.setText(song.getYear());
+        						
         						playingSongPath = song.getPath();
         					}
         				});
@@ -595,7 +599,11 @@ public class MainWindow extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					txt_title.setText(MP3.getTitleTag(file));
 					txt_artist.setText(MP3.getArtistTag(file));
-//					txt_duration.setText(MP3.getDuration(songsFile)); TODO Falta por poner
+					txt_album.setText(MP3.getAlbumTag(file));
+					txt_track.setText(MP3.getTrackNoTag(file));
+					txt_genre.setText(MP3.getGenreTag(file));
+					txt_year.setText(MP3.getYearTag(file));
+					
 					playingSongPath = file.getAbsolutePath();
 				}
 			});
