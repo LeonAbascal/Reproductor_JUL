@@ -252,7 +252,7 @@ public class DBManager {
 		disconnect();
 		return usersPlaylistCount;
 	}
-	public static void Delete(String playlist, String user) {
+	public static void delete(String playlist, String user) {
 		connect();
 
 		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM playlist WHERE  belong_to_user=? AND name_p=?;")) {

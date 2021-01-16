@@ -153,7 +153,7 @@ public class PlaylistCreationWindow extends JFrame{
 	                	int response = JOptionPane.showConfirmDialog(PlaylistCreationWindow.this, "Are you sure?", "Confirm", JOptionPane.YES_NO_OPTION);
 	                    if (response == JOptionPane.YES_OPTION) {
 	                    	//Dbmanager delete playlist
-	                    	DBManager.Delete(e.getItem().toString(), username);
+	                    	DBManager.delete(e.getItem().toString(), username);
 	                    	MainWindow.main_window.updatePlayListBox();
 		    				SwingUtilities.updateComponentTreeUI(MainWindow.main_window.menuPanel);
 		    				dispose();
