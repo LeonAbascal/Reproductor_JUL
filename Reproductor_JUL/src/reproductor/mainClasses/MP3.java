@@ -58,7 +58,6 @@ public class MP3 extends PlaybackListener implements Runnable {
 	}
 	
 	public void playbackStarted(PlaybackEvent playbackEvent) {
-		System.out.println("playbackStarted()");
 		this.playing = true;
 	}
 
@@ -89,7 +88,6 @@ public class MP3 extends PlaybackListener implements Runnable {
 	public static String getTitleTag(File f) {
 		try {
 			Mp3File mp3 = new Mp3File(f);
-			//System.out.println(mp3.hasId3v2Tag());
 			if (mp3.hasId3v2Tag()) {
 				ID3v2 tag = mp3.getId3v2Tag();
 				return tag.getTitle();
