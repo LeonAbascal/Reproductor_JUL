@@ -365,7 +365,7 @@ public class MainWindow extends JFrame {
         				l.addActionListener(new ActionListener() {
         					public void actionPerformed(ActionEvent e) {
         						txt_title.setText(song.getName());
-        						txt_artist.setText(song.getAlbum());
+        						txt_artist.setText(song.getArtist());
 //        						txt_duration.setText(MP3.getDuration(songsFile)); TODO Falta por poner
         						playingSongPath = song.getPath();
         					}
