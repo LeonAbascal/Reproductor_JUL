@@ -50,13 +50,13 @@ public class LogInWindow extends JFrame {
 
 			// NAME + PASSWORD
 			name = new JLabel("Nombre:");
-			password = new JLabel("Contrase�a:");
+			password = new JLabel("Contraseña:");
 			userName = new JTextField(20);
 			userPassword = new JPasswordField(20);
 
 			// BUTTONS
 			registerUser = new JButton("Registrarse");
-			logIn = new JButton("Iniciar sesi�n");
+			logIn = new JButton("Iniciar sesión");
 
 			// REGISTRO
 			registerUser.addActionListener(new ActionListener() {
@@ -65,7 +65,7 @@ public class LogInWindow extends JFrame {
 
 					if ((userName.getText().isBlank()) || (userPassword.getText().isBlank())) {
 
-						System.out.println("No se pudo crear el usuario: TextField vac�o");
+						System.out.println("No se pudo crear el usuario: TextField vacío");
 						JOptionPane.showMessageDialog(null, "Nombre y Contrase�a son campos obligatorios",
 								"Error de registro", JOptionPane.WARNING_MESSAGE);
 
@@ -113,7 +113,7 @@ public class LogInWindow extends JFrame {
 					if ((userName.getText().isBlank()) || (userPassword.getText().isBlank())) {
 
 						logger.log(Level.WARNING, "Cant logIn into user, blank TextField");
-						JOptionPane.showMessageDialog(null, "Nombre y Contrase�a son campos obligatorios",
+						JOptionPane.showMessageDialog(null, "Nombre y Contraseña son campos obligatorios",
 								"Error de inicio de sesi�n", JOptionPane.WARNING_MESSAGE);
 
 					} else {
@@ -137,7 +137,7 @@ public class LogInWindow extends JFrame {
 						if (!exists) {
 							logger.log(Level.WARNING, "Cant logIn into user, user does not exist");
 							JOptionPane.showMessageDialog(null, "Usuario " + userName.getText() + " no existe",
-									"Error de inicio de sesi�n", JOptionPane.WARNING_MESSAGE);
+									"Error de inicio de sesión", JOptionPane.WARNING_MESSAGE);
 						} else {
 							if (u_selected.getPassword().equals(userPassword.getText())) {
 								MainWindow.main_window = new MainWindow(); // MainWindow init.
@@ -145,12 +145,12 @@ public class LogInWindow extends JFrame {
 								MainWindow.login_w.setVisible(false);
 								logger.log(Level.INFO, "User " + u_selected.getName() + " succesfully logged");
 								JOptionPane.showMessageDialog(null,
-										"Sesi�n iniciada para el usuario " + u_selected.getName());
+										"Sesión iniciada para el usuario " + u_selected.getName());
 								
 							} else {
 								logger.log(Level.WARNING, "Cant logIn into user, wrong password");
-								JOptionPane.showMessageDialog(null, "Contrase�a incorrecta",
-										"Error de inicio de sesi�n", JOptionPane.WARNING_MESSAGE);
+								JOptionPane.showMessageDialog(null, "Contraseña incorrecta",
+										"Error de inicio de sesión", JOptionPane.WARNING_MESSAGE);
 							}
 						}
 					}
@@ -206,7 +206,7 @@ public class LogInWindow extends JFrame {
 		addComponentsToWindow();
 		
 		setIconImage(new ImageIcon("MusicFiles\\Icons\\icon_JUL.png").getImage());
-		setTitle("Iniciar Sesi�n");
+		setTitle("Iniciar Sesión");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(400, 300);
 		setResizable(false);
