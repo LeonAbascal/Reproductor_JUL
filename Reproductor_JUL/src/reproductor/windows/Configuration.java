@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
@@ -43,7 +44,7 @@ public class Configuration extends JFrame {
 
         // Skins
         String[] strings = { 
-        		"SWING", 
+        		"SWING",
         		"MOTIF",
         		"NIMBUS",
         		"WINDOWS"
@@ -85,7 +86,7 @@ public class Configuration extends JFrame {
     	} catch (IOException ex) { logger.warning("Init file (" + f.getAbsolutePath() + ") could not be found."); };
 
     }
-
+    
     public static void addActionListeners(){
     	applyChangesButton.addActionListener(new ActionListener() {
 			
@@ -101,9 +102,14 @@ public class Configuration extends JFrame {
                     
                     p.store(new FileOutputStream(f), "Init file for ");
                     
+                    MainWindow.config.dispose();
+                    JOptionPane.showMessageDialog(MainWindow.config, "Changes aplied, restart to see effects");
+                    
 
                 } catch (IOException ex) {
                 	System.err.println(ex);
+                	MainWindow.config.dispose();
+                	JOptionPane.showMessageDialog(MainWindow.config, "Error aplying changes");
                 	logger.warning("Properties file could not be written.");
                 }
 				
