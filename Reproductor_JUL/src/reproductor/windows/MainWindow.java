@@ -370,7 +370,7 @@ public class MainWindow extends JFrame {
         						playingSongPath = song.getPath();
         					}
         				});
-        				if (!song.getName().contains(".mp3")) {
+        				if (!song.getPath().contains(".mp3")) {
         					continue;
         				}
         				if (contx.get() >= 2) {

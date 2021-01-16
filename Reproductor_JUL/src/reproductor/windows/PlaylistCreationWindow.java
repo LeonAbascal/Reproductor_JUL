@@ -120,7 +120,7 @@ public class PlaylistCreationWindow extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String name = JOptionPane.showInputDialog("	Insert the name of the Playlist");
-				JOptionPane.showMessageDialog(null, "Playlist" + name+ "created");
+				JOptionPane.showMessageDialog(null, "Playlist " + name+ " created");
 				playlist= new PlayList(songs, name);
 				//Dbmanager store playlist method
 				DBManager.storePlaylist(playlist,username);;
@@ -192,8 +192,11 @@ public class PlaylistCreationWindow extends JFrame{
     	                logger.info("Cambio de estado en " + toggleButton.getText() + ". Seleccionado: " + toggleButton.isSelected());
     	                //Song s = new Song(fileName,"","",0,"",file.getAbsolutePath());
     	                
+    	                String titleTag = MP3.getTitleTag(file);
+    	                
+    	                
     	                if (toggleButton.isSelected()) {
-							songs.add(new Song(fileName,"","",0,"",file.getAbsolutePath()));
+							songs.add(new Song(titleTag,"","",0,"",file.getAbsolutePath()));
 							
 						} if (!toggleButton.isSelected()){
 							songs.remove(new Song(fileName,"","",0,"",file.getAbsolutePath()));
