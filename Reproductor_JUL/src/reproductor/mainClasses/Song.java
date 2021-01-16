@@ -9,7 +9,7 @@ public class Song {
 	private String genre;
 	private String year;
 	
-	public Song(String name, String artist, String album, String track, String duration, String path, String genre, String year) {
+	public Song(String name, String artist, String album, String track, String path, String genre, String year) {
 		super();
 		this.name = name;
 		this.artist = artist;
