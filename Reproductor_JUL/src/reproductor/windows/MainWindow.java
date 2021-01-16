@@ -554,8 +554,8 @@ public class MainWindow extends JFrame {
 			JButton l = new JButton(fileName);
 			l.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					txt_title.setText(MP3.getTitleTag(songsFile));
-					txt_artist.setText(MP3.getAlbumTag(songsFile));
+					txt_title.setText(MP3.getTitleTag(file));
+					txt_artist.setText(MP3.getArtistTag(file));
 //					txt_duration.setText(MP3.getDuration(songsFile)); TODO Falta por poner
 					playingSongPath = file.getAbsolutePath();
 				}
