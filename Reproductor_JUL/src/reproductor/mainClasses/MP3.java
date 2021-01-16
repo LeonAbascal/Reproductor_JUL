@@ -79,6 +79,10 @@ public class MP3 extends PlaybackListener implements Runnable {
 		this.filename = filename;
 	}
 	
+	public boolean isPlaying() {
+		return playing;
+	}
+	
 	
 	// TAGGING METHODS (STATIC)
 
