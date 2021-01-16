@@ -65,7 +65,6 @@ public class LogInWindow extends JFrame {
 
 					if ((userName.getText().isBlank()) || (userPassword.getText().isBlank())) {
 
-						System.out.println("No se pudo crear el usuario: TextField vacío");
 						JOptionPane.showMessageDialog(null, "Nombre y Contrase�a son campos obligatorios",
 								"Error de registro", JOptionPane.WARNING_MESSAGE);
 
