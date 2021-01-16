@@ -153,7 +153,12 @@ public class DBManager {
 		try (PreparedStatement stmt2 = conn.prepareStatement("INSERT INTO song (name,song_path) VALUES (?, ?)")){
 
 			stmt2.setString(1, song.getName());
-			stmt2.setString(2, song.getPath());
+			stmt2.setString(2, song.getArtist());
+			stmt2.setString(3, song.getAlbum());
+			stmt2.setString(4, song.getTrack());
+			stmt2.setString(5, song.getGenre());
+			stmt2.setString(5, song.getYear());
+			stmt2.setString(7, song.getPath());
 
 			stmt2.executeUpdate();
 
@@ -205,6 +210,11 @@ public class DBManager {
 			while(rs.next()) {
 				Song song = new Song();
 				song.setName(rs.getString("name"));
+				song.setArtist(rs.getString("artist"));
+				song.setAlbum(rs.getString("album"));
+				song.setTrack(rs.getString("track"));
+				song.setGenre(rs.getString("genre"));
+				song.setYear(rs.getString("yearS"));
 				song.setPath(rs.getString("song_path"));
 				songs.add(song);
 			}
