@@ -448,12 +448,10 @@ public class MainWindow extends JFrame {
 					mp3.close();
 					mp3.setFilename(playingSongPath);
 					mp3.play();
-					pauseConvert(playB);
 					songsCounter.inc();
 					writeSongsCounter(songsCounter);
+					stopB.setEnabled(true);
 				} else {
-					playB.setIcon(new ImageIcon("MusicFiles\\Icons\\playButton.png"));
-					// TODO Implementar acci�n que pause la canci�n
 					playing = false;
 				}
 			}
@@ -499,7 +497,6 @@ public class MainWindow extends JFrame {
 				Song song = randomized.get(0);
 				mp3.setFilename(song.getPath());
 				mp3.play();
-				pauseConvert(playB);
 				logger.log(Level.INFO, "NOW PLAYING: " + song.getName());
 				/*
 				for (Song song : randomized) {
@@ -552,13 +549,6 @@ public class MainWindow extends JFrame {
 		b.setBorder(null);
 		b.setIcon(new ImageIcon("MusicFiles\\Icons\\" + fileName));
 	}
-	
-	// Method to convert button to pauseadmin
-		private void pauseConvert(JButton b) {
-			b.setIcon(new ImageIcon("MusicFiles\\Icons\\pauseButton.png"));
-			stopB.setEnabled(true);
-			playing = true;
-		}
 	
 	// Method that updates PlayList ComboBox
 	
