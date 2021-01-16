@@ -63,11 +63,6 @@ public class MainWindow extends JFrame {
 
 	static String playingSongPath;
 	private static MP3 mp3 = new MP3(playingSongPath);
-	
-	JMenuBar menuBar;
-		JMenu fileMenu;
-			JMenuItem openMp3MU;
-			JMenuItem saveMp3MU;
 
 		JMenu playlistMenu;
 			JMenuItem newPlaylist;
@@ -360,12 +355,6 @@ public class MainWindow extends JFrame {
 		txt_year.setHorizontalAlignment(SwingConstants.CENTER);
 		txt_year.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		metadataPanel.add(txt_year);
-
-		// MENU BAR
-		fileMenu = new JMenu("File");
-		playlistMenu = new JMenu("Playlist");
-		openMp3MU = new JMenuItem("Open MP3 file");
-		saveMp3MU = new JMenuItem("Save MP3");
 
 		newPlaylist = new JMenuItem("New...");
 		openPlaylist = new JMenuItem("Open...");
