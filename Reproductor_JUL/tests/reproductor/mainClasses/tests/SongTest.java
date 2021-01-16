@@ -1,6 +1,8 @@
 package reproductor.mainClasses.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.io.File;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +18,7 @@ public class SongTest {
 	public void setUp() {
 
 		emptyS = new Song();
-		s = new Song("Fire", "Pedro", "New", "2", "2:00", "examplepath");
+		s = new Song("Fire", "Pedro", "New", "2", "path", "Classic Rock", "1960");
 
 	}
 
@@ -66,13 +68,41 @@ public class SongTest {
 
 	@Test
 	public void testGetPath() {
-		assertEquals("examplepath", s.getPath());
+		assertEquals("path", s.getPath());
 	}
 
 	@Test
 	public void testSetPath() {
 		emptyS.setPath("examplepath");
 		assertEquals("examplepath", emptyS.getPath());
+	}
+	
+	@Test
+	public void testGetYear() {
+		assertEquals("1960", s.getYear());
+	}
+	
+	@Test
+	public void testSetYear() {
+		emptyS.setYear("2020");
+		assertEquals("2020", emptyS.getYear());
+	}
+	
+	@Test
+	public void testGetGenre() {
+		assertEquals("Classic Rock", s.getGenre());
+	}
+	
+	@Test
+	public void testSetGenre() {
+		emptyS.setGenre("Rock");
+		assertEquals("Rock", emptyS.getGenre());
+	}
+	
+	@Test
+	public void testEquals() {
+		assertEquals(true, s.equals(new Song("Fire", "Pedro", "New", "2", "path", "Classic Rock", "1960")));
+		assertEquals(false, s.equals(new File(s.getPath())));
 	}
 
 }
