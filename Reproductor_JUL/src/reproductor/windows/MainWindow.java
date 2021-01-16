@@ -64,12 +64,6 @@ public class MainWindow extends JFrame {
 	static String playingSongPath;
 	private static MP3 mp3 = new MP3(playingSongPath);
 
-		JMenu playlistMenu;
-			JMenuItem newPlaylist;
-			JMenuItem openPlaylist;
-			JMenuItem savePlaylist;
-			JMenuItem queue;
-
 	JPanel centerPanel; // border layout
 		JPanel menuPanel; // to the left
 			JLabel imageText;
@@ -355,11 +349,6 @@ public class MainWindow extends JFrame {
 		txt_year.setHorizontalAlignment(SwingConstants.CENTER);
 		txt_year.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		metadataPanel.add(txt_year);
-
-		newPlaylist = new JMenuItem("New...");
-		openPlaylist = new JMenuItem("Open...");
-		savePlaylist = new JMenuItem("Save...");
-		queue = new JMenuItem("Queue");
 
 		// THESE BUTTONS WILL CONTAIN IMAGES
 		fileChooser= new JButton("Choose Songs");
