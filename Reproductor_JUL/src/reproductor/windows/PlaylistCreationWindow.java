@@ -201,7 +201,7 @@ public class PlaylistCreationWindow extends JFrame{
     	                
     	                
     	                if (toggleButton.isSelected()) {
-    	                	songs.remove(new Song(titleTag, artistTag, albumTag, trackTag, file.getAbsolutePath(), genreTag, yearTag));
+    	                	songs.add(new Song(titleTag, artistTag, albumTag, trackTag, file.getAbsolutePath(), genreTag, yearTag));
 							
 						} if (!toggleButton.isSelected()){
 							songs.remove(new Song(titleTag, artistTag, albumTag, trackTag, file.getAbsolutePath(), genreTag, yearTag));

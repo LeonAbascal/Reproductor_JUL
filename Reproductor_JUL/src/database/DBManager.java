@@ -150,7 +150,7 @@ public class DBManager {
 			logger.severe("Could not store the song into the database");
 			logger.info(e.toString());
 		}
-		try (PreparedStatement stmt2 = conn.prepareStatement("INSERT INTO song (name,song_path) VALUES (?, ?)")){
+		try (PreparedStatement stmt2 = conn.prepareStatement("INSERT INTO song (name, artist, album, track, genre, yearS, song_path) VALUES (?, ?, ?, ?, ?, ?, ?)")){
 
 			stmt2.setString(1, song.getName());
 			stmt2.setString(2, song.getArtist());
@@ -199,7 +199,7 @@ public class DBManager {
 
 		List<Song> songs = new ArrayList<Song>();
 
-		try (PreparedStatement stmt = conn.prepareStatement("SELECT s.name, s.song_path FROM song s,belongs b,playlist p WHERE p.belong_to_user=? AND p.name_p=? AND p.name_p=b.name_p AND s.song_path=b.song_path ")) {
+		try (PreparedStatement stmt = conn.prepareStatement("SELECT s.name, s.artist, s.album, s.track, s.genre, s.yearS, s.song_path FROM song s,belongs b,playlist p WHERE p.belong_to_user=? AND p.name_p=? AND p.name_p=b.name_p AND s.song_path=b.song_path ")) {
 			
 			stmt.setString(1, user);
 			stmt.setString(2, playlist);
