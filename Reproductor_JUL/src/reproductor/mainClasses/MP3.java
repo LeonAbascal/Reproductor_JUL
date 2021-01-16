@@ -12,6 +12,7 @@ import database.DBManager;
 import javazoom.jl.player.advanced.AdvancedPlayer;
 import javazoom.jl.player.advanced.PlaybackEvent;
 import javazoom.jl.player.advanced.PlaybackListener;
+import reproductor.windows.MainWindow;
 
 
 public class MP3 extends PlaybackListener implements Runnable {
@@ -62,7 +63,7 @@ public class MP3 extends PlaybackListener implements Runnable {
 	}
 
 	public void playbackFinished(PlaybackEvent playbackEvent) {
-		System.out.println("playbackEnded()");
+		MainWindow.nextSong();
 		this.playing = false;
 	}
 	

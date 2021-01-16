@@ -62,7 +62,7 @@ public class MainWindow extends JFrame {
 	private static Logger logger = Logger.getLogger(MainWindow.class.getName());
 
 	static String playingSongPath;
-	MP3 mp3 = new MP3(playingSongPath);
+	private static MP3 mp3 = new MP3(playingSongPath);
 	
 	JMenuBar menuBar;
 		JMenu fileMenu;
@@ -131,6 +131,12 @@ public class MainWindow extends JFrame {
 	Counter songsCounter;
 	Counter executedCounter;
 
+	
+	// PLAYLIST
+	private static ArrayList<Song> nowPlaying= null;
+	private static Counter currentSongIndex = new Counter();
+	
+	
 	public MainWindow() {
 		setIconImage(new ImageIcon("MusicFiles\\Icons\\icon_JUL.png").getImage());
 		guiComponentDeclaration();
@@ -655,6 +661,37 @@ public class MainWindow extends JFrame {
 			System.err.println("Skin could not be applied.");
 			// logger.log(Level.WARNING, "Skin could not be applied.");
 		}
+	}
+	
+	public static void nextSong() {
+		if (currentSongIndex.get() < nowPlaying.size() - 1) {
+			currentSongIndex.inc();
+		} else {
+			currentSongIndex.reset();
+		}
+			
+		mp3.stop();
+		if (nowPlaying.get(currentSongIndex.get()) != null) {
+			Song s = nowPlaying.get(currentSongIndex.get());
+			mp3.setFilename(s.getPath());
+			mp3.play();
+		}
+		
+	}
+	
+	public static void prevSong() {
+		if (currentSongIndex.get() > 0) {
+			currentSongIndex.dec();			
+		}
+		
+		mp3.stop();
+		if (nowPlaying.get(currentSongIndex.get()) != null) {
+			Song s = nowPlaying.get(currentSongIndex.get());
+			mp3.setFilename(s.getPath());
+			mp3.play();
+			
+		}
+		
 	}
 
 	public static void main(String[] args) {
