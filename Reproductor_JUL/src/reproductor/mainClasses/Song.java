@@ -5,7 +5,6 @@ public class Song {
 	private String artist;
 	private String album;
 	private String track;
-	private String duration;
 	private String path;
 	
 	public Song(String name, String artist, String album, String track, String duration, String path) {
@@ -14,7 +13,6 @@ public class Song {
 		this.artist = artist;
 		this.album = album;
 		this.track = track;
-		this.duration = duration;
 		this.path=path;
 	}
 
@@ -24,7 +22,6 @@ public class Song {
 		this.artist = "";
 		this.album = "";
 		this.track = "";
-		this.duration = "";
 		this.path="";
 	}
 
@@ -59,15 +56,6 @@ public class Song {
 	public void setTrack(String track) {
 		this.track = track;
 	}
-
-	public String getDuration() {
-		return duration;
-	}
-
-	public void setDuration(String duration) {
-		this.duration = duration;
-	}
-
 	public String getPath() {
 		return path;
 	}

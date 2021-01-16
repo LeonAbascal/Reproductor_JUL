@@ -65,17 +65,6 @@ public class SongTest {
 	}
 
 	@Test
-	public void testGetDuration() {
-		assertEquals("2:00", s.getDuration());
-	}
-
-	@Test
-	public void testSetDuration() {
-		s.setDuration("3:00");
-		assertEquals("3:00", s.getDuration());
-	}
-
-	@Test
 	public void testGetPath() {
 		assertEquals("examplepath", s.getPath());
 	}
