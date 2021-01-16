@@ -6,6 +6,11 @@ import java.io.Serializable;
  */
 public class Counter implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2647064036819247491L;
+	
 	private int cont = 0;  // Contador entero
 	
 	/** Inicializa un contador a cero
