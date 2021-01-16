@@ -319,6 +319,7 @@ public class MainWindow extends JFrame {
 		
 		txt_album = new JLabel("\"ALBUM\"");
 		txt_album.setHorizontalAlignment(SwingConstants.CENTER);
+		txt_album.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		metadataPanel.add(txt_album);
 		
 		l_track = new JLabel("Track:");
