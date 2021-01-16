@@ -113,8 +113,8 @@ public class MainWindow extends JFrame {
 		JButton playB;
 		JButton stopB;
 		JButton randomB;
-		JButton previousB;
-		JButton nextB;
+		private static JButton previousB;
+		private static JButton nextB;
 		JButton fileChooser;
 		JButton configB;
 		JButton crearPlaylist;
@@ -133,7 +133,7 @@ public class MainWindow extends JFrame {
 
 	
 	// PLAYLIST
-	private static ArrayList<Song> nowPlaying= null;
+	private static ArrayList<Song> nowPlaying;
 	private static Counter currentSongIndex = new Counter();
 	
 	
@@ -389,7 +389,9 @@ public class MainWindow extends JFrame {
                     logger.log(Level.INFO, "Seleccionado: " + e.getItem());
                     List<Song> songs = new ArrayList<Song>();
                     songs=DBManager.getSongs((String) e.getItem(), login_w.getLogInWindowUsername());
-                    MainWindow.this.selectedPLSongs = songs;               
+                    MainWindow.this.selectedPLSongs = songs;
+                    
+                    
         			Counter contx = new Counter();
         			Counter conty = new Counter();
 
@@ -404,8 +406,7 @@ public class MainWindow extends JFrame {
         			songsPlaylistPanel.removeAll();
         			songsPlaylistPanel.repaint();
                     for (Song song : songs) {
-                    	//selectedPLSongs.add(song);
-						//System.out.println(song.getName());
+                    	
                     	// BUTTON CREATION FOR EACH SONG
         				JButton l = new JButton(song.getName());
         				l.addActionListener(new ActionListener() {
@@ -432,6 +433,11 @@ public class MainWindow extends JFrame {
         				songsPlaylistPanel.add(l, gbc);
         				contx.inc();
 					}
+                    nextB.setEnabled(true);
+                    previousB.setEnabled(true);
+                    randomB.setEnabled(true);
+                    // Deep copy of songs
+                    nowPlaying = (ArrayList<Song>) songs;
                     songsPlaylistPanel.setLayout(gLayout);
         			SwingUtilities.updateComponentTreeUI(songsPlaylistPanel);
         			playlistotalSongs.setText("Total songs: " +String.valueOf(songs.size()));
@@ -457,6 +463,8 @@ public class MainWindow extends JFrame {
 					songsCounter.inc();
 					writeSongsCounter(songsCounter);
 					stopB.setEnabled(true);
+					nextB.setEnabled(true);
+					previousB.setEnabled(true);
 				} else {
 					playing = false;
 				}
@@ -471,21 +479,38 @@ public class MainWindow extends JFrame {
 		
 		stopB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mp3.stop();
 				mp3.close();
 				stopB.setEnabled(false);
 				playB.setIcon(new ImageIcon("MusicFiles\\Icons\\playButton.png"));
+				nextB.setEnabled(true);
+				previousB.setEnabled(true);
 				playing = false;
 			}
 		});
 		
 		// PREVIOUS BUTTON
 		previousB = new JButton();
+		previousB.setEnabled(false);
 		setButtonIcon(previousB, "previousButton.png");
+		
+		previousB.addActionListener( new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				prevSong();
+			}
+		});
 		
 		// NEXT BUTTON
 		nextB = new JButton();
+		nextB.setEnabled(false);
 		setButtonIcon(nextB, "nextButton.png");
+		
+		nextB.addActionListener( new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				nextSong();
+			}
+		});
 		
 		// CONFIG BUTTON
 		configB = new JButton();
@@ -493,24 +518,18 @@ public class MainWindow extends JFrame {
 		
 		//RANDOM BUTTON
 		randomB = new JButton();
+		randomB.setEnabled(false);
 		setButtonIcon(randomB, "randomButton.png");
 		
 		randomB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				List<Song> randomized = new ArrayList<Song>(selectedPLSongs);
-				Collections.shuffle(randomized);  // Randomizes the PlayList
-				Song song = randomized.get(0);
+				Collections.shuffle(nowPlaying);  // Randomizes the PlayList
+				Song song = nowPlaying.get(0);
 				mp3.setFilename(song.getPath());
 				mp3.play();
 				logger.log(Level.INFO, "NOW PLAYING: " + song.getName());
-				/*
-				for (Song song : randomized) {
-					MP3 mp3 = new MP3(song.getPath());
-					mp3.play();
-					System.out.println("NOW PLAYING: " + song.getName());	
-				}
-				*/
+				stopB.setEnabled(true);
 			}
 			
 		});
@@ -666,11 +685,15 @@ public class MainWindow extends JFrame {
 	public static void nextSong() {
 		if (currentSongIndex.get() < nowPlaying.size() - 1) {
 			currentSongIndex.inc();
+			previousB.setEnabled(true);
+			if (currentSongIndex.get() >= nowPlaying.size() - 1) {
+				nextB.setEnabled(false);
+			}
 		} else {
 			currentSongIndex.reset();
 		}
 			
-		mp3.stop();
+		mp3.close();
 		if (nowPlaying.get(currentSongIndex.get()) != null) {
 			Song s = nowPlaying.get(currentSongIndex.get());
 			mp3.setFilename(s.getPath());
@@ -681,10 +704,14 @@ public class MainWindow extends JFrame {
 	
 	public static void prevSong() {
 		if (currentSongIndex.get() > 0) {
-			currentSongIndex.dec();			
+			currentSongIndex.dec();
+			nextB.setEnabled(true);
+			if (currentSongIndex.get() <= 0) {
+				previousB.setEnabled(false);
+			}
 		}
 		
-		mp3.stop();
+		mp3.close();
 		if (nowPlaying.get(currentSongIndex.get()) != null) {
 			Song s = nowPlaying.get(currentSongIndex.get());
 			mp3.setFilename(s.getPath());
