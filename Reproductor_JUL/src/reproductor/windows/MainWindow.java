@@ -94,9 +94,15 @@ public class MainWindow extends JFrame {
 			JLabel l_title;
 			JLabel l_artist;
 			JLabel l_duration;
+			JLabel l_track;
+			JLabel l_genre;
+			JLabel l_year;
 			JLabel txt_title;
 			JLabel txt_artist;
 			JLabel txt_duration;
+			JLabel txt_track;
+			JLabel txt_genre;
+			JLabel txt_year;
 		JPanel songsAndPlaylistSongsPanel;
 			JPanel songsPanel;
 			JPanel songsPlaylistPanel;
@@ -303,7 +309,7 @@ public class MainWindow extends JFrame {
 		txt_artist.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		metadataPanel.add(txt_artist);
 		
-		l_duration = new JLabel("Duration:");
+		l_duration = new JLabel("Album:");
 		l_duration.setFont(new Font("Tahoma", Font.BOLD, 12));
 		l_duration.setVerticalAlignment(SwingConstants.BOTTOM);
 		l_duration.setMaximumSize(new Dimension(38, 13));
@@ -311,9 +317,42 @@ public class MainWindow extends JFrame {
 		l_duration.setHorizontalAlignment(SwingConstants.CENTER);
 		metadataPanel.add(l_duration);
 		
-		txt_duration = new JLabel("\"DURATION\"");
+		txt_duration = new JLabel("\"ALBUM\"");
 		txt_duration.setHorizontalAlignment(SwingConstants.CENTER);
 		metadataPanel.add(txt_duration);
+		
+		l_track = new JLabel("Track:");
+		l_track.setFont(new Font("Tahoma", Font.BOLD, 12));
+		l_track.setVerticalAlignment(SwingConstants.BOTTOM);
+		l_track.setHorizontalAlignment(SwingConstants.CENTER);
+		metadataPanel.add(l_track);
+		
+		txt_track = new JLabel("\"TRACK\"");
+		txt_track.setHorizontalAlignment(SwingConstants.CENTER);
+		txt_track.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		metadataPanel.add(txt_track);
+		
+		l_genre = new JLabel("Genre:");
+		l_genre.setFont(new Font("Tahoma", Font.BOLD, 12));
+		l_genre.setVerticalAlignment(SwingConstants.BOTTOM);
+		l_genre.setHorizontalAlignment(SwingConstants.CENTER);
+		metadataPanel.add(l_genre);
+		
+		txt_genre = new JLabel("\"GENRE\"");
+		txt_genre.setHorizontalAlignment(SwingConstants.CENTER);
+		txt_genre.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		metadataPanel.add(txt_genre);
+		
+		l_year = new JLabel("Year:");
+		l_year.setFont(new Font("Tahoma", Font.BOLD, 12));
+		l_year.setVerticalAlignment(SwingConstants.BOTTOM);
+		l_year.setHorizontalAlignment(SwingConstants.CENTER);
+		metadataPanel.add(l_year);
+		
+		txt_year = new JLabel("\"YEAR\"");
+		txt_year.setHorizontalAlignment(SwingConstants.CENTER);
+		txt_year.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		metadataPanel.add(txt_year);
 
 		// MENU BAR
 		fileMenu = new JMenu("File");
@@ -365,7 +404,7 @@ public class MainWindow extends JFrame {
         				l.addActionListener(new ActionListener() {
         					public void actionPerformed(ActionEvent e) {
         						txt_title.setText(song.getName());
-        						txt_artist.setText(song.getArtist());
+        						txt_artist.setText(MP3.getArtistTag(new File(song.getPath())));
 //        						txt_duration.setText(MP3.getDuration(songsFile)); TODO Falta por poner
         						playingSongPath = song.getPath();
         					}
