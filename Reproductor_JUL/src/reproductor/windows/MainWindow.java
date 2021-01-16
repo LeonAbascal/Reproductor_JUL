@@ -408,9 +408,18 @@ public class MainWindow extends JFrame {
                     for (Song song : songs) {
                     	
                     	// BUTTON CREATION FOR EACH SONG
-        				JButton l = new JButton(song.getName());
+                    	
+                    	// in case the song has no title, the name of the file will be displayed
+                    	String name = song.getName();
+                    	if (name == "" || name == null) {
+                    		String[] pathSplit = song.getPath().split("\\\\");
+                    		name = pathSplit[pathSplit.length - 1];
+                    	}
+                    	
+        				JButton l = new JButton(name);
         				l.addActionListener(new ActionListener() {
         					public void actionPerformed(ActionEvent e) {
+        						
         						txt_title.setText(song.getName());
         						txt_artist.setText(song.getArtist());
         						txt_album.setText(song.getAlbum());
@@ -617,6 +626,7 @@ public class MainWindow extends JFrame {
 			JButton l = new JButton(fileName);
 			l.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
 					txt_title.setText(MP3.getTitleTag(file));
 					txt_artist.setText(MP3.getArtistTag(file));
 					txt_album.setText(MP3.getAlbumTag(file));
