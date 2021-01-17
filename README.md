@@ -2,7 +2,6 @@
 Reproductor de música para programación 3
 
 Usuario: UnaiAI
-
 Contraseña: 1234
 
 Con el botón de choose songs añadiremos a la mitad superior de la ventana archivos mp3. Leeremos un directorio el cual recorreremos en busca
@@ -21,8 +20,8 @@ confirmación para eliminar la seleccionada.
 En esta ventana, una vez elegido el directorio, se muestran todos los archivos mp3 que se pudieron encontrar en el mismo. Al pulsar el
 botón "Save Playlist" nos preguntará por el nombre para la nueva playlist. Si no está en blanco, se añadirán playlist y canción a la BDD.
 
-En los paneles centrales inferior y superior, al hacer click sobre los nombres de las canciones, en la margen derecha nos enseñará su 
-metadata (título, artista, álbum, track (del álbum), género y año (de publicación).
+Al hacer click sobre los nombres de las canciones en los paneles centrales inferior y superior, en la margen derecha nos enseñará su 
+metadata (título, artista, álbum, track (del álbum), género y año (de publicación). Los mp3 incluidos ya cuentan con tags.
 
 En el panel inferior tendremos varios botones a nuestra disposición, de izquierda a derecha: Statistics, Configuration, Previous, Stop,
 Play, Next, Shuffle, Choose Song.
