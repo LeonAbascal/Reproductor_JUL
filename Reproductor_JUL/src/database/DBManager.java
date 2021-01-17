@@ -19,7 +19,7 @@ import reproductor.mainClasses.User;
 
 public class DBManager {
 	
-	private static String databasePath = "database/JUL_database.db";
+	private static String databasePath = "JUL_database.db";
 	private static Connection conn;
 	static Logger logger = Logger.getLogger(DBManager.class.getName());
 
