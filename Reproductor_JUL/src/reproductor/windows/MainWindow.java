@@ -18,8 +18,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,15 +33,13 @@ import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
@@ -127,10 +127,12 @@ public class MainWindow extends JFrame {
 	
 	
 	public MainWindow() {
-		setIconImage(new ImageIcon("MusicFiles\\Icons\\icon_JUL.png").getImage());
+		URL iconURL = getClass().getResource("/icons/icon_JUL.png");
+		setIconImage(new ImageIcon(iconURL).getImage());
 		guiComponentDeclaration();
 		addComponentsToWindow();
-		songsScrollPanel("MusicFiles");
+		
+		//songsScrollPanel("musicFiles");
 		
 		readSongsCounter();
 		readExecutedCounter();
@@ -563,7 +565,8 @@ public class MainWindow extends JFrame {
 		b.setMargin(new Insets(0, 0, 0, 0));
 		b.setBackground(new Color(238,238,238));
 		b.setBorder(null);
-		b.setIcon(new ImageIcon("MusicFiles\\Icons\\" + fileName));
+		URL iconURL = getClass().getResource("/icons/" + fileName);
+		b.setIcon(new ImageIcon(iconURL));
 	}
 	
 	// Method that updates PlayList ComboBox

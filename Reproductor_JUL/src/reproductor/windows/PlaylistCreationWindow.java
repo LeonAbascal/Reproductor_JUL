@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,8 @@ public class PlaylistCreationWindow extends JFrame{
 	JPanel checkBoxPanelSongs;
 	public PlaylistCreationWindow(String username) {
 		 
-		 setIconImage(new ImageIcon("MusicFiles\\Icons\\icon_JUL.png").getImage());
+		 URL iconURL = getClass().getResource("/icons/icon_JUL.png");
+		 setIconImage(new ImageIcon(iconURL).getImage());
 		 setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	     setTitle("Playlist management");
 	     setVisible(true);

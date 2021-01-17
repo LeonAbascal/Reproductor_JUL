@@ -2,6 +2,7 @@ package reproductor.windows;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +27,8 @@ public class StatisticsWindow extends JFrame{
 	
 	public StatisticsWindow(int songsPlayed,int julExecutedTimes){
 		
-		setIconImage(new ImageIcon("MusicFiles\\Icons\\icon_JUL.png").getImage());
+		URL iconURL = getClass().getResource("/icons/icon_JUL.png");
+		setIconImage(new ImageIcon(iconURL).getImage());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Statistics");
         setVisible(true);

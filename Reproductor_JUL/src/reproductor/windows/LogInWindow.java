@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -204,7 +205,8 @@ public class LogInWindow extends JFrame {
 		guiComponentDeclaration();
 		addComponentsToWindow();
 		
-		setIconImage(new ImageIcon("MusicFiles\\Icons\\icon_JUL.png").getImage());
+		URL iconURL = getClass().getResource("/icons/icon_JUL.png");
+		setIconImage(new ImageIcon(iconURL).getImage());
 		setTitle("Iniciar Sesión");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(400, 300);

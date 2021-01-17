@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -35,7 +36,8 @@ public class Configuration extends JFrame {
     
     
     public Configuration() {
-    	setIconImage(new ImageIcon("MusicFiles\\Icons\\icon_JUL.png").getImage());
+    	URL iconURL = getClass().getResource("/icons/icon_JUL.png");
+		setIconImage(new ImageIcon(iconURL).getImage());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Configuration");
         setVisible(true);
