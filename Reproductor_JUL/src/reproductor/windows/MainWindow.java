@@ -86,12 +86,12 @@ public class MainWindow extends JFrame {
 			JLabel l_track;
 			JLabel l_genre;
 			JLabel l_year;
-			JLabel txt_title;
-			JLabel txt_artist;
-			JLabel txt_album;
-			JLabel txt_track;
-			JLabel txt_genre;
-			JLabel txt_year;
+			static JLabel txt_title;
+			static JLabel txt_artist;
+			static JLabel txt_album;
+			static JLabel txt_track;
+			static JLabel txt_genre;
+			static JLabel txt_year;
 		JPanel songsAndPlaylistSongsPanel;
 			JPanel songsPanel;
 			JPanel songsPlaylistPanel;
@@ -100,7 +100,7 @@ public class MainWindow extends JFrame {
 
 	JPanel southPanel;
 		JButton playB;
-		JButton stopB;
+		static JButton stopB;
 		JButton randomB;
 		private static JButton previousB;
 		private static JButton nextB;
@@ -610,12 +610,7 @@ public class MainWindow extends JFrame {
 			l.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					txt_title.setText(MP3.getTitleTag(file));
-					txt_artist.setText(MP3.getArtistTag(file));
-					txt_album.setText(MP3.getAlbumTag(file));
-					txt_track.setText(MP3.getTrackNoTag(file));
-					txt_genre.setText(MP3.getGenreTag(file));
-					txt_year.setText(MP3.getYearTag(file));
+					updateMetadata(file);
 					
 					playingSongPath = file.getAbsolutePath();
 				}
@@ -679,10 +674,22 @@ public class MainWindow extends JFrame {
 		}
 	}
 	
+	public static void updateMetadata(File songFile) {
+		txt_title.setText(MP3.getTitleTag(songFile));
+		txt_artist.setText(MP3.getArtistTag(songFile));
+		txt_album.setText(MP3.getAlbumTag(songFile));
+		txt_track.setText(MP3.getTrackNoTag(songFile));
+		txt_genre.setText(MP3.getGenreTag(songFile));
+		txt_year.setText(MP3.getYearTag(songFile));
+	}
+	
 	public static void nextSong() {
 		if (currentSongIndex.get() < nowPlaying.size() - 1) {
 			currentSongIndex.inc();
+			// Update metadata + Buttons
+			updateMetadata(new File(nowPlaying.get(currentSongIndex.get()).getPath()));
 			previousB.setEnabled(true);
+			stopB.setEnabled(true);
 			if (currentSongIndex.get() >= nowPlaying.size() - 1) {
 				nextB.setEnabled(false);
 			}
@@ -702,7 +709,10 @@ public class MainWindow extends JFrame {
 	public static void prevSong() {
 		if (currentSongIndex.get() > 0) {
 			currentSongIndex.dec();
+			// Update metadata + Buttons
+			updateMetadata(new File(nowPlaying.get(currentSongIndex.get()).getPath()));
 			nextB.setEnabled(true);
+			stopB.setEnabled(true);
 			if (currentSongIndex.get() <= 0) {
 				previousB.setEnabled(false);
 			}
