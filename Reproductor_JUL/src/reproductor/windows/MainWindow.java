@@ -487,6 +487,7 @@ public class MainWindow extends JFrame {
 		previousB.addActionListener( new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				stopB.setEnabled(true);
 				prevSong();
 			}
 		});
@@ -499,6 +500,7 @@ public class MainWindow extends JFrame {
 		nextB.addActionListener( new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				stopB.setEnabled(true);
 				nextSong();
 			}
 		});
@@ -689,7 +691,6 @@ public class MainWindow extends JFrame {
 			// Update metadata + Buttons
 			updateMetadata(new File(nowPlaying.get(currentSongIndex.get()).getPath()));
 			previousB.setEnabled(true);
-			stopB.setEnabled(true);
 			if (currentSongIndex.get() >= nowPlaying.size() - 1) {
 				nextB.setEnabled(false);
 			}
@@ -712,7 +713,6 @@ public class MainWindow extends JFrame {
 			// Update metadata + Buttons
 			updateMetadata(new File(nowPlaying.get(currentSongIndex.get()).getPath()));
 			nextB.setEnabled(true);
-			stopB.setEnabled(true);
 			if (currentSongIndex.get() <= 0) {
 				previousB.setEnabled(false);
 			}
