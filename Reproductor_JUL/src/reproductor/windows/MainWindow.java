@@ -470,9 +470,9 @@ public class MainWindow extends JFrame {
 		
 		stopB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Button close
 				mp3.close();
 				stopB.setEnabled(false);
-				playB.setIcon(new ImageIcon("MusicFiles\\Icons\\playButton.png"));
 				nextB.setEnabled(true);
 				previousB.setEnabled(true);
 				playing = false;
