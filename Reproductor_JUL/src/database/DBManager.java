@@ -157,7 +157,7 @@ public class DBManager {
 			stmt2.setString(3, song.getAlbum());
 			stmt2.setString(4, song.getTrack());
 			stmt2.setString(5, song.getGenre());
-			stmt2.setString(5, song.getYear());
+			stmt2.setString(6, song.getYear());
 			stmt2.setString(7, song.getPath());
 
 			stmt2.executeUpdate();
