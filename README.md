@@ -2,6 +2,7 @@
 Reproductor de música para programación 3
 
 Usuario: UnaiAI
+
 Contraseña: 1234
 
 Con el botón de choose songs añadiremos a la mitad superior de la ventana archivos mp3. Leeremos un directorio el cual recorreremos en busca
