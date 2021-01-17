@@ -608,7 +608,7 @@ public class MainWindow extends JFrame {
 				continue;
 			}
 			// BUTTON CREATION FOR EACH SONG
-			JButton l = new JButton(fileName);
+			JButton l = new JButton(MP3.getTitleTag(file));
 			l.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
