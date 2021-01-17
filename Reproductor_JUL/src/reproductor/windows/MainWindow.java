@@ -606,7 +606,16 @@ public class MainWindow extends JFrame {
 				continue;
 			}
 			// BUTTON CREATION FOR EACH SONG
-			JButton l = new JButton(MP3.getTitleTag(file));
+			
+			
+			// in case the song has no title, the name of the file will be displayed
+        	String name = MP3.getTitleTag(file);
+        	if (name == "" || name == null) {
+        		String[] pathSplit = file.getAbsolutePath().split("\\\\");
+        		name = pathSplit[pathSplit.length - 1];
+        	}
+			
+			JButton l = new JButton(name);
 			l.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
