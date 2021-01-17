@@ -203,7 +203,7 @@ public class MainWindow extends JFrame {
 	private void readSongsCounter() {
         try (ObjectInputStream is = new ObjectInputStream(new FileInputStream("numberOfSongs"))) {
             songsCounter = (Counter) is.readObject();
-            logger.log(Level.INFO, "Songs counter readed");
+            logger.log(Level.INFO, "Songs counter read");
             
             is.close();
         } catch (IOException e) {
@@ -228,7 +228,7 @@ public class MainWindow extends JFrame {
         // Creamos un stream de salida de objetos a fichero
         try (ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("numberOfSongs"))) {
             os.writeObject(c);
-            logger.log(Level.INFO, "Songs counter writed");
+            logger.log(Level.INFO, "Songs counter written");
             os.close();
         } catch (IOException e) {
         	logger.log(Level.WARNING, "Error al serializar los datos al fichero");
