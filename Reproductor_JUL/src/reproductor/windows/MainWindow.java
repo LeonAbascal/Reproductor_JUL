@@ -425,11 +425,13 @@ public class MainWindow extends JFrame {
                     nextB.setEnabled(true);
                     previousB.setEnabled(true);
                     randomB.setEnabled(true);
-                    // Deep copy of songs
+                    // Shallow copy of songs
                     nowPlaying = (ArrayList<Song>) songs;
                     songsPlaylistPanel.setLayout(gLayout);
         			SwingUtilities.updateComponentTreeUI(songsPlaylistPanel);
-        			playlistotalSongs.setText("Total songs: " +String.valueOf(songs.size()));
+        			playlistotalSongs.setText("Total songs: " + String.valueOf(songs.size()));
+        			currentSongIndex.reset();
+        			
                 }
             }
 
