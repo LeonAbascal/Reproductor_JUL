@@ -132,7 +132,7 @@ public class MainWindow extends JFrame {
 		guiComponentDeclaration();
 		addComponentsToWindow();
 		
-		//songsScrollPanel("musicFiles");
+		songsScrollPanel("musicFiles");
 		
 		readSongsCounter();
 		readExecutedCounter();
