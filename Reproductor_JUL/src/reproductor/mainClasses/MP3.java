@@ -15,6 +15,7 @@ import javazoom.jl.player.advanced.PlaybackListener;
 import reproductor.windows.MainWindow;
 
 
+// parte del código para la reproducción de archivos mp3 viene de: https://thiscouldbebetter.wordpress.com/2011/06/14/playing-an-mp3-from-java-using-jlayer/
 public class MP3 extends PlaybackListener implements Runnable {
 	private String filename;
 	//private Player player; 
